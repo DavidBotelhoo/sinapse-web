@@ -211,6 +211,12 @@ export function FieldRow({ children, className }: { children: ReactNode; classNa
   );
 }
 
-export function Form({ children, className }: { children: ReactNode; className?: string }) {
-  return <div className={cn("grid gap-4", className)}>{children}</div>;
+export type FormProps = React.FormHTMLAttributes<HTMLFormElement>;
+
+export function Form({ children, className, ...rest }: FormProps) {
+  return (
+    <form className={cn("grid gap-4", className)} noValidate {...rest}>
+      {children}
+    </form>
+  );
 }
