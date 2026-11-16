@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { ReactNode } from "react";
 import { Bricolage_Grotesque, Figtree } from "next/font/google";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { QueryProvider } from "@/components/providers/QueryProvider";
 import "./globals.css";
 
 const bricolage = Bricolage_Grotesque({
@@ -25,7 +26,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="pt-BR" suppressHydrationWarning className={`${bricolage.variable} ${figtree.variable}`}>
       <body className="min-h-dvh bg-bg text-ink antialiased">
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <QueryProvider>{children}</QueryProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
