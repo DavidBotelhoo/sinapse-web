@@ -1,0 +1,187 @@
+/* Sinapse — tema do Tailwind CSS v4, gerado de docs/design-system/tokens.json.
+   Uso: em src/app/globals.css →  @import "tailwindcss";  @import "../styles/sinapse-theme.css";
+   Não edite valores aqui à mão: altere tokens.json no design system e gere de novo. */
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+@theme {
+  /* Só as cores do Sinapse: a paleta padrão do Tailwind (blue-500 etc.) fica desligada. */
+  --color-*: initial;
+  --color-bg: #f5f2ec;
+  --color-surface: #ffffff;
+  --color-surface-2: #ede8df;
+  --color-line: #e3ddd2;
+  --color-line-strong: #8c8478;
+  --color-ink: #142321;
+  --color-ink-muted: #4e5b59;
+  --color-ink-faint: #5f6a68;
+  --color-primary: #0e5c5e;
+  --color-primary-hover: #0a4749;
+  --color-on-primary: #ffffff;
+  --color-primary-soft: #dcedea;
+  --color-on-primary-soft: #0a4749;
+  --color-accent: #ff6a4d;
+  --color-on-accent: #2e0b03;
+  --color-accent-soft: #ffe3db;
+  --color-on-accent-soft: #7a1f0b;
+  --color-accent-ink: #b3361a;
+  --color-again: #c8381b;
+  --color-again-soft: #fde3dc;
+  --color-on-again-soft: #8a2410;
+  --color-hard: #9a6700;
+  --color-hard-soft: #faebc6;
+  --color-on-hard-soft: #6e4300;
+  --color-easy: #0e7c74;
+  --color-easy-soft: #d7efea;
+  --color-on-easy-soft: #0a4749;
+  --color-success: #1a7048;
+  --color-success-soft: #dcf1e3;
+  --color-danger: #b42318;
+  --color-danger-soft: #fde4e1;
+  --color-warning: #8a5a00;
+  --color-warning-soft: #fcefc7;
+  --color-focus: var(--color-primary);
+  --color-scrim: rgba(20, 35, 33, 0.48);
+
+  /* Sombras apontam para --sn-shadow-*: o Tailwind grava o valor na classe, então a troca de tema precisa de uma variável própria. */
+  --shadow-*: initial;
+  --shadow-sm: var(--sn-shadow-sm);
+  --shadow-md: var(--sn-shadow-md);
+  --shadow-lg: var(--sn-shadow-lg);
+  --shadow-play: var(--sn-shadow-play);
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+
+  /* Espaçamento: a escala padrão do Tailwind (1 = 4px) já é a do Sinapse: space-N = p-N, gap-N, m-N. */
+  --spacing-control: 44px;
+  --spacing-control-sm: 36px;
+  --spacing-play: 60px;
+  --spacing-bottom-nav: 72px;
+  --spacing-sidebar: 248px;
+  --container-content: 1120px;
+
+  --text-display-xl: 56px;
+  --text-display-xl--line-height: 60px;
+  --text-display-xl--font-weight: 700;
+  --text-display-xl--letter-spacing: -0.02em;
+  --text-display-lg: 40px;
+  --text-display-lg--line-height: 44px;
+  --text-display-lg--font-weight: 700;
+  --text-display-lg--letter-spacing: -0.015em;
+  --text-title-1: 28px;
+  --text-title-1--line-height: 34px;
+  --text-title-1--font-weight: 700;
+  --text-title-1--letter-spacing: -0.01em;
+  --text-title-2: 22px;
+  --text-title-2--line-height: 28px;
+  --text-title-2--font-weight: 600;
+  --text-title-3: 18px;
+  --text-title-3--line-height: 24px;
+  --text-title-3--font-weight: 600;
+  --text-card-question: 24px;
+  --text-card-question--line-height: 32px;
+  --text-card-question--font-weight: 600;
+  --text-stat-value: 32px;
+  --text-stat-value--line-height: 36px;
+  --text-stat-value--font-weight: 700;
+  --text-stat-value--letter-spacing: -0.01em;
+  --text-body-lg: 17px;
+  --text-body-lg--line-height: 26px;
+  --text-body-lg--font-weight: 400;
+  --text-body: 15px;
+  --text-body--line-height: 22px;
+  --text-body--font-weight: 400;
+  --text-body-strong: 15px;
+  --text-body-strong--line-height: 22px;
+  --text-body-strong--font-weight: 600;
+  --text-label: 13px;
+  --text-label--line-height: 18px;
+  --text-label--font-weight: 600;
+  --text-caption: 12px;
+  --text-caption--line-height: 16px;
+  --text-caption--font-weight: 500;
+
+  --ease-out: cubic-bezier(.22, .8, .24, 1);
+  --ease-in-out: cubic-bezier(.65, 0, .35, 1);
+  --ease-spring: cubic-bezier(.34, 1.45, .64, 1);
+}
+
+/* Fontes: variáveis criadas pelo next/font em src/app/layout.tsx (--font-bricolage e --font-figtree). */
+@theme inline {
+  --font-display: var(--font-bricolage), "Figtree", system-ui, sans-serif;
+  --font-sans: var(--font-figtree), system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+/* Sombras do tema claro */
+:root {
+  --sn-shadow-sm: 0 1px 2px rgba(20, 35, 33, 0.06), 0 1px 3px rgba(20, 35, 33, 0.08);
+  --sn-shadow-md: 0 6px 16px rgba(20, 35, 33, 0.08), 0 2px 4px rgba(20, 35, 33, 0.06);
+  --sn-shadow-lg: 0 24px 48px rgba(20, 35, 33, 0.14), 0 6px 12px rgba(20, 35, 33, 0.06);
+  --sn-shadow-play: 0 8px 20px rgba(14, 92, 94, 0.35);
+}
+
+/* Tema escuro (Madrugada: petróleo profundo, lima e coral): mesmos nomes, outros valores. Fica fora de camada para vencer os valores do @theme. */
+[data-theme="dark"] {
+  --color-bg: #0a1817;
+  --color-surface: #102321;
+  --color-surface-2: #172e2c;
+  --color-line: #1f3836;
+  --color-line-strong: #5a7a76;
+  --color-ink: #eef4f0;
+  --color-ink-muted: #a6bab5;
+  --color-ink-faint: #88a09b;
+  --color-primary: #c5f03c;
+  --color-primary-hover: #d5f76b;
+  --color-on-primary: #111312;
+  --color-primary-soft: #233514;
+  --color-on-primary-soft: #d6f57a;
+  --color-accent: #ff7a5c;
+  --color-on-accent: #2a0a03;
+  --color-accent-soft: #3b1d15;
+  --color-on-accent-soft: #ffb4a2;
+  --color-accent-ink: #ff8a6e;
+  --color-again: #ff8a70;
+  --color-again-soft: #3a1a14;
+  --color-on-again-soft: #ffb59a;
+  --color-hard: #e8c93a;
+  --color-hard-soft: #332e0e;
+  --color-on-hard-soft: #f2dd72;
+  --color-easy: #b5e43a;
+  --color-easy-soft: #20331a;
+  --color-on-easy-soft: #d6f57a;
+  --color-success: #7fdda0;
+  --color-success-soft: #14301f;
+  --color-danger: #ff8f84;
+  --color-danger-soft: #3a1714;
+  --color-warning: #f2c94c;
+  --color-warning-soft: #33290c;
+  --color-focus: var(--color-primary);
+  --color-scrim: rgba(0, 0, 0, 0.64);
+  --sn-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
+  --sn-shadow-md: 0 6px 20px rgba(0, 0, 0, 0.55);
+  --sn-shadow-lg: 0 24px 48px rgba(0, 0, 0, 0.6);
+  --sn-shadow-play: 0 8px 22px rgba(197, 240, 60, 0.22);
+  color-scheme: dark;
+}
+:root { color-scheme: light; }
+
+/* Movimento (o Tailwind não tem namespace de duração): use duration-(--dur-slow) etc. */
+:root {
+  --dur-fast: 120ms;
+  --dur-base: 220ms;
+  --dur-slow: 420ms;
+  --dur-auth: 680ms;
+}
+@media (prefers-reduced-motion: reduce) {
+  :root { --dur-fast: 1ms; --dur-base: 1ms; --dur-slow: 1ms; --dur-auth: 1ms; }
+}
+
+/* Base */
+@layer base {
+  html { background-color: var(--color-bg); color: var(--color-ink); }
+  body { font-family: var(--font-sans); font-size: 15px; line-height: 22px; -webkit-font-smoothing: antialiased; }
+  :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; }
+}
