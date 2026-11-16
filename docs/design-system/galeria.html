@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sinapse — galeria do design system</title>
+<link rel="stylesheet" href="fonts/fonts.css">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="components/bundle.css">
+<style>
+  .g-top { position: sticky; top: 0; z-index: 5; display: flex; flex-wrap: wrap; align-items: center; gap: 16px; padding: 16px 32px; background: var(--surface); border-bottom: 1px solid var(--line); }
+  .g-top p { margin: 0; color: var(--ink-muted); font-size: 13px; }
+  .g-top .sn-theme { width: 200px; margin-left: auto; }
+  .g-nav { display: flex; flex-wrap: wrap; gap: 4px 12px; padding: 12px 32px; font-size: 13px; }
+  .g-nav a { color: var(--ink-muted); text-decoration: none; } .g-nav a:hover { color: var(--primary); }
+  main { display: grid; gap: 40px; padding: 24px 32px 64px; max-width: 1320px; }
+  .g-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px; }
+  .g-head h2 { margin: 0; font-family: var(--font-display); font-size: 22px; line-height: 28px; }
+  .g-head span { color: var(--ink-muted); font-size: 13px; }
+  .g-frame { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--bg); }
+  .g-frame iframe { display: block; border: 0; max-width: none; }
+</style>
+</head>
+<body>
+<header class="g-top">
+  <span class="sn-wordmark">Sinapse</span>
+  <p>Galeria do design system: cada componente ao vivo. Clique, digite e troque o tema.</p>
+  <div class="sn-theme" role="radiogroup" aria-label="Tema" data-value="light" id="theme">
+    <span class="sn-theme__thumb" aria-hidden="true"></span>
+    <button class="sn-theme__opt" role="radio" aria-checked="true" data-v="light">Claro</button>
+    <button class="sn-theme__opt" role="radio" aria-checked="false" data-v="dark">Escuro</button>
+  </div>
+</header>
+<nav class="g-nav" aria-label="Componentes"><a href="#Cover">Cover</a><a href="#Button">Button</a><a href="#ThemeToggle">ThemeToggle</a><a href="#Tag">Tag</a><a href="#Chip">Chip</a><a href="#Avatar">Avatar</a><a href="#TextField">TextField</a><a href="#FileDrop">FileDrop</a><a href="#SegmentedTabs">SegmentedTabs</a><a href="#FilterBar">FilterBar</a><a href="#Sidebar">Sidebar</a><a href="#BottomNav">BottomNav</a><a href="#StatCard">StatCard</a><a href="#DeckCard">DeckCard</a><a href="#ReviewAgenda">ReviewAgenda</a><a href="#EmptyState">EmptyState</a><a href="#Flashcard">Flashcard</a><a href="#RatingButtons">RatingButtons</a><a href="#SessionSummary">SessionSummary</a><a href="#AuthPanel">AuthPanel</a><a href="#PlanCard">PlanCard</a></nav>
+<main>
+  <section class="g-item" id="Cover">
+    <div class="g-head"><h2>Cover</h2><span>Capa</span></div>
+    <div class="g-frame"><iframe title="Cover" data-src="_view/Cover.html" style="width:960px;height:340px" loading="lazy"></iframe></div>
+  </section>
+  <section class="g-item" id="Button">
+    <div class="g-head"><h2>Button</h2><span>Ações · Primário, secundário, fantasma, destaque e perigo</span><a class="sn-link" href="components/Button/README.md">guia</a></div>
+    <div class="g-frame"><iframe title="Button" data-src="_view/Button.html" style="width:960px;height:290px" loading="lazy"></iframe></div>
+  </section>
+  <section class="g-item" id="ThemeToggle">
+    <div class="g-head"><h2>ThemeToggle</h2><span>Ações · Troca entre Plantão (claro) e Madrugada (escuro)</span><a class="sn-link" href="components/ThemeToggle/README.md">guia</a></div>
+    <div class="g-frame"><iframe title="ThemeToggle" data-src="_view/ThemeToggle.html" style="width:960px;height:170px" loading="lazy"></iframe></div>
+  </section>
+  <section class="g-item" id="Tag">
+    <div class="g-head"><h2>Tag</h2><span>Base · Ano, matéria, visibilidade e selos</span><a class="sn-link" href="components/Tag/README.md">guia</a></div>
+    <div class="g-frame"><iframe title="Tag" data-src="_view/Tag.html" style="width:960px;height:150px" loading="lazy"></iframe></div>
+  </section>
+  <section class="g-item" id="Chip">
+    <div class="g-head"><h2>Chip</h2><span>Base · Escolha única, múltipla e filtro ativo</span><a class="sn-link" href="components/Chip/README.md">guia</a></div>
+    <div class="g-frame"><iframe title="Chip" data-src="_view/Chip.html" style="width:960px;height:290px" loading="lazy"></iframe></div>
+  </section>
+  <section class="g-item" id="Avatar">
+    <div class="g-head"><h2>Avatar</h2><span>Base · Iniciais e foto; versão editável do Perfil</span><a class="sn-link" href="components/Avatar/README.md">guia</a></div>
+    <div class="g-frame"><iframe title="Avatar" data-src="_view/Avatar.html" style="width:960px;height:210px" loading="lazy"></iframe></div>
+  </section>
+  <section class="g-item" id="TextField">
+    <div class="g-head"><h2>TextField</h2><span>Formulários · Nome, email, senha, seleção e erro</span><a class="sn-link" href="components/TextField/README.md">guia</a></div>
+    <div class="g-frame"><iframe title="TextField" data-src="_view/TextField.html" style="width:960px;height:460px" loading="lazy"></iframe></div>
+  </section>
+  <section class="g-item" id="FileDrop">
+    <div class="g-head"><h2>FileDrop</h2><span>Formulários · Importar PDF ou Word para criar um deck</span><a class="sn-link" href="components/FileDrop/README.md">guia</a></div>
+    <div class="g-frame"><iframe title="FileDrop" data-src="_view/FileDrop.html" style="width:960px;height:550px" loading="lazy"></iframe></div>
+  </section>
+  <section class="g-item" id="SegmentedTabs">
+    <div class="g-head"><h2>SegmentedTabs</h2><span>Navegação · Todos, Meus, Da comunidade, Favoritos</span><a class="sn-link" href="components/SegmentedTabs/README.md">guia</a></div>
+    <div class="g-frame"><iframe title="SegmentedTabs" data-src="_view/SegmentedTabs.html" style="width:960px;height:220px" loading="lazy"></iframe></div>
+  </section>
+  <section class="g-item" id="FilterBar">
+    <div class="g-head"><h2>FilterBar</h2><span>Navegação · Filtro por ano do curso e matéria</span><a class="sn-link" href="components/FilterBar/README.md">guia</a></div>
+    <div class="g-frame"><iframe title="FilterBar" data-src="_view/FilterBar.html" style="width:960px;height:480px" loading="lazy"></iframe></div>
+  </section>
+  <section class="g-item" id="Sidebar">
+    <div class="g-head"><h2>Sidebar</h2><span>Navegação · Desktop: quatro abas, tema e perfil</span><a class="sn-link" href="components/Sidebar/README.md">guia</a></div>
+    <div class="g-frame"><iframe title="Sidebar" data-src="_view/Sidebar.html" style="width:960px;height:680px" loading="lazy"></iframe></div>
+  </section>
+  <section class="g-item" id="BottomNav">
+    <div class="g-head"><h2>BottomNav</h2><span>Navegação · Celular: cinco botões com o play em destaque</span><a class="sn-link" href="components/BottomNav/README.md">guia</a></div>
+    <div class="g-frame"><iframe title="BottomNav" data-src="_view/BottomNav.html" style="width:960px;height:270px" loading="lazy"></iframe></div>
+  </section>
+  <section class="g-item" id="StatCard">
+    <div class="g-head"><h2>StatCard</h2><span>Painel · Streak, cards estudados, horas na semana, taxa de acerto</span><a class="sn-link" href="components/StatCard/README.md">guia</a></div>
+    <div class="g-frame"><iframe title="StatCard" data-src="_view/StatCard.html" style="width:960px;height:290px" loading="lazy"></iframe></div>
+  </section>
+  <section class="g-item" id="DeckCard">
+    <div class="g-head"><h2>DeckCard</h2><span>Painel · Recente, da comunidade, meu deck e criar novo</span><a class="sn-link" href="components/DeckCard/README.md">guia</a></div>
+    <div class="g-frame"><iframe title="DeckCard" data-src="_view/DeckCard.html" style="width:960px;height:560px" loading="lazy"></iframe></div>
+  </section>
+  <section class="g-item" id="ReviewAgenda">
+    <div class="g-head"><h2>ReviewAgenda</h2><span>Painel · Próximos 7 dias e decks que vencem no dia escolhido</span><a class="sn-link" href="components/ReviewAgenda/README.md">guia</a></div>
+    <div class="g-frame"><iframe title="ReviewAgenda" data-src="_view/ReviewAgenda.html" style="width:960px;height:510px" loading="lazy"></iframe></div>
+  </section>
+  <section class="g-item" id="EmptyState">
+    <div class="g-head"><h2>EmptyState</h2><span>Painel · Aba Estudar sem flashcards salvos</span><a class="sn-link" href="components/EmptyState/README.md">guia</a></div>
+    <div class="g-frame"><iframe title="EmptyState" data-src="_view/EmptyState.html" style="width:960px;height:450px" loading="lazy"></iframe></div>
+  </section>
+  <section class="g-item" id="Flashcard">
+    <div class="g-head"><h2>Flashcard</h2><span>Estudo · Pergunta, virar, avaliar e próximo card</span><a class="sn-link" href="components/Flashcard/README.md">guia</a></div>
+    <div class="g-frame"><iframe title="Flashcard" data-src="_view/Flashcard.html" style="width:960px;height:620px" loading="lazy"></iframe></div>
+  </section>
+  <section class="g-item" id="RatingButtons">
+    <div class="g-head"><h2>RatingButtons</h2><span>Estudo · Errei, Difícil, Fácil</span><a class="sn-link" href="components/RatingButtons/README.md">guia</a></div>
+    <div class="g-frame"><iframe title="RatingButtons" data-src="_view/RatingButtons.html" style="width:960px;height:170px" loading="lazy"></iframe></div>
+  </section>
+  <section class="g-item" id="SessionSummary">
+    <div class="g-head"><h2>SessionSummary</h2><span>Estudo · Estatísticas ao terminar a sessão</span><a class="sn-link" href="components/SessionSummary/README.md">guia</a></div>
+    <div class="g-frame"><iframe title="SessionSummary" data-src="_view/SessionSummary.html" style="width:960px;height:600px" loading="lazy"></iframe></div>
+  </section>
+  <section class="g-item" id="AuthPanel">
+    <div class="g-head"><h2>AuthPanel</h2><span>Conta · Login e cadastro: painel deslizante no desktop, card que vira no celular</span><a class="sn-link" href="components/AuthPanel/README.md">guia</a></div>
+    <div class="g-frame"><iframe title="AuthPanel" data-src="_view/AuthPanel.html" style="width:1240px;height:840px" loading="lazy"></iframe></div>
+  </section>
+  <section class="g-item" id="PlanCard">
+    <div class="g-head"><h2>PlanCard</h2><span>Conta · Aba Assinatura do Perfil</span><a class="sn-link" href="components/PlanCard/README.md">guia</a></div>
+    <div class="g-frame"><iframe title="PlanCard" data-src="_view/PlanCard.html" style="width:960px;height:510px" loading="lazy"></iframe></div>
+  </section>
+</main>
+<script>
+  (function () {
+    var root = document.getElementById('theme'), opts = root.querySelectorAll('.sn-theme__opt');
+    function set(v) {
+      root.setAttribute('data-value', v); document.documentElement.setAttribute('data-theme', v);
+      opts.forEach(function (o) { o.setAttribute('aria-checked', String(o.getAttribute('data-v') === v)); });
+      document.querySelectorAll('iframe[data-src]').forEach(function (f) { f.src = f.getAttribute('data-src') + '?theme=' + v; });
+    }
+    opts.forEach(function (o) { o.addEventListener('click', function () { set(o.getAttribute('data-v')); }); });
+    set(matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Flashcards — Sinapse</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/sinapse/tokens.css">
+<link rel="stylesheet" href="ds/sinapse/components/bundle.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&amp;family=Figtree:wght@400..800&amp;display=swap">
+<style>
+body{margin:0}
+.lucide{fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round}
+a{color:var(--primary)}a:hover{color:var(--primary-hover)}
+.fx-row{display:flex;flex-wrap:wrap;align-items:center;gap:12px}
+.fx-row .sn-search{flex:0 1 300px}
+.fx-link{color:inherit;text-decoration:none}
+.fx-link::after{content:"";position:absolute;inset:0;border-radius:inherit}
+.sn-deck .sn-iconbtn,.sn-deck .sn-btn{position:relative;z-index:1}
+.fx-due{display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:var(--radius-full);font:600 12px/1 var(--font-sans);background:var(--surface-2);color:var(--ink-muted)}
+.fx-due--hoje{background:var(--primary-soft);color:var(--on-primary-soft)}
+.fx-due--atraso{background:var(--accent-soft);color:var(--on-accent-soft)}
+.fx-pct{font:600 12px/16px var(--font-sans);color:var(--ink-muted)}
+.fx-empty{grid-column:1/-1}
+
+.fc-vis{display:inline-flex;align-items:center;gap:4px}
+</style>
+</helmet>
+<div data-theme="{{tema}}" style="min-height: 1300px; display: flex; flex-wrap: wrap; align-items: stretch; background: var(--bg); color: var(--ink); font-family: var(--font-sans); font-size: 15px; line-height: 22px;">
+  <div style="flex: 0 0 248px; background: var(--surface); border-right: 1px solid var(--line);">
+    <dc-import name="Sidebar" ativo="flashcards" tema="{{temaNome}}" on-tema="{{setTema}}" hint-size="248px,860px"></dc-import>
+  </div>
+  <main style="flex: 999 1 560px; min-width: 0; box-sizing: border-box; padding: 40px 40px 64px;">
+    <div style="max-width: 1120px; margin: 0 auto; display: flex; flex-direction: column; gap: 32px;">
+      <header style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px;">
+        <div style="display: flex; flex-direction: column; gap: 4px;">
+          <h1 style="margin: 0; font-family: var(--font-display); font-size: 28px; line-height: 34px; font-weight: 700; letter-spacing: -0.01em;">Flashcards</h1>
+          <p style="margin: 0; color: var(--ink-muted);">Seus decks e os que você salvou da Comunidade.</p>
+        </div>
+        <a class="sn-btn sn-btn--primary" href="CriarDeck.dc.html" style="color: var(--on-primary);"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg> Criar deck</a>
+      </header>
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <div class="sn-tabs" role="tablist" aria-label="Filtrar flashcards">
+            <sc-for list="{{abas}}" as="a" hint-placeholder-count="4">
+              <button type="button" class="sn-tabs__tab" role="tab" aria-selected="{{a.sel}}" onClick="{{a.ir}}">{{a.nome}} <span class="sn-count">{{a.n}}</span></button>
+            </sc-for>
+          </div>
+        <div class="fx-row">
+          <label class="sn-search"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg><input placeholder="Buscar deck pelo nome" aria-label="Buscar deck pelo nome"></label>
+          <div class="sn-filterbar">
+              <div class="sn-filter">
+                <button type="button" class="sn-chip sn-filter__trigger" aria-expanded="{{expAno}}" aria-pressed="{{anoPressed}}" aria-controls="pop-ano" onClick="{{abrirAno}}">{{anoRotulo}} <svg class="lucide sn-filter__chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></button>
+                <sc-if value="{{popAno}}" hint-placeholder-val="{{ false }}">
+                  <div class="sn-popover" id="pop-ano">
+                    <p class="sn-popover__title">Ano do curso</p>
+                    <div class="sn-chips">
+                      <sc-for list="{{anosOpts}}" as="a" hint-placeholder-count="6">
+                        <button type="button" class="sn-chip" aria-pressed="{{a.pressed}}" onClick="{{a.alternar}}"><svg class="lucide sn-chip__check" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>{{a.rotulo}}</button>
+                      </sc-for>
+                    </div>
+                    <div class="sn-popover__foot">
+                      <button type="button" class="sn-btn sn-btn--ghost sn-btn--sm" onClick="{{limparAno}}">Limpar</button>
+                      <button type="button" class="sn-btn sn-btn--primary sn-btn--sm" onClick="{{fechar}}">Aplicar</button>
+                    </div>
+                  </div>
+                </sc-if>
+              </div>
+              <div class="sn-filter">
+                <button type="button" class="sn-chip sn-filter__trigger" aria-expanded="{{expMat}}" aria-pressed="{{matPressed}}" aria-controls="pop-mat" onClick="{{abrirMat}}">{{matRotulo}} <svg class="lucide sn-filter__chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></button>
+                <sc-if value="{{popMat}}" hint-placeholder-val="{{ false }}">
+                  <div class="sn-popover" id="pop-mat">
+                    <label class="sn-search"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg><input placeholder="Buscar matéria" aria-label="Buscar matéria"></label>
+                    <ul class="sn-options" role="listbox" aria-multiselectable="true" aria-label="Matérias">
+                      <sc-for list="{{matsOpts}}" as="m" hint-placeholder-count="10">
+                        <li><button type="button" class="sn-option" role="option" aria-checked="{{m.checked}}" onClick="{{m.alternar}}"><span class="sn-check"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg></span>{{m.nome}}</button></li>
+                      </sc-for>
+                    </ul>
+                    <div class="sn-popover__foot">
+                      <button type="button" class="sn-btn sn-btn--ghost sn-btn--sm" onClick="{{limparMat}}">Limpar</button>
+                      <button type="button" class="sn-btn sn-btn--primary sn-btn--sm" onClick="{{fechar}}">Aplicar</button>
+                    </div>
+                  </div>
+                </sc-if>
+              </div>
+              <sc-if value="{{temFiltro}}" hint-placeholder-val="{{ false }}">
+                <span class="sn-filterbar__divider" aria-hidden="true"></span>
+                <sc-for list="{{ativos}}" as="f" hint-placeholder-count="2">
+                  <span class="sn-chip sn-chip--removable">{{f.rotulo}}<button type="button" class="sn-chip__remove" aria-label="{{f.aria}}" onClick="{{f.remover}}"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button></span>
+                </sc-for>
+                <button type="button" class="sn-btn sn-btn--ghost sn-btn--sm" onClick="{{limparTudo}}" style="color: var(--ink);">Limpar filtros</button>
+              </sc-if>
+            </div>
+        </div>
+      </div>
+      <section class="sn-decks" aria-label="Decks" style="margin-top: -16px;">
+        <sc-for list="{{decks}}" as="d" hint-placeholder-count="10">
+              <div class="sn-deck sn-deck--interactive">
+                <div class="sn-deck__top">
+                  <div class="sn-tags"><sc-for list="{{d.tags}}" as="t" hint-placeholder-count="2"><span class="{{t.cls}}">{{t.nome}}</span></sc-for></div>
+                  <button type="button" class="sn-iconbtn" aria-label="{{d.favAria}}" aria-pressed="{{d.fav}}" onClick="{{d.favoritar}}"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"></path></svg></button>
+                </div>
+                <h3 class="sn-deck__title"><a class="fx-link" href="{{d.href}}">{{d.nome}}</a></h3>
+                <div class="sn-deck__meta">
+                  <span><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"></path><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"></path><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"></path></svg>{{d.cards}} cards</span>
+                  <span style="{{d.privStyle}}"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>Privado</span>
+                  <span style="{{d.pubStyle}}"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg>Público</span>
+                  <span style="{{d.donoStyle}}"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>por {{d.dono}}</span>
+                </div>
+                <div class="sn-deck__foot">
+                  <span class="{{d.dueCls}}">{{d.due}}</span>
+                  <span class="fx-pct">{{d.pct}}% dominado</span>
+                </div>
+                <div class="sn-progress" aria-hidden="true"><span style="{{d.pctStyle}}"></span></div>
+              </div>
+        </sc-for>
+        <sc-if value="{{mostrarNovo}}" hint-placeholder-val="{{ true }}">
+          <a class="sn-deck sn-deck--new" href="CriarDeck.dc.html"><span class="sn-deck__plus" aria-hidden="true"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg></span>Criar novo deck<small>Importe um PDF ou Word</small></a>
+        </sc-if>
+        <sc-if value="{{vazioFiltro}}" hint-placeholder-val="{{ false }}">
+              <div class="sn-empty fx-empty">
+                <div class="sn-empty__art" aria-hidden="true"><span class="sn-empty__card"></span><span class="sn-empty__card"></span><span class="sn-empty__card"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg></span></div>
+                <h2 class="sn-empty__title">Nenhum deck com esses filtros</h2>
+                <p class="sn-empty__body">Tire um filtro ou escolha outro ano para ver mais decks.</p>
+                <div class="sn-empty__actions"><button type="button" class="sn-btn sn-btn--secondary" onClick="{{limparTudo}}">Limpar filtros</button></div>
+              </div>
+            </sc-if>
+            <sc-if value="{{vazioFav}}" hint-placeholder-val="{{ false }}">
+              <div class="sn-empty fx-empty">
+                <div class="sn-empty__art" aria-hidden="true"><span class="sn-empty__card"></span><span class="sn-empty__card"></span><span class="sn-empty__card"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"></path></svg></span></div>
+                <h2 class="sn-empty__title">Marque decks com a estrela para achá-los aqui</h2>
+                <p class="sn-empty__body">Os favoritos ficam juntos nesta aba, sejam seus ou da Comunidade.</p>
+                <div class="sn-empty__actions"><button type="button" class="sn-btn sn-btn--primary" onClick="{{verTodos}}">Ver todos</button></div>
+              </div>
+            </sc-if>
+            <sc-if value="{{vazioMeus}}" hint-placeholder-val="{{ false }}">
+              <div class="sn-empty fx-empty">
+                <div class="sn-empty__art" aria-hidden="true"><span class="sn-empty__card"></span><span class="sn-empty__card"></span><span class="sn-empty__card"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg></span></div>
+                <h2 class="sn-empty__title">Crie seu primeiro deck</h2>
+                <p class="sn-empty__body">Importe um PDF ou Word com perguntas e respostas.</p>
+                <div class="sn-empty__actions"><a class="sn-btn sn-btn--primary" href="CriarDeck.dc.html" style="color: var(--on-primary);">Criar deck</a></div>
+              </div>
+            </sc-if>
+      </section>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"tema": {"editor": "enum", "options": ["Claro", "Escuro"], "default": "Claro"}, "aba": {"editor": "enum", "options": ["Todos", "Meus", "Da comunidade", "Favoritos"], "default": "Todos"}, "filtros": {"editor": "enum", "options": ["Nenhum", "Com filtros"], "default": "Nenhum"}, "popover": {"editor": "enum", "options": ["Fechado", "Ano do curso", "Matéria"], "default": "Fechado"}, "$preview": {"width": 1440, "height": 1300}}'>
+class Component extends DCLogic {
+DECKS = [{"id": "m1", "nome": "Farmacologia do sistema nervoso autônomo", "ano": "2", "mats": ["Farmacologia"], "cards": 84, "hoje": 15, "atraso": false, "pct": 62, "meu": true, "publico": false, "fav": true}, {"id": "c1", "nome": "Membro superior: músculos e inervação", "ano": "1", "mats": ["Anatomia"], "cards": 120, "hoje": 5, "atraso": false, "pct": 20, "meu": false, "dono": "Marina", "fav": true}, {"id": "m2", "nome": "Fisiologia renal", "ano": "2", "mats": ["Fisiologia"], "cards": 58, "hoje": 12, "atraso": false, "pct": 35, "meu": true, "publico": true, "fav": false}, {"id": "m3", "nome": "Neoplasias: conceitos gerais", "ano": "3", "mats": ["Patologia"], "cards": 46, "hoje": 5, "atraso": true, "pct": 80, "meu": true, "publico": false, "fav": false}, {"id": "c2", "nome": "Antibióticos betalactâmicos", "ano": "2", "mats": ["Microbiologia", "Farmacologia"], "cards": 52, "hoje": 0, "atraso": false, "pct": 45, "meu": false, "dono": "Rafael", "fav": true}, {"id": "m4", "nome": "Ciclo de Krebs e cadeia respiratória", "ano": "1", "mats": ["Bioquímica"], "cards": 64, "hoje": 0, "atraso": false, "pct": 90, "meu": true, "publico": true, "fav": false}, {"id": "c3", "nome": "ECG: ritmos e bloqueios", "ano": "3", "mats": ["Cardiologia", "Semiologia"], "cards": 72, "hoje": 0, "atraso": false, "pct": 15, "meu": false, "dono": "Camila", "fav": false}, {"id": "m5", "nome": "Semiologia cardiovascular", "ano": "3", "mats": ["Semiologia", "Cardiologia"], "cards": 30, "hoje": 0, "atraso": false, "pct": 10, "meu": true, "publico": false, "fav": false}, {"id": "c4", "nome": "Imunologia: hipersensibilidades", "ano": "2", "mats": ["Imunologia"], "cards": 44, "hoje": 0, "atraso": false, "pct": 0, "meu": false, "dono": "Pedro", "fav": true}, {"id": "c5", "nome": "Histologia do tecido epitelial", "ano": "1", "mats": ["Histologia"], "cards": 38, "hoje": 0, "atraso": false, "pct": 0, "meu": false, "dono": "Júlia", "fav": false}];
+  MATERIAS = ["Anatomia", "Bioquímica", "Cardiologia", "Farmacologia", "Fisiologia", "Histologia", "Imunologia", "Microbiologia", "Patologia", "Semiologia"];
+  fstate() {
+    const s = this.state || {};
+    const comFiltro = (this.props.filtros || 'Nenhum') === 'Com filtros';
+    const popProp = { 'Ano do curso': 'ano', 'Matéria': 'mat' }[this.props.popover] || null;
+    return {
+      anos: s.anos ?? (comFiltro ? ['2'] : []),
+      mats: s.mats ?? (comFiltro ? ['Farmacologia'] : []),
+      pop: s.pop !== undefined ? s.pop : popProp
+    };
+  }
+  passa(d) {
+    const f = this.fstate();
+    return (f.anos.length === 0 || f.anos.includes(d.ano)) && (f.mats.length === 0 || d.mats.some((m) => f.mats.includes(m)));
+  }
+  tira(lista, v) {
+    const f = this.fstate();
+    this.setState({ [lista]: f[lista].filter((x) => x !== v) });
+  }
+  alterna(lista, v) {
+    const f = this.fstate();
+    this.setState({ [lista]: f[lista].includes(v) ? f[lista].filter((x) => x !== v) : f[lista].concat(v) });
+  }
+  filterVals() {
+    const f = this.fstate();
+    const ativos = f.anos.map((a) => ({ rotulo: a + 'º ano', aria: 'Remover filtro ' + a + 'º ano', remover: () => this.tira('anos', a) }))
+      .concat(f.mats.map((m) => ({ rotulo: m, aria: 'Remover filtro ' + m, remover: () => this.tira('mats', m) })));
+    return {
+      popAno: f.pop === 'ano', popMat: f.pop === 'mat', sheet: f.pop !== null,
+      expAno: f.pop === 'ano' ? 'true' : 'false', expMat: f.pop === 'mat' ? 'true' : 'false',
+      anoPressed: f.anos.length ? 'true' : 'false', matPressed: f.mats.length ? 'true' : 'false',
+      anoRotulo: f.anos.length === 0 ? 'Ano do curso' : (f.anos.length === 1 ? f.anos[0] + 'º ano' : 'Ano · ' + f.anos.length),
+      matRotulo: f.mats.length === 0 ? 'Matéria' : (f.mats.length === 1 ? f.mats[0] : 'Matéria · ' + f.mats.length),
+      abrirAno: () => this.setState({ pop: this.fstate().pop === 'ano' ? null : 'ano' }),
+      abrirMat: () => this.setState({ pop: this.fstate().pop === 'mat' ? null : 'mat' }),
+      fechar: () => this.setState({ pop: null }),
+      anosOpts: ['1', '2', '3', '4', '5', '6'].map((a) => ({ rotulo: a + 'º', pressed: f.anos.includes(a) ? 'true' : 'false', alternar: () => this.alterna('anos', a) })),
+      matsOpts: this.MATERIAS.map((m) => ({ nome: m, checked: f.mats.includes(m) ? 'true' : 'false', alternar: () => this.alterna('mats', m) })),
+      limparAno: () => this.setState({ anos: [] }),
+      limparMat: () => this.setState({ mats: [] }),
+      ativos: ativos,
+      temFiltro: ativos.length > 0,
+      limparTudo: () => this.setState({ anos: [], mats: [], pop: null })
+    };
+  }
+  renderVals() {
+    const temaNome = (this.state && this.state.tema) || this.props.tema || 'Claro';
+    const s = this.state || {};
+    const abaProp = { 'Todos': 'todos', 'Meus': 'meus', 'Da comunidade': 'com', 'Favoritos': 'fav' }[this.props.aba] || 'todos';
+    const aba = s.aba || abaProp;
+    const favs = s.favs || this.DECKS.filter((d) => d.fav).map((d) => d.id);
+    const naAba = (d, a) => a === 'todos' || (a === 'meus' && d.meu) || (a === 'com' && !d.meu) || (a === 'fav' && favs.includes(d.id));
+    const filtrados = this.DECKS.filter((d) => this.passa(d));
+    const lista = filtrados.filter((d) => naAba(d, aba));
+    const fv = this.filterVals();
+    const esconde = (sim) => (sim ? '' : 'display: none;');
+    return Object.assign({ tema: temaNome === 'Escuro' ? 'dark' : 'light', temaNome: temaNome, setTema: (nome) => this.setState({ tema: nome }), }, fv, {
+      abas: [['todos', 'Todos'], ['meus', 'Meus'], ['com', 'Da comunidade'], ['fav', 'Favoritos']].map(([id, nome]) => ({
+        nome: nome, n: String(filtrados.filter((d) => naAba(d, id)).length), sel: aba === id ? 'true' : 'false', ir: () => this.setState({ aba: id })
+      })),
+      decks: lista.map((d) => {
+        const fav = favs.includes(d.id);
+        return {
+          href: d.meu ? 'Deck' + '' + '.dc.html' : 'DeckSalvo' + '' + '.dc.html',
+          nome: d.nome,
+          tags: [{ nome: d.ano + 'º ano', cls: 'sn-tag' }].concat(d.mats.map((m) => ({ nome: m, cls: 'sn-tag sn-tag--brand' }))),
+          cards: String(d.cards),
+          privStyle: esconde(d.meu && !d.publico), pubStyle: esconde(d.meu && d.publico), donoStyle: esconde(!d.meu),
+          dono: d.dono || '',
+          due: d.atraso ? d.hoje + ' atrasados' : (d.hoje ? d.hoje + ' para hoje' : 'Em dia'),
+          dueCls: 'fx-due' + (d.atraso ? ' fx-due--atraso' : (d.hoje ? ' fx-due--hoje' : '')),
+          pct: String(d.pct), pctStyle: '--value: ' + d.pct + '%;',
+          fav: fav ? 'true' : 'false',
+          favAria: fav ? 'Tirar dos favoritos' : 'Favoritar',
+          favoritar: () => this.setState({ favs: fav ? favs.filter((x) => x !== d.id) : favs.concat(d.id) })
+        };
+      }),
+      temDecks: lista.length > 0,
+      mostrarNovo: lista.length > 0 && (aba === 'todos' || aba === 'meus'),
+      vazioFiltro: lista.length === 0 && fv.temFiltro,
+      vazioFav: lista.length === 0 && !fv.temFiltro && aba === 'fav',
+      vazioMeus: lista.length === 0 && !fv.temFiltro && aba === 'meus',
+      nResultados: lista.length === 1 ? '1 deck' : lista.length + ' decks',
+      verTodos: () => this.setState({ aba: 'todos' })
+    });
+  }
+}
+</script>
+</body>
+</html>

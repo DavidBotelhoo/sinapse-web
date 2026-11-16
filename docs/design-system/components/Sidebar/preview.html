@@ -1,0 +1,59 @@
+<!-- @dsCard group="Navegação" height=640 subtitle="Desktop: quatro abas, tema e perfil" -->
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Sidebar</title>
+<style>
+  .demo { padding: 24px; }
+  .frame { width: 248px; height: 588px; border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; }
+  .frame .sn-sidebar { height: 100%; position: static; border-right: 0; }
+</style>
+</head>
+<body>
+<div class="demo">
+  <div class="frame">
+    <aside class="sn-sidebar" aria-label="Navegação principal">
+      <div class="sn-sidebar__brand"><a class="sn-wordmark" href="#">Sinapse</a></div>
+      <nav class="sn-nav" id="nav">
+        <a class="sn-navitem" href="#" aria-current="page"><i data-lucide="house"></i>Início</a>
+        <a class="sn-navitem" href="#"><i data-lucide="play"></i>Estudar <span class="sn-count">32</span></a>
+        <a class="sn-navitem" href="#"><i data-lucide="layers"></i>Flashcards</a>
+        <a class="sn-navitem" href="#"><i data-lucide="users"></i>Comunidade</a>
+      </nav>
+      <div class="sn-sidebar__foot">
+        <div class="sn-theme" role="radiogroup" aria-label="Tema" data-value="light" id="theme">
+          <span class="sn-theme__thumb" aria-hidden="true"></span>
+          <button class="sn-theme__opt" role="radio" aria-checked="true" data-v="light"><i data-lucide="sun"></i> Claro</button>
+          <button class="sn-theme__opt" role="radio" aria-checked="false" data-v="dark"><i data-lucide="moon"></i> Escuro</button>
+        </div>
+        <a class="sn-profilelink" href="#">
+          <span class="sn-avatar sn-avatar--sm" aria-hidden="true">AS</span>
+          <span class="sn-profilelink__text"><span class="sn-profilelink__name">Ana Souza</span><span class="sn-profilelink__sub">Perfil e assinatura</span></span>
+          <i data-lucide="settings"></i>
+        </a>
+      </div>
+    </aside>
+  </div>
+</div>
+<script>
+  (function () {
+    function icons() { if (window.lucide) window.lucide.createIcons(); }
+    if (window.lucide) icons(); else { var s = document.createElement('script'); s.src = 'https://cdn.jsdelivr.net/npm/lucide@0.460.0/dist/umd/lucide.min.js'; s.onload = icons; document.head.appendChild(s); }
+    var nav = document.getElementById('nav');
+    nav.addEventListener('click', function (e) {
+      var a = e.target.closest('.sn-navitem'); if (!a) return; e.preventDefault();
+      nav.querySelectorAll('.sn-navitem').forEach(function (x) { if (x === a) x.setAttribute('aria-current', 'page'); else x.removeAttribute('aria-current'); });
+    });
+    var root = document.getElementById('theme'), opts = root.querySelectorAll('.sn-theme__opt');
+    function set(v) {
+      root.setAttribute('data-value', v);
+      opts.forEach(function (o) { o.setAttribute('aria-checked', String(o.getAttribute('data-v') === v)); });
+      document.documentElement.setAttribute('data-theme', v);
+    }
+    set(document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light');
+    opts.forEach(function (o) { o.addEventListener('click', function () { set(o.getAttribute('data-v')); }); });
+  })();
+</script>
+</body>
+</html>

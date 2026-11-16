@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Landing — Sinapse</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/sinapse/tokens.css">
+<link rel="stylesheet" href="ds/sinapse/components/bundle.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&amp;family=Figtree:wght@400..800&amp;display=swap">
+<style>
+body{margin:0}
+.lucide{fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round}
+a{color:var(--primary)}a:hover{color:var(--primary-hover)}
+.lp-nav a{color:var(--ink-muted);text-decoration:none}.lp-nav a:hover{color:var(--ink)}
+.lp-foot a{color:var(--ink-muted);text-decoration:none}.lp-foot a:hover{color:var(--ink)}
+</style>
+</helmet>
+<div data-theme="{{tema}}" style="min-height: 100%; background: var(--bg); color: var(--ink); font-family: var(--font-sans); font-size: 15px; line-height: 22px;">
+
+<header style="border-bottom: 1px solid var(--line); background: var(--bg);">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 18px 32px; display: flex; flex-wrap: wrap; align-items: center; gap: 24px;">
+    <a class="sn-wordmark" href="#topo" style="font-size: 26px;">Sinapse</a>
+    <nav class="lp-nav" aria-label="Seções" style="display: flex; flex-wrap: wrap; gap: 28px; margin-left: 24px; font-weight: 600; font-size: 15px;">
+      <a href="#como-funciona">Como funciona</a>
+      <a href="#para-quem">Para quem</a>
+      <a href="#planos">Planos</a>
+    </nav>
+    <div style="display: flex; gap: 12px; margin-left: auto;">
+      <a class="sn-btn sn-btn--secondary" href="Entrar.dc.html" style="color: var(--ink);">Entrar</a>
+      <a class="sn-btn sn-btn--primary" href="CriarConta.dc.html" style="color: var(--on-primary);">Criar conta</a>
+    </div>
+  </div>
+</header>
+
+<section id="topo" style="max-width: 1200px; margin: 0 auto; padding: 88px 32px 96px; display: flex; flex-wrap: wrap; align-items: center; gap: 64px;">
+  <div style="flex: 1 1 460px; min-width: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 24px;">
+    <span class="sn-tag sn-tag--brand" style="height: 28px; padding: 0 12px; font-size: 13px;">Para estudantes de Medicina</span>
+    <h1 style="margin: 0; font-family: var(--font-display); font-size: 56px; line-height: 60px; font-weight: 700; letter-spacing: -0.02em; text-wrap: balance;">Revise na hora certa. Lembre na prova.</h1>
+    <p style="margin: 0; max-width: 34em; font-size: 17px; line-height: 26px; color: var(--ink-muted);">Importe seus resumos em PDF ou Word, estude com flashcards e deixe o Sinapse calcular quando cada card precisa voltar.</p>
+    <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px;">
+      <a class="sn-btn sn-btn--primary sn-btn--lg" href="CriarConta.dc.html" style="color: var(--on-primary);">Criar conta</a>
+      <a class="sn-btn sn-btn--ghost sn-btn--lg" href="#como-funciona" style="color: var(--ink);">Ver como funciona <svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></a>
+    </div>
+    <p style="margin: 0; font-size: 13px; line-height: 18px; color: var(--ink-muted);">Do 1º ao 6º ano. No computador e no celular.</p>
+  </div>
+
+  <div aria-hidden="true" style="flex: 1 1 520px; min-width: 0; position: relative; height: 500px;">
+    <div class="sn-flashcard__face" style="position: absolute; left: 24px; top: 72px; width: 440px; min-height: 280px; transform: rotate(-2.5deg); box-shadow: 0 -10px 0 -5px var(--surface-2), 0 -20px 0 -10px var(--line), var(--shadow-lg);">
+      <div class="sn-flashcard__meta"><span>Farmacologia · 2º ano</span><span class="sn-tag">Pergunta</span></div>
+      <p class="sn-flashcard__text">Qual o principal mecanismo de ação da metformina?</p>
+      <p class="sn-flashcard__hint">Pense na resposta. Depois toque no card.</p>
+    </div>
+    <div class="sn-rate" style="position: absolute; left: 48px; top: 404px; width: 420px;">
+      <span class="sn-rate__btn sn-rate__btn--again"><svg class="lucide" viewBox="0 0 24 24"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg> Errei</span>
+      <span class="sn-rate__btn sn-rate__btn--hard"><svg class="lucide" viewBox="0 0 24 24"><path d="M5 12h14"></path></svg> Difícil</span>
+      <span class="sn-rate__btn sn-rate__btn--easy"><svg class="lucide" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"></path></svg> Fácil</span>
+    </div>
+    <div class="sn-stat sn-stat--streak" style="position: absolute; right: 0; top: 0; width: 232px; box-shadow: var(--shadow-md);">
+      <div class="sn-stat__head"><span class="sn-stat__icon"><svg class="lucide" viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path></svg></span>Streak</div>
+      <div class="sn-stat__value">12<span class="sn-stat__unit">dias</span></div>
+      <div class="sn-week"><span class="sn-week__day" data-done="">S</span><span class="sn-week__day" data-done="">T</span><span class="sn-week__day" data-done="">Q</span><span class="sn-week__day" data-done="">Q</span><span class="sn-week__day" data-done="">S</span><span class="sn-week__day" data-done="">S</span><span class="sn-week__day" data-today="">D</span></div>
+    </div>
+    <div class="sn-stat" style="position: absolute; right: 24px; top: 300px; width: 200px; box-shadow: var(--shadow-md);">
+      <div class="sn-stat__head"><span class="sn-stat__icon"><svg class="lucide" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg></span>Taxa de acerto</div>
+      <div class="sn-stat__value">78<span class="sn-stat__unit">%</span></div>
+      <div class="sn-progress"><span style="--value: 78%;"></span></div>
+    </div>
+  </div>
+</section>
+
+<section id="como-funciona" style="background: var(--surface); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 96px 32px; display: flex; flex-direction: column; gap: 48px;">
+    <div style="display: flex; flex-direction: column; gap: 12px; max-width: 640px;">
+      <span style="font-size: 13px; line-height: 18px; font-weight: 600; color: var(--primary);">Como funciona</span>
+      <h2 style="margin: 0; font-family: var(--font-display); font-size: 40px; line-height: 44px; font-weight: 700; letter-spacing: -0.015em;">Três passos, todo dia</h2>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px;">
+      <div style="display: flex; flex-direction: column; gap: 14px; padding: 28px; border-radius: var(--radius-lg); background: var(--bg); border: 1px solid var(--line);">
+        <span class="sn-drop__icon" style="margin: 0;"><svg class="lucide" viewBox="0 0 24 24"><path d="M12 13v8"></path><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"></path><path d="m8 17 4-4 4 4"></path></svg></span>
+        <h3 style="margin: 0; font-family: var(--font-display); font-size: 22px; line-height: 28px; font-weight: 600;">1. Importe</h3>
+        <p style="margin: 0; color: var(--ink-muted);">Envie um PDF ou Word com perguntas e respostas. O Sinapse separa os cards e monta o deck para você revisar antes de salvar.</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 14px; padding: 28px; border-radius: var(--radius-lg); background: var(--bg); border: 1px solid var(--line);">
+        <span class="sn-drop__icon" style="margin: 0;"><svg class="lucide" viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3"></polygon></svg></span>
+        <h3 style="margin: 0; font-family: var(--font-display); font-size: 22px; line-height: 28px; font-weight: 600;">2. Estude</h3>
+        <p style="margin: 0; color: var(--ink-muted);">Veja a pergunta, pense no seu tempo, vire o card e diga como foi: Errei, Difícil ou Fácil.</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 14px; padding: 28px; border-radius: var(--radius-lg); background: var(--bg); border: 1px solid var(--line);">
+        <span class="sn-drop__icon" style="margin: 0;"><svg class="lucide" viewBox="0 0 24 24"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path><path d="M8 14h.01"></path><path d="M12 14h.01"></path><path d="M16 14h.01"></path><path d="M8 18h.01"></path><path d="M12 18h.01"></path><path d="M16 18h.01"></path></svg></span>
+        <h3 style="margin: 0; font-family: var(--font-display); font-size: 22px; line-height: 28px; font-weight: 600;">3. Revise na hora certa</h3>
+        <p style="margin: 0; color: var(--ink-muted);">Cada card volta quando você está prestes a esquecer. A agenda mostra o que vence em cada dia da semana.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="para-quem" style="max-width: 1200px; margin: 0 auto; padding: 96px 32px; display: flex; flex-wrap: wrap; align-items: center; gap: 64px;">
+  <div style="flex: 1 1 400px; min-width: 0; display: flex; flex-direction: column; gap: 20px;">
+    <span style="font-size: 13px; line-height: 18px; font-weight: 600; color: var(--primary);">Para quem</span>
+    <h2 style="margin: 0; font-family: var(--font-display); font-size: 40px; line-height: 44px; font-weight: 700; letter-spacing: -0.015em; text-wrap: balance;">Feito para a rotina de Medicina</h2>
+    <ul style="margin: 8px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 16px; font-size: 17px; line-height: 26px;">
+      <li style="display: flex; gap: 12px;"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true" style="margin-top: 3px; color: var(--primary);"><path d="M20 6 9 17l-5-5"></path></svg>Decks organizados por ano do curso e por matéria.</li>
+      <li style="display: flex; gap: 12px;"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true" style="margin-top: 3px; color: var(--primary);"><path d="M20 6 9 17l-5-5"></path></svg>Comunidade para salvar decks prontos de outros estudantes.</li>
+      <li style="display: flex; gap: 12px;"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true" style="margin-top: 3px; color: var(--primary);"><path d="M20 6 9 17l-5-5"></path></svg>Agenda de revisão, streak, horas estudadas e taxa de acerto.</li>
+      <li style="display: flex; gap: 12px;"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true" style="margin-top: 3px; color: var(--primary);"><path d="M20 6 9 17l-5-5"></path></svg>Modo escuro para as madrugadas de estudo.</li>
+    </ul>
+  </div>
+  <div aria-hidden="true" style="flex: 1 1 520px; min-width: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 16px;">
+    <div class="sn-deck">
+      <div class="sn-deck__top"><div class="sn-tags"><span class="sn-tag">2º ano</span><span class="sn-tag sn-tag--brand">Farmacologia</span></div></div>
+      <h3 class="sn-deck__title">Farmacologia do sistema nervoso autônomo</h3>
+      <div class="sn-deck__meta"><span><svg class="lucide" viewBox="0 0 24 24"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"></path><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"></path><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"></path></svg>84 cards</span></div>
+      <div class="sn-progress"><span style="--value: 62%;"></span></div>
+    </div>
+    <div class="sn-deck">
+      <div class="sn-deck__top"><div class="sn-tags"><span class="sn-tag">1º ano</span><span class="sn-tag sn-tag--brand">Anatomia</span></div></div>
+      <h3 class="sn-deck__title">Membro superior: músculos e inervação</h3>
+      <div class="sn-deck__foot"><span class="sn-deck__owner"><span class="sn-avatar sn-avatar--xs">M</span>por <b>Marina</b></span><span class="sn-btn sn-btn--secondary sn-btn--sm"><svg class="lucide" viewBox="0 0 24 24"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path></svg> Salvar</span></div>
+    </div>
+    <div class="sn-deck">
+      <div class="sn-deck__top"><div class="sn-tags"><span class="sn-tag">3º ano</span><span class="sn-tag sn-tag--brand">Patologia</span></div></div>
+      <h3 class="sn-deck__title">Neoplasias: conceitos gerais</h3>
+      <div class="sn-deck__meta"><span><svg class="lucide" viewBox="0 0 24 24"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path></svg>12 para hoje</span></div>
+    </div>
+    <div class="sn-deck">
+      <div class="sn-deck__top"><div class="sn-tags"><span class="sn-tag">2º ano</span><span class="sn-tag sn-tag--brand">Fisiologia</span></div></div>
+      <h3 class="sn-deck__title">Fisiologia renal</h3>
+      <div class="sn-deck__meta"><span><svg class="lucide" viewBox="0 0 24 24"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"></path><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"></path><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"></path></svg>58 cards</span></div>
+      <div class="sn-progress"><span style="--value: 35%;"></span></div>
+    </div>
+  </div>
+</section>
+
+<section id="planos" style="background: var(--surface); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 96px 32px; display: flex; flex-direction: column; align-items: center; gap: 48px;">
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center;">
+      <span style="font-size: 13px; line-height: 18px; font-weight: 600; color: var(--primary);">Planos</span>
+      <h2 style="margin: 0; font-family: var(--font-display); font-size: 40px; line-height: 44px; font-weight: 700; letter-spacing: -0.015em;">Um plano, duas formas de pagar</h2>
+      <p style="margin: 0; color: var(--ink-muted); font-size: 17px; line-height: 26px;">Tudo liberado nos dois. Cancele quando quiser.</p>
+    </div>
+    <div class="sn-plans" style="width: 100%; max-width: 760px;">
+      <div class="sn-plan">
+        <div class="sn-plan__head"><h3 class="sn-plan__name">Pro mensal</h3></div>
+        <div class="sn-plan__price"><b>R$ [preço]</b><span>/mês</span></div>
+        <ul class="sn-plan__list">
+          <li><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>Decks e cards ilimitados</li>
+          <li><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>Importar PDF e Word</li>
+          <li><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>Estatísticas e agenda de revisão</li>
+          <li><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>Salvar decks da Comunidade</li>
+        </ul>
+        <a class="sn-btn sn-btn--secondary sn-btn--block" href="CriarConta.dc.html" style="color: var(--ink);">Assinar mensal</a>
+      </div>
+      <div class="sn-plan sn-plan--current">
+        <div class="sn-plan__head"><h3 class="sn-plan__name">Pro anual</h3><span class="sn-tag sn-tag--brand">Pagamento único por ano</span></div>
+        <div class="sn-plan__price"><b>R$ [preço]</b><span>/ano</span></div>
+        <ul class="sn-plan__list">
+          <li><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>Tudo do Pro mensal</li>
+          <li><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>Menor preço por mês</li>
+        </ul>
+        <a class="sn-btn sn-btn--primary sn-btn--block" href="CriarConta.dc.html" style="color: var(--on-primary);">Assinar anual</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="max-width: 1200px; margin: 0 auto; padding: 96px 32px;">
+  <div style="position: relative; overflow: hidden; border-radius: var(--radius-xl); background: var(--primary); color: var(--on-primary); padding: 64px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 32px;">
+    <div class="sn-auth__pattern" aria-hidden="true"></div>
+    <span class="sn-auth__orb sn-auth__orb--a" aria-hidden="true"></span>
+    <span class="sn-auth__orb sn-auth__orb--b" aria-hidden="true" style="top: auto; bottom: 40px; right: 300px;"></span>
+    <div style="position: relative; display: flex; flex-direction: column; gap: 12px; max-width: 560px;">
+      <h2 style="margin: 0; font-family: var(--font-display); font-size: 40px; line-height: 44px; font-weight: 700; letter-spacing: -0.015em; text-wrap: balance;">Seu próximo deck começa com um arquivo</h2>
+      <p style="margin: 0; font-size: 17px; line-height: 26px;">Crie a conta, importe um resumo e faça a primeira revisão hoje.</p>
+    </div>
+    <a class="sn-btn sn-btn--secondary sn-btn--lg" href="CriarConta.dc.html" style="position: relative; color: var(--ink); border-color: var(--surface);">Criar conta</a>
+  </div>
+</section>
+
+<footer class="lp-foot" style="border-top: 1px solid var(--line);">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 32px; display: flex; flex-wrap: wrap; align-items: center; gap: 24px; font-size: 14px; line-height: 20px; color: var(--ink-muted);">
+    <span class="sn-wordmark" style="font-size: 20px;">Sinapse</span>
+    <span>Flashcards que conectam o que você estuda.</span>
+    <nav aria-label="Rodapé" style="display: flex; flex-wrap: wrap; gap: 20px; margin-left: auto;">
+      <a href="#termos">Termos de uso</a>
+      <a href="#privacidade">Privacidade</a>
+      <a href="#contato">Contato</a>
+    </nav>
+    <span>© 2026 Sinapse</span>
+  </div>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"tema":{"editor":"enum","options":["Claro","Escuro"],"default":"Claro"},"$preview":{"width":1440,"height":3120}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return { tema: (this.props.tema ?? 'Claro') === 'Escuro' ? 'dark' : 'light' };
+  }
+}
+</script>
+</body>
+</html>

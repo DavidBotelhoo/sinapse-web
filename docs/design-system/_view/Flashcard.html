@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="pt-BR">
+<head><link rel="stylesheet" href="../fonts/fonts.css"><link rel="stylesheet" href="../tokens.css"><link rel="stylesheet" href="../components/bundle.css"><script src="../components/lib/lucide.min.js"></script><script>document.documentElement.setAttribute("data-theme", new URLSearchParams(location.search).get("theme") || "light")</script>
+<meta charset="utf-8">
+<title>Flashcard</title>
+<style>
+  .demo { padding: 24px; }
+  .controls { display: grid; }
+  .controls > * { grid-area: 1 / 1; }
+  .controls [hidden] { display: none; }
+</style>
+</head>
+<body>
+<div class="demo">
+  <div class="sn-study">
+    <div class="sn-study__bar">
+      <span class="sn-num" id="count">1 / 20</span>
+      <div class="sn-progress" role="progressbar" aria-label="Progresso da sessão" aria-valuemin="0" aria-valuemax="20" aria-valuenow="1" id="bar"><span style="--value:5%"></span></div>
+      <span><i data-lucide="timer" style="width:16px;height:16px;vertical-align:-3px"></i> <span class="sn-num">02:14</span></span>
+    </div>
+    <div class="sn-flashcard" data-flipped="false" id="card" role="button" tabindex="0" aria-label="Flashcard. Toque para ver a resposta.">
+      <div class="sn-flashcard__inner" id="inner">
+        <div class="sn-flashcard__face sn-flashcard__face--front">
+          <div class="sn-flashcard__meta"><span id="meta-f"></span><span class="sn-tag">Pergunta</span></div>
+          <p class="sn-flashcard__text" id="q"></p>
+          <p class="sn-flashcard__hint">Pense na resposta. Depois toque no card ou aperte Espaço.</p>
+        </div>
+        <div class="sn-flashcard__face sn-flashcard__face--back" aria-live="polite">
+          <div class="sn-flashcard__meta"><span class="sn-flashcard__eyebrow"><i data-lucide="sparkles"></i> Resposta</span><span id="meta-b"></span></div>
+          <p class="sn-flashcard__recall" id="recall"></p>
+          <p class="sn-flashcard__text" id="a"></p>
+        </div>
+      </div>
+    </div>
+    <div class="controls">
+      <button class="sn-btn sn-btn--primary sn-btn--lg sn-btn--block" id="reveal">Mostrar resposta <span class="sn-kbd">Espaço</span></button>
+      <div class="sn-rate" role="group" aria-label="Como você foi?" id="rate" hidden>
+        <button class="sn-rate__btn sn-rate__btn--again" data-r="1"><i data-lucide="x"></i> Errei <span class="sn-kbd">1</span></button>
+        <button class="sn-rate__btn sn-rate__btn--hard" data-r="2"><i data-lucide="minus"></i> Difícil <span class="sn-kbd">2</span></button>
+        <button class="sn-rate__btn sn-rate__btn--easy" data-r="3"><i data-lucide="check"></i> Fácil <span class="sn-kbd">3</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  (function () {
+    function icons() { if (window.lucide) window.lucide.createIcons(); }
+    if (window.lucide) icons(); else { var s = document.createElement('script'); s.src = 'https://cdn.jsdelivr.net/npm/lucide@0.460.0/dist/umd/lucide.min.js'; s.onload = icons; document.head.appendChild(s); }
+    var cards = [
+      { m: 'Farmacologia · 2º ano', q: 'Qual o principal mecanismo de ação da metformina?', a: 'Reduz a produção hepática de glicose (gliconeogênese), em parte pela ativação da AMPK, e melhora a sensibilidade periférica à insulina.' },
+      { m: 'Fisiologia · 2º ano', q: 'Em qual segmento do néfron atua a furosemida?', a: 'Na porção espessa ascendente da alça de Henle, inibindo o cotransportador Na⁺-K⁺-2Cl⁻ (NKCC2).' },
+      { m: 'Anatomia · 1º ano', q: 'Qual nervo inerva o músculo deltoide?', a: 'O nervo axilar (C5–C6), ramo do fascículo posterior do plexo braquial.' }
+    ];
+    var i = 0, n = 1, total = 20;
+    var card = document.getElementById('card'), inner = document.getElementById('inner');
+    var reveal = document.getElementById('reveal'), rate = document.getElementById('rate');
+    function fill() {
+      var c = cards[i % cards.length];
+      document.getElementById('meta-f').textContent = c.m;
+      document.getElementById('meta-b').textContent = c.m;
+      document.getElementById('q').textContent = c.q;
+      document.getElementById('recall').textContent = c.q;
+      var a = document.getElementById('a');
+      a.textContent = c.a;
+      a.className = 'sn-flashcard__text' + (c.a.length > 110 ? ' sn-flashcard__text--long' : '');
+      document.getElementById('count').textContent = n + ' / ' + total;
+      var bar = document.getElementById('bar');
+      bar.setAttribute('aria-valuenow', n);
+      bar.firstElementChild.style.setProperty('--value', Math.round(n / total * 100) + '%');
+    }
+    function flip() {
+      if (card.getAttribute('data-flipped') === 'true') return;
+      card.setAttribute('data-flipped', 'true');
+      card.setAttribute('aria-label', 'Flashcard com a resposta visível.');
+      reveal.hidden = true; rate.hidden = false;
+      rate.querySelector('button').focus({ preventScroll: true });
+    }
+    function next() {
+      i++; n = Math.min(n + 1, total);
+      inner.style.transition = 'none';
+      card.setAttribute('data-flipped', 'false');
+      fill();
+      void inner.offsetWidth;
+      inner.style.transition = '';
+      if (inner.animate && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        inner.animate([{ transform: 'translateX(28px)', opacity: 0 }, { transform: 'none', opacity: 1 }], { duration: 260, easing: 'cubic-bezier(.22,.8,.24,1)' });
+      }
+      card.setAttribute('aria-label', 'Flashcard. Toque para ver a resposta.');
+      rate.hidden = true; reveal.hidden = false;
+      reveal.focus({ preventScroll: true });
+    }
+    card.addEventListener('click', flip);
+    reveal.addEventListener('click', flip);
+    rate.addEventListener('click', function (e) { if (e.target.closest('.sn-rate__btn')) next(); });
+    document.addEventListener('keydown', function (e) {
+      var flipped = card.getAttribute('data-flipped') === 'true';
+      if (!flipped && (e.key === ' ' || e.key === 'Enter')) { e.preventDefault(); flip(); }
+      else if (flipped && ['1', '2', '3'].indexOf(e.key) > -1) { next(); }
+    });
+    fill();
+  })();
+</script>
+</body>
+</html>

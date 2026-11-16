@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Sidebar — Sinapse</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/sinapse/tokens.css">
+<link rel="stylesheet" href="ds/sinapse/components/bundle.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&amp;family=Figtree:wght@400..800&amp;display=swap">
+<style>
+body{margin:0}
+.lucide{fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round}
+</style>
+</helmet>
+<aside class="sn-sidebar" data-theme="{{temaAttr}}" aria-label="Navegação principal" style="position: static; width: 248px; height: auto; min-height: 860px; box-sizing: border-box; border-right: 0; background: var(--surface); color: var(--ink); font-family: var(--font-sans);">
+  <div class="sn-sidebar__brand"><a class="sn-wordmark" href="Main.dc.html">Sinapse</a></div>
+  <nav class="sn-nav">
+    <a class="sn-navitem" href="Inicio.dc.html" aria-current="{{atualInicio}}"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>Início</a>
+    <a class="sn-navitem" href="Estudar.dc.html" aria-current="{{atualEstudar}}"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><polygon points="6 3 20 12 6 21 6 3"></polygon></svg>Estudar <span class="sn-count">32</span></a>
+    <a class="sn-navitem" href="Flashcards.dc.html" aria-current="{{atualFlashcards}}"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"></path><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"></path><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"></path></svg>Flashcards</a>
+    <a class="sn-navitem" href="Comunidade.dc.html" aria-current="{{atualComunidade}}"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>Comunidade</a>
+  </nav>
+  <div class="sn-sidebar__foot">
+    <div class="sn-theme" role="radiogroup" aria-label="Tema" data-value="{{temaAttr}}">
+      <span class="sn-theme__thumb" aria-hidden="true"></span>
+      <button class="sn-theme__opt" type="button" role="radio" aria-checked="{{claroMarcado}}" onClick="{{escolherClaro}}"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg> Claro</button>
+      <button class="sn-theme__opt" type="button" role="radio" aria-checked="{{escuroMarcado}}" onClick="{{escolherEscuro}}"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg> Escuro</button>
+    </div>
+    <a class="sn-profilelink" href="Perfil.dc.html" aria-current="{{atualPerfil}}">
+      <span class="sn-avatar sn-avatar--sm" aria-hidden="true">AS</span>
+      <span class="sn-profilelink__text"><span class="sn-profilelink__name">Ana Souza</span><span class="sn-profilelink__sub">Perfil e assinatura</span></span>
+      <svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+    </a>
+  </div>
+</aside>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"ativo":{"editor":"enum","options":["inicio","estudar","flashcards","comunidade","perfil"],"default":"inicio"},"tema":{"editor":"enum","options":["Claro","Escuro"],"default":"Claro"},"onTema":{"editor":null},"$preview":{"width":248,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const ativo = this.props.ativo ?? 'inicio';
+    const temaNome = (this.state && this.state.tema) || this.props.tema || 'Claro';
+    const escuro = temaNome === 'Escuro';
+    const escolher = (nome) => {
+      if (typeof this.props.onTema === 'function') this.props.onTema(nome);
+      else this.setState({ tema: nome });
+    };
+    const atual = (id) => (ativo === id ? 'page' : undefined);
+    return {
+      temaAttr: escuro ? 'dark' : 'light',
+      claroMarcado: escuro ? 'false' : 'true',
+      escuroMarcado: escuro ? 'true' : 'false',
+      escolherClaro: () => escolher('Claro'),
+      escolherEscuro: () => escolher('Escuro'),
+      atualInicio: atual('inicio'),
+      atualEstudar: atual('estudar'),
+      atualFlashcards: atual('flashcards'),
+      atualComunidade: atual('comunidade'),
+      atualPerfil: atual('perfil')
+    };
+  }
+}
+</script>
+</body>
+</html>

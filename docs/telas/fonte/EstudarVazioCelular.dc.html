@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Estudar sem flashcards no celular — Sinapse</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/sinapse/tokens.css">
+<link rel="stylesheet" href="ds/sinapse/components/bundle.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&amp;family=Figtree:wght@400..800&amp;display=swap">
+<style>
+body{margin:0}
+.lucide{fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round}
+a{color:var(--primary)}a:hover{color:var(--primary-hover)}
+.sn-empty__actions{flex-direction:column;align-self:stretch}.sn-empty__actions .sn-btn{width:100%}
+</style>
+</helmet>
+<div data-theme="{{tema}}" style="width: 390px; min-height: 844px; box-sizing: border-box; display: flex; flex-direction: column; background: var(--bg); color: var(--ink); font-family: var(--font-sans); font-size: 15px; line-height: 22px;">
+  <main style="flex: 1 1 auto; padding: 24px 16px 24px; display: flex; flex-direction: column; gap: 28px;">
+      <header style="display: flex; flex-direction: column; gap: 4px;">
+        <h1 style="margin: 0; font-family: var(--font-display); font-size: 28px; line-height: 34px; font-weight: 700; letter-spacing: -0.01em;">Estudar</h1>
+      </header>
+    <section style="flex: 1 1 auto; display: grid; place-items: center;">
+      <div class="sn-empty">
+        <div class="sn-empty__art" aria-hidden="true">
+          <span class="sn-empty__card"></span><span class="sn-empty__card"></span>
+          <span class="sn-empty__card"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg></span>
+        </div>
+        <h2 class="sn-empty__title">Monte seu primeiro deck para começar a estudar</h2>
+        <p class="sn-empty__body">Você ainda não tem flashcards salvos. Importe um PDF ou Word com suas perguntas, ou salve um deck pronto da Comunidade.</p>
+        <div class="sn-empty__actions">
+          <a class="sn-btn sn-btn--primary" href="FlashcardsCelular.dc.html" style="color: var(--on-primary);"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"></path><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"></path><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"></path></svg> Ir para Flashcards</a>
+          <a class="sn-btn sn-btn--secondary" href="ComunidadeCelular.dc.html" style="color: var(--ink);"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg> Explorar a Comunidade</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <div style="position: sticky; bottom: 0; z-index: 5;">
+    <dc-import name="BottomNav" ativo="estudar" tema="{{temaNome}}" hint-size="390px,118px"></dc-import>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"tema": {"editor": "enum", "options": ["Claro", "Escuro"], "default": "Claro"}, "$preview": {"width": 390, "height": 844}}'>
+class Component extends DCLogic {
+renderVals() {
+    const temaNome = (this.state && this.state.tema) || this.props.tema || 'Claro';
+    return { tema: temaNome === 'Escuro' ? 'dark' : 'light', temaNome: temaNome, setTema: (nome) => this.setState({ tema: nome }), };
+  }
+}
+</script>
+</body>
+</html>

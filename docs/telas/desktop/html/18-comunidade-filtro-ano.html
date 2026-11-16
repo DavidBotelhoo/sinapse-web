@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="pt-BR"><head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../../design-system/fonts/fonts.css">
+<link rel="stylesheet" href="../../../design-system/tokens.css">
+<link rel="stylesheet" href="../../../design-system/components/bundle.css">
+<style>html,body{margin:0}.sn-theme__thumb{z-index:0}</style>
+
+
+<style>
+body{margin:0}
+.lucide{fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round}
+a{color:var(--primary)}a:hover{color:var(--primary-hover)}
+.fx-row{display:flex;flex-wrap:wrap;align-items:center;gap:12px}
+.fx-row .sn-search{flex:0 1 300px}
+.fx-link{color:inherit;text-decoration:none}
+.fx-link::after{content:"";position:absolute;inset:0;border-radius:inherit}
+.sn-deck .sn-iconbtn,.sn-deck .sn-btn{position:relative;z-index:1}
+.fx-due{display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:var(--radius-full);font:600 12px/1 var(--font-sans);background:var(--surface-2);color:var(--ink-muted)}
+.fx-due--hoje{background:var(--primary-soft);color:var(--on-primary-soft)}
+.fx-due--atraso{background:var(--accent-soft);color:var(--on-accent-soft)}
+.fx-pct{font:600 12px/16px var(--font-sans);color:var(--ink-muted)}
+.fx-empty{grid-column:1/-1}
+
+.cm-saves{display:inline-flex;align-items:center;gap:4px}
+.sn-deck__foot .sn-avatar{flex:none}
+</style><style>
+body{margin:0}
+.lucide{fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round}
+</style></head>
+<body><div id="root">
+
+<div data-theme="light" style="min-height: 1300px; display: flex; flex-wrap: wrap; align-items: stretch; background: var(--bg); color: var(--ink); font-family: var(--font-sans); font-size: 15px; line-height: 22px;">
+  <div style="flex: 0 0 248px; background: var(--surface); border-right: 1px solid var(--line);">
+    
+
+<aside class="sn-sidebar" data-theme="light" aria-label="Navegação principal" style="position: static; width: 248px; height: auto; min-height: 860px; box-sizing: border-box; border-right: 0; background: var(--surface); color: var(--ink); font-family: var(--font-sans);">
+  <div class="sn-sidebar__brand"><a class="sn-wordmark" href="Main.dc.html">Sinapse</a></div>
+  <nav class="sn-nav">
+    <a class="sn-navitem" href="Inicio.dc.html"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>Início</a>
+    <a class="sn-navitem" href="Estudar.dc.html"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><polygon points="6 3 20 12 6 21 6 3"></polygon></svg>Estudar <span class="sn-count">32</span></a>
+    <a class="sn-navitem" href="Flashcards.dc.html"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"></path><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"></path><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"></path></svg>Flashcards</a>
+    <a class="sn-navitem" href="Comunidade.dc.html" aria-current="page"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>Comunidade</a>
+  </nav>
+  <div class="sn-sidebar__foot">
+    <div class="sn-theme" role="radiogroup" aria-label="Tema" data-value="light">
+      <span class="sn-theme__thumb" aria-hidden="true"></span>
+      <button class="sn-theme__opt" type="button" role="radio" aria-checked="true"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg> Claro</button>
+      <button class="sn-theme__opt" type="button" role="radio" aria-checked="false"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg> Escuro</button>
+    </div>
+    <a class="sn-profilelink" href="Perfil.dc.html">
+      <span class="sn-avatar sn-avatar--sm" aria-hidden="true">AS</span>
+      <span class="sn-profilelink__text"><span class="sn-profilelink__name">Ana Souza</span><span class="sn-profilelink__sub">Perfil e assinatura</span></span>
+      <svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+    </a>
+  </div>
+</aside>
+
+  </div>
+  <main style="flex: 999 1 560px; min-width: 0; box-sizing: border-box; padding: 40px 40px 64px;">
+    <div style="max-width: 1120px; margin: 0 auto; display: flex; flex-direction: column; gap: 32px;">
+      <header style="display: flex; flex-direction: column; gap: 4px;">
+        <h1 style="margin: 0; font-family: var(--font-display); font-size: 28px; line-height: 34px; font-weight: 700; letter-spacing: -0.01em;">Comunidade</h1>
+        <p style="margin: 0; color: var(--ink-muted);">Decks públicos de outros estudantes. Salve um e ele aparece em Flashcards, pronto para estudar.</p>
+      </header>
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <div class="fx-row">
+          <label class="sn-search"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg><input placeholder="Buscar por nome ou assunto" aria-label="Buscar por nome ou assunto" style=""></label>
+          <div class="sn-filterbar">
+              <div class="sn-filter">
+                <button type="button" class="sn-chip sn-filter__trigger" aria-expanded="true" aria-pressed="true" aria-controls="pop-ano">2º ano <svg class="lucide sn-filter__chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></button>
+                
+                  <div class="sn-popover" id="pop-ano">
+                    <p class="sn-popover__title">Ano do curso</p>
+                    <div class="sn-chips">
+                      
+                        <button type="button" class="sn-chip" aria-pressed="false"><svg class="lucide sn-chip__check" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>1º</button>
+                      
+                        <button type="button" class="sn-chip" aria-pressed="true"><svg class="lucide sn-chip__check" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>2º</button>
+                      
+                        <button type="button" class="sn-chip" aria-pressed="false"><svg class="lucide sn-chip__check" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>3º</button>
+                      
+                        <button type="button" class="sn-chip" aria-pressed="false"><svg class="lucide sn-chip__check" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>4º</button>
+                      
+                        <button type="button" class="sn-chip" aria-pressed="false"><svg class="lucide sn-chip__check" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>5º</button>
+                      
+                        <button type="button" class="sn-chip" aria-pressed="false"><svg class="lucide sn-chip__check" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>6º</button>
+                      
+                    </div>
+                    <div class="sn-popover__foot">
+                      <button type="button" class="sn-btn sn-btn--ghost sn-btn--sm">Limpar</button>
+                      <button type="button" class="sn-btn sn-btn--primary sn-btn--sm">Aplicar</button>
+                    </div>
+                  </div>
+                
+              </div>
+              <div class="sn-filter">
+                <button type="button" class="sn-chip sn-filter__trigger" aria-expanded="false" aria-pressed="true" aria-controls="pop-mat">Farmacologia <svg class="lucide sn-filter__chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></button>
+                
+              </div>
+              
+                <span class="sn-filterbar__divider" aria-hidden="true"></span>
+                
+                  <span class="sn-chip sn-chip--removable">2º ano<button type="button" class="sn-chip__remove" aria-label="Remover filtro 2º ano"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button></span>
+                
+                  <span class="sn-chip sn-chip--removable">Farmacologia<button type="button" class="sn-chip__remove" aria-label="Remover filtro Farmacologia"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button></span>
+                
+                <button type="button" class="sn-btn sn-btn--ghost sn-btn--sm" style="color: var(--ink);">Limpar filtros</button>
+              
+            </div>
+          <span style="margin-left: auto;"><div class="sn-tabs" role="tablist" aria-label="Ordenar decks">
+            <button type="button" class="sn-tabs__tab" role="tab" aria-selected="true"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path></svg> Populares</button>
+            <button type="button" class="sn-tabs__tab" role="tab" aria-selected="false"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> Recentes</button>
+          </div></span>
+        </div>
+        <p style="margin: 0; font: 500 13px/18px var(--font-sans); color: var(--ink-muted);">2 decks encontrados</p>
+      </div>
+      <section class="sn-decks" aria-label="Decks da comunidade" style="margin-top: -16px;">
+        
+        <div class="sn-deck sn-deck--interactive">
+          <div class="sn-deck__top">
+            <div class="sn-tags"><span class="sn-tag">2º ano</span><span class="sn-tag sn-tag--brand">Farmacologia</span><span class="sn-tag sn-tag--brand">Fisiologia</span></div>
+          </div>
+          <h3 class="sn-deck__title"><a class="fx-link" href="DeckComunidade.dc.html">Diuréticos: mecanismos e efeitos adversos</a></h3>
+          <div class="sn-deck__meta">
+            <span><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"></path><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"></path><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"></path></svg>40 cards</span>
+            <span><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path></svg>1,1 mil salvaram</span>
+          </div>
+          <div class="sn-deck__foot">
+            <span class="sn-deck__owner"><span class="sn-avatar sn-avatar--xs" aria-hidden="true">L</span>por <b>Lucas</b></span>
+            <button type="button" class="sn-btn sn-btn--secondary sn-btn--sm" aria-pressed="false" style="color: var(--ink);"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path></svg> Salvar deck</button>
+            <button type="button" class="sn-btn sn-btn--ghost sn-btn--sm" aria-pressed="true" aria-label="Salvo. Toque para remover dos seus flashcards" style="display: none;"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2Z"></path><path d="m9 10 2 2 4-4"></path></svg> Salvo</button>
+          </div>
+        </div>
+        
+        <div class="sn-deck sn-deck--interactive">
+          <div class="sn-deck__top">
+            <div class="sn-tags"><span class="sn-tag">2º ano</span><span class="sn-tag sn-tag--brand">Microbiologia</span><span class="sn-tag sn-tag--brand">Farmacologia</span></div>
+          </div>
+          <h3 class="sn-deck__title"><a class="fx-link" href="DeckSalvo.dc.html">Antibióticos betalactâmicos</a></h3>
+          <div class="sn-deck__meta">
+            <span><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"></path><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"></path><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"></path></svg>52 cards</span>
+            <span><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path></svg>864 salvaram</span>
+          </div>
+          <div class="sn-deck__foot">
+            <span class="sn-deck__owner"><span class="sn-avatar sn-avatar--xs" aria-hidden="true">R</span>por <b>Rafael</b></span>
+            <button type="button" class="sn-btn sn-btn--secondary sn-btn--sm" aria-pressed="false" style="display: none;"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path></svg> Salvar deck</button>
+            <button type="button" class="sn-btn sn-btn--ghost sn-btn--sm" aria-pressed="true" aria-label="Salvo. Toque para remover dos seus flashcards" style="color: var(--primary);"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2Z"></path><path d="m9 10 2 2 4-4"></path></svg> Salvo</button>
+          </div>
+        </div>
+        
+        
+      </section>
+    </div>
+  </main>
+</div>
+</div>
+
+</body></html>

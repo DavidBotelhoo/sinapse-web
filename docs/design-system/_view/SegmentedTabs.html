@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="pt-BR">
+<head><link rel="stylesheet" href="../fonts/fonts.css"><link rel="stylesheet" href="../tokens.css"><link rel="stylesheet" href="../components/bundle.css"><script src="../components/lib/lucide.min.js"></script><script>document.documentElement.setAttribute("data-theme", new URLSearchParams(location.search).get("theme") || "light")</script>
+<meta charset="utf-8">
+<title>SegmentedTabs</title>
+<style>
+  .demo { display: grid; gap: 20px; padding: 24px; }
+  .vis { max-width: 320px; }
+</style>
+</head>
+<body>
+<div class="demo">
+  <div class="sn-tabs" role="tablist" aria-label="Filtrar flashcards" data-tabs>
+    <button class="sn-tabs__tab" role="tab" aria-selected="true">Todos <span class="sn-count">128</span></button>
+    <button class="sn-tabs__tab" role="tab" aria-selected="false">Meus <span class="sn-count">24</span></button>
+    <button class="sn-tabs__tab" role="tab" aria-selected="false">Da comunidade <span class="sn-count">96</span></button>
+    <button class="sn-tabs__tab" role="tab" aria-selected="false">Favoritos <span class="sn-count">8</span></button>
+  </div>
+  <div class="vis">
+    <div class="sn-tabs sn-tabs--block" role="radiogroup" aria-label="Visibilidade do deck" data-tabs>
+      <button class="sn-tabs__tab" role="radio" aria-selected="true" aria-checked="true"><i data-lucide="lock"></i> Privado</button>
+      <button class="sn-tabs__tab" role="radio" aria-selected="false" aria-checked="false"><i data-lucide="globe"></i> Público</button>
+    </div>
+  </div>
+</div>
+<script>
+  (function () {
+    function icons() { if (window.lucide) window.lucide.createIcons(); }
+    if (window.lucide) icons(); else { var s = document.createElement('script'); s.src = 'https://cdn.jsdelivr.net/npm/lucide@0.460.0/dist/umd/lucide.min.js'; s.onload = icons; document.head.appendChild(s); }
+    document.querySelectorAll('[data-tabs]').forEach(function (g) {
+      g.addEventListener('click', function (e) {
+        var t = e.target.closest('.sn-tabs__tab'); if (!t) return;
+        g.querySelectorAll('.sn-tabs__tab').forEach(function (x) {
+          x.setAttribute('aria-selected', String(x === t));
+          if (x.hasAttribute('aria-checked')) x.setAttribute('aria-checked', String(x === t));
+        });
+      });
+    });
+  })();
+</script>
+</body>
+</html>

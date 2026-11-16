@@ -1,0 +1,36 @@
+<!-- @dsCard group="Navegação" height=230 subtitle="Celular: cinco botões com o play em destaque" -->
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>BottomNav</title>
+<style>
+  .demo { padding: 24px; }
+  .phone { width: 390px; max-width: 100%; height: 170px; display: flex; flex-direction: column; justify-content: flex-end; border: 1px solid var(--line); border-radius: var(--radius-xl); overflow: hidden; background: var(--bg); }
+</style>
+</head>
+<body>
+<div class="demo">
+  <div class="phone">
+    <nav class="sn-bottomnav" aria-label="Navegação principal" id="nav">
+      <a class="sn-bottomnav__item" href="#" aria-current="page"><span class="sn-bottomnav__icon"><i data-lucide="house"></i></span>Início</a>
+      <a class="sn-bottomnav__item" href="#"><span class="sn-bottomnav__icon"><i data-lucide="layers"></i></span>Flashcards</a>
+      <a class="sn-bottomnav__item sn-bottomnav__item--play" href="#"><span class="sn-bottomnav__play"><i data-lucide="play"></i></span>Estudar</a>
+      <a class="sn-bottomnav__item" href="#"><span class="sn-bottomnav__icon"><i data-lucide="users"></i></span>Comunidade</a>
+      <a class="sn-bottomnav__item" href="#"><span class="sn-bottomnav__icon"><i data-lucide="user"></i></span>Perfil</a>
+    </nav>
+  </div>
+</div>
+<script>
+  (function () {
+    function icons() { if (window.lucide) window.lucide.createIcons(); }
+    if (window.lucide) icons(); else { var s = document.createElement('script'); s.src = 'https://cdn.jsdelivr.net/npm/lucide@0.460.0/dist/umd/lucide.min.js'; s.onload = icons; document.head.appendChild(s); }
+    var nav = document.getElementById('nav');
+    nav.addEventListener('click', function (e) {
+      var a = e.target.closest('.sn-bottomnav__item'); if (!a) return; e.preventDefault();
+      nav.querySelectorAll('.sn-bottomnav__item').forEach(function (x) { if (x === a) x.setAttribute('aria-current', 'page'); else x.removeAttribute('aria-current'); });
+    });
+  })();
+</script>
+</body>
+</html>

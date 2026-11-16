@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="pt-BR">
+<head><link rel="stylesheet" href="../fonts/fonts.css"><link rel="stylesheet" href="../tokens.css"><link rel="stylesheet" href="../components/bundle.css"><script src="../components/lib/lucide.min.js"></script><script>document.documentElement.setAttribute("data-theme", new URLSearchParams(location.search).get("theme") || "light")</script>
+<meta charset="utf-8">
+<title>TextField</title>
+<style>
+  .demo { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px; padding: 24px; }
+</style>
+</head>
+<body>
+<div class="demo">
+  <form class="sn-form" onsubmit="return false">
+    <div class="sn-field-row">
+      <div class="sn-field">
+        <label class="sn-field__label" for="nome">Nome</label>
+        <div class="sn-field__control"><input id="nome" autocomplete="given-name" placeholder="Ana"></div>
+      </div>
+      <div class="sn-field">
+        <label class="sn-field__label" for="sobrenome">Sobrenome</label>
+        <div class="sn-field__control"><input id="sobrenome" autocomplete="family-name" placeholder="Souza"></div>
+      </div>
+    </div>
+    <div class="sn-field">
+      <label class="sn-field__label" for="email">Email</label>
+      <div class="sn-field__control"><i data-lucide="mail"></i><input id="email" type="email" autocomplete="email" placeholder="voce@faculdade.edu.br"></div>
+    </div>
+    <div class="sn-field">
+      <div class="sn-field__labelrow"><label class="sn-field__label" for="senha">Senha</label><a class="sn-link" href="#">Esqueci minha senha</a></div>
+      <div class="sn-field__control">
+        <i data-lucide="lock"></i><input id="senha" type="password" autocomplete="new-password" value="flashcard" aria-describedby="senha-hint">
+        <button type="button" class="sn-field__toggle" id="eye" aria-label="Mostrar senha" aria-pressed="false"><i data-lucide="eye"></i></button>
+      </div>
+      <p class="sn-field__hint" id="senha-hint">Mínimo de 8 caracteres.</p>
+    </div>
+  </form>
+  <form class="sn-form" onsubmit="return false">
+    <div class="sn-field" data-invalid>
+      <label class="sn-field__label" for="email2">Email</label>
+      <div class="sn-field__control"><i data-lucide="mail"></i><input id="email2" type="email" value="ana.souza@gmail" aria-invalid="true" aria-describedby="email2-err"></div>
+      <p class="sn-field__error" id="email2-err"><i data-lucide="circle-alert"></i> Confira o email: falta o final, como .com</p>
+    </div>
+    <div class="sn-field">
+      <label class="sn-field__label" for="nomedeck">Nome do deck</label>
+      <div class="sn-field__control"><input id="nomedeck" placeholder="Farmacologia do SNA"></div>
+    </div>
+    <div class="sn-field">
+      <label class="sn-field__label" for="ano">Ano do curso</label>
+      <div class="sn-field__control">
+        <select id="ano"><option>1º ano</option><option selected>2º ano</option><option>3º ano</option><option>4º ano</option><option>5º ano</option><option>6º ano</option></select>
+        <i data-lucide="chevron-down" class="sn-field__chevron"></i>
+      </div>
+    </div>
+  </form>
+</div>
+<script>
+  (function () {
+    function icons() { if (window.lucide) window.lucide.createIcons(); }
+    if (window.lucide) icons(); else { var s = document.createElement('script'); s.src = 'https://cdn.jsdelivr.net/npm/lucide@0.460.0/dist/umd/lucide.min.js'; s.onload = icons; document.head.appendChild(s); }
+    var eye = document.getElementById('eye'), pw = document.getElementById('senha');
+    eye.addEventListener('click', function () {
+      var show = pw.type === 'password';
+      pw.type = show ? 'text' : 'password';
+      eye.setAttribute('aria-pressed', String(show));
+      eye.setAttribute('aria-label', show ? 'Esconder senha' : 'Mostrar senha');
+      eye.innerHTML = '<i data-lucide="' + (show ? 'eye-off' : 'eye') + '"></i>';
+      icons();
+    });
+  })();
+</script>
+</body>
+</html>

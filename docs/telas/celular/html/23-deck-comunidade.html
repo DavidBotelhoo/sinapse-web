@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="pt-BR"><head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../../design-system/fonts/fonts.css">
+<link rel="stylesheet" href="../../../design-system/tokens.css">
+<link rel="stylesheet" href="../../../design-system/components/bundle.css">
+<style>html,body{margin:0}.sn-theme__thumb{z-index:0}</style>
+
+
+<style>
+body{margin:0}
+.lucide{fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round}
+a{color:var(--primary)}a:hover{color:var(--primary-hover)}
+.dk-meta{display:flex;flex-wrap:wrap;align-items:center;gap:6px 16px;font:500 14px/20px var(--font-sans);color:var(--ink-muted)}
+.dk-meta>span{display:inline-flex;align-items:center;gap:6px}
+.dk-meta .lucide{width:16px;height:16px}
+.dk-meta b{color:var(--ink);font-weight:600}
+.dk-actions{display:flex;align-items:center;gap:8px}
+.dk-fav[aria-pressed="true"]{color:var(--accent-ink)!important}
+.dk-fav[aria-pressed="true"] .lucide{fill:currentColor}
+.dk-menu{position:relative}
+.dk-menu .sn-popover{left:auto;right:0;width:260px;padding:8px;gap:2px}
+.dk-item{display:flex;align-items:center;gap:10px;width:100%;height:40px;padding:0 10px;border:0;border-radius:var(--radius-sm);background:transparent;color:var(--ink);font:500 14px/1 var(--font-sans);text-align:left;cursor:pointer}
+.dk-item:hover{background:var(--surface-2)}
+.dk-item .lucide{width:18px;height:18px;color:var(--ink-muted)}
+.dk-item--danger,.dk-item--danger .lucide{color:var(--danger)}
+.dk-sep{height:1px;margin:4px 0;background:var(--line)}
+.dk-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.dk-stat{display:flex;flex-direction:column;gap:6px;padding:16px;border:1px solid var(--line);border-radius:var(--radius-lg);background:var(--surface)}
+.dk-stat dt{font:500 13px/18px var(--font-sans);color:var(--ink-muted)}
+.dk-stat dd{margin:0;font-family:var(--font-display);font-size:26px;line-height:30px;font-weight:700;font-variant-numeric:tabular-nums}
+.dk-stat dd small{margin-left:3px;font:600 14px/1 var(--font-sans);color:var(--ink-muted)}
+.dk-info{display:flex;flex-wrap:wrap;align-items:center;gap:16px;padding:20px;border:1px solid var(--line);border-radius:var(--radius-lg);background:var(--surface)}
+.dk-info p{margin:0;color:var(--ink-muted)}
+.dk-section{display:flex;flex-direction:column;gap:16px;padding:24px;border:1px solid var(--line);border-radius:var(--radius-xl);background:var(--surface)}
+.dk-h2{margin:0;font-family:var(--font-display);font-size:20px;line-height:26px;font-weight:600}
+.dk-tools{display:flex;flex-wrap:wrap;align-items:center;gap:12px}
+.dk-tools .sn-search{flex:1 1 220px}
+.dk-list{margin:0;padding:0;list-style:none;border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden}
+.dk-list>li+li{border-top:1px solid var(--line)}
+.dk-row{display:grid;grid-template-columns:32px minmax(0,1fr) minmax(0,1fr) 112px 36px;align-items:start;gap:16px;padding:14px 16px}
+.dk-row .n{font:700 12px/20px var(--font-sans);color:var(--ink-faint);font-variant-numeric:tabular-nums}
+.dk-row .q{font:600 15px/22px var(--font-sans)}
+.dk-row .a{font:400 15px/22px var(--font-sans);color:var(--ink-muted)}
+.dk-blur{display:block;height:12px;margin-top:5px;border-radius:6px;background:var(--surface-2)}
+.dk-blur+.dk-blur{width:60%}
+.dk-st{justify-self:start;display:inline-flex;align-items:center;gap:4px;height:24px;padding:0 10px;border-radius:var(--radius-full);font:600 12px/1 var(--font-sans);background:var(--surface-2);color:var(--ink-muted);white-space:nowrap}
+.dk-st .lucide{width:14px;height:14px}
+.dk-st--hoje{background:var(--primary-soft);color:var(--on-primary-soft)}
+.dk-st--atraso{background:var(--accent-soft);color:var(--on-accent-soft)}
+.dk-st--dias{background:transparent;box-shadow:inset 0 0 0 1px var(--line-strong)}
+.dk-row .sn-iconbtn{margin-top:-6px}
+.dk-edit{display:flex;flex-direction:column;gap:12px;padding:16px;background:var(--bg)}
+.dk-edit label{font:600 13px/18px var(--font-sans);color:var(--ink-muted)}
+.dk-ta{display:block;box-sizing:border-box;width:100%;min-height:64px;margin-top:6px;padding:10px 12px;border:1px solid var(--line-strong);border-radius:var(--radius-md);background:var(--surface);color:var(--ink);font:400 15px/22px var(--font-sans);resize:vertical}
+.dk-ta:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-soft)}
+.dk-foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;font:500 13px/18px var(--font-sans);color:var(--ink-muted)}
+.dk-lock{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:var(--radius-md);background:var(--surface-2);color:var(--ink)}
+.dk-lock .lucide{flex:none;width:20px;height:20px;color:var(--ink-muted)}
+.dk-lock p{margin:0;flex:1 1 auto}
+
+.dk-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.dk-stat{padding:14px}
+.dk-stat dd{font-size:22px;line-height:26px}
+.dk-section{padding:16px;margin:0 -16px;border-width:1px 0;border-radius:0}
+.dk-row{grid-template-columns:minmax(0,1fr) auto;gap:6px 12px;padding:14px}
+.dk-row .n{display:none}
+.dk-row .q{grid-column:1;grid-row:2}
+.dk-row .a,.dk-row .dk-ab{grid-column:1/-1;grid-row:3}
+.dk-row .dk-st{grid-column:1;grid-row:1}
+.dk-row .sn-iconbtn{grid-column:2;grid-row:1/3;margin:0}
+.dk-list{border-radius:var(--radius-md)}
+</style><style>
+body{margin:0}
+.lucide{fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round}
+</style></head>
+<body><div id="root">
+
+<div data-theme="light" style="width: 390px; min-height: 1500px; box-sizing: border-box; display: flex; flex-direction: column; background: var(--bg); color: var(--ink); font-family: var(--font-sans); font-size: 15px; line-height: 22px;">
+  <main style="flex: 1 1 auto; padding: 24px 16px 24px; display: flex; flex-direction: column; gap: 28px;">
+    <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: -8px -8px -12px;">
+      <a class="sn-iconbtn" href="ComunidadeCelular.dc.html" aria-label="Voltar" style="color: var(--ink);"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg></a>
+      <div class="dk-actions">
+        
+        <div class="dk-menu">
+            <button type="button" class="sn-iconbtn" aria-label="Mais opções do deck" aria-haspopup="menu" aria-expanded="false" style="color: var(--ink);"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg></button>
+            
+          </div>
+      </div>
+    </div>
+    <header style="display: flex; flex-direction: column; gap: 10px;">
+      <div class="sn-tags"><span class="sn-tag">1º ano</span><span class="sn-tag sn-tag--brand">Anatomia</span></div>
+      <h1 style="margin: 0; font-family: var(--font-display); font-size: 24px; line-height: 30px; font-weight: 700; letter-spacing: -0.01em;">Membro superior: músculos e inervação</h1>
+      <div class="dk-meta">
+            <span><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"></path><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"></path><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"></path></svg>120 cards</span>
+            <span style="display: none;"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>Privado</span>
+            <span style="display: none;"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg>Público na Comunidade</span>
+            <span style=""><span class="sn-avatar sn-avatar--xs" aria-hidden="true">M</span>por <b>Marina</b></span>
+            <span style=""><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path></svg>1,2 mil salvaram</span>
+            <span><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>Atualizado há 5 dias</span>
+          </div>
+    </header>
+    
+          
+            <button type="button" class="sn-btn sn-btn--primary sn-btn--block sn-btn--lg"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path></svg> Salvar deck</button>
+          
+          
+    
+      
+        <div class="dk-info">
+          <span class="sn-avatar" aria-hidden="true">M</span>
+          <p style="flex: 1 1 260px;"><b style="color: var(--ink);">Deck de Marina</b><br>Ao salvar, ele aparece em Flashcards e entra na sua agenda de revisão. O progresso é só seu.</p>
+        </div>
+      
+    <section class="dk-section" aria-labelledby="cards-t">
+        <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px;">
+          <h2 class="dk-h2" id="cards-t">Cards</h2>
+          
+        </div>
+        
+        <div class="dk-tools">
+          <label class="sn-search"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg><input placeholder="Buscar no deck" aria-label="Buscar no deck" style=""></label>
+          <button type="button" class="sn-chip" aria-pressed="true"><svg class="lucide sn-chip__check" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>Mostrar respostas</button>
+        </div>
+        <ol class="dk-list">
+          
+            <li>
+              <div class="dk-row" style="">
+                <span class="n">01</span>
+                <span class="q">Qual nervo inerva o músculo deltoide?</span>
+                <span class="a" style="">O nervo axilar (C5 e C6).</span>
+                <span class="dk-ab" style="display: none;" aria-label="Resposta escondida"><span class="dk-blur"></span><span class="dk-blur"></span></span>
+                <span class="dk-st" style="display: none;"></span>
+                <button type="button" class="sn-iconbtn" aria-label="Editar card" style="display: none;"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"></path><path d="m15 5 4 4"></path></svg></button>
+              </div>
+              <div class="dk-edit" style="display: none;">
+                <label>Pergunta<textarea class="dk-ta" rows="2" style="">Qual nervo inerva o músculo deltoide?</textarea></label>
+                <label>Resposta<textarea class="dk-ta" rows="3" style="">O nervo axilar (C5 e C6).</textarea></label>
+                <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px;">
+                  <button type="button" class="sn-btn sn-btn--ghost sn-btn--sm" style="color: var(--danger); margin-right: auto;"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path><line x1="10" x2="10" y1="11" y2="17"></line><line x1="14" x2="14" y1="11" y2="17"></line></svg> Excluir card</button>
+                  <button type="button" class="sn-btn sn-btn--ghost sn-btn--sm" style="color: var(--ink);">Cancelar</button>
+                  <button type="button" class="sn-btn sn-btn--primary sn-btn--sm">Salvar</button>
+                </div>
+              </div>
+            </li>
+          
+            <li>
+              <div class="dk-row" style="">
+                <span class="n">02</span>
+                <span class="q">A lesão de qual nervo causa a "mão em garra"?</span>
+                <span class="a" style="">Do nervo ulnar.</span>
+                <span class="dk-ab" style="display: none;" aria-label="Resposta escondida"><span class="dk-blur"></span><span class="dk-blur"></span></span>
+                <span class="dk-st" style="display: none;"></span>
+                <button type="button" class="sn-iconbtn" aria-label="Editar card" style="display: none;"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"></path><path d="m15 5 4 4"></path></svg></button>
+              </div>
+              <div class="dk-edit" style="display: none;">
+                <label>Pergunta<textarea class="dk-ta" rows="2" style="">A lesão de qual nervo causa a "mão em garra"?</textarea></label>
+                <label>Resposta<textarea class="dk-ta" rows="3" style="">Do nervo ulnar.</textarea></label>
+                <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px;">
+                  <button type="button" class="sn-btn sn-btn--ghost sn-btn--sm" style="color: var(--danger); margin-right: auto;"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path><line x1="10" x2="10" y1="11" y2="17"></line><line x1="14" x2="14" y1="11" y2="17"></line></svg> Excluir card</button>
+                  <button type="button" class="sn-btn sn-btn--ghost sn-btn--sm" style="color: var(--ink);">Cancelar</button>
+                  <button type="button" class="sn-btn sn-btn--primary sn-btn--sm">Salvar</button>
+                </div>
+              </div>
+            </li>
+          
+            <li>
+              <div class="dk-row" style="">
+                <span class="n">03</span>
+                <span class="q">Quais músculos formam o manguito rotador?</span>
+                <span class="a" style="">Supraespinal, infraespinal, redondo menor e subescapular.</span>
+                <span class="dk-ab" style="display: none;" aria-label="Resposta escondida"><span class="dk-blur"></span><span class="dk-blur"></span></span>
+                <span class="dk-st" style="display: none;"></span>
+                <button type="button" class="sn-iconbtn" aria-label="Editar card" style="display: none;"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"></path><path d="m15 5 4 4"></path></svg></button>
+              </div>
+              <div class="dk-edit" style="display: none;">
+                <label>Pergunta<textarea class="dk-ta" rows="2" style="">Quais músculos formam o manguito rotador?</textarea></label>
+                <label>Resposta<textarea class="dk-ta" rows="3" style="">Supraespinal, infraespinal, redondo menor e subescapular.</textarea></label>
+                <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px;">
+                  <button type="button" class="sn-btn sn-btn--ghost sn-btn--sm" style="color: var(--danger); margin-right: auto;"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path><line x1="10" x2="10" y1="11" y2="17"></line><line x1="14" x2="14" y1="11" y2="17"></line></svg> Excluir card</button>
+                  <button type="button" class="sn-btn sn-btn--ghost sn-btn--sm" style="color: var(--ink);">Cancelar</button>
+                  <button type="button" class="sn-btn sn-btn--primary sn-btn--sm">Salvar</button>
+                </div>
+              </div>
+            </li>
+          
+            <li>
+              <div class="dk-row" style="">
+                <span class="n">04</span>
+                <span class="q">Qual nervo passa pelo túnel do carpo?</span>
+                <span class="a" style="">O nervo mediano.</span>
+                <span class="dk-ab" style="display: none;" aria-label="Resposta escondida"><span class="dk-blur"></span><span class="dk-blur"></span></span>
+                <span class="dk-st" style="display: none;"></span>
+                <button type="button" class="sn-iconbtn" aria-label="Editar card" style="display: none;"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"></path><path d="m15 5 4 4"></path></svg></button>
+              </div>
+              <div class="dk-edit" style="display: none;">
+                <label>Pergunta<textarea class="dk-ta" rows="2" style="">Qual nervo passa pelo túnel do carpo?</textarea></label>
+                <label>Resposta<textarea class="dk-ta" rows="3" style="">O nervo mediano.</textarea></label>
+                <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px;">
+                  <button type="button" class="sn-btn sn-btn--ghost sn-btn--sm" style="color: var(--danger); margin-right: auto;"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path><line x1="10" x2="10" y1="11" y2="17"></line><line x1="14" x2="14" y1="11" y2="17"></line></svg> Excluir card</button>
+                  <button type="button" class="sn-btn sn-btn--ghost sn-btn--sm" style="color: var(--ink);">Cancelar</button>
+                  <button type="button" class="sn-btn sn-btn--primary sn-btn--sm">Salvar</button>
+                </div>
+              </div>
+            </li>
+          
+            <li>
+              <div class="dk-row" style="">
+                <span class="n">05</span>
+                <span class="q">Qual a ação principal do músculo bíceps braquial?</span>
+                <span class="a" style="">Flexão do cotovelo e supinação do antebraço.</span>
+                <span class="dk-ab" style="display: none;" aria-label="Resposta escondida"><span class="dk-blur"></span><span class="dk-blur"></span></span>
+                <span class="dk-st" style="display: none;"></span>
+                <button type="button" class="sn-iconbtn" aria-label="Editar card" style="display: none;"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"></path><path d="m15 5 4 4"></path></svg></button>
+              </div>
+              <div class="dk-edit" style="display: none;">
+                <label>Pergunta<textarea class="dk-ta" rows="2" style="">Qual a ação principal do músculo bíceps braquial?</textarea></label>
+                <label>Resposta<textarea class="dk-ta" rows="3" style="">Flexão do cotovelo e supinação do antebraço.</textarea></label>
+                <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px;">
+                  <button type="button" class="sn-btn sn-btn--ghost sn-btn--sm" style="color: var(--danger); margin-right: auto;"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path><line x1="10" x2="10" y1="11" y2="17"></line><line x1="14" x2="14" y1="11" y2="17"></line></svg> Excluir card</button>
+                  <button type="button" class="sn-btn sn-btn--ghost sn-btn--sm" style="color: var(--ink);">Cancelar</button>
+                  <button type="button" class="sn-btn sn-btn--primary sn-btn--sm">Salvar</button>
+                </div>
+              </div>
+            </li>
+          
+            <li>
+              <div class="dk-row" style="">
+                <span class="n">06</span>
+                <span class="q">A "mão caída" resulta da lesão de qual nervo?</span>
+                <span class="a" style="">Do nervo radial.</span>
+                <span class="dk-ab" style="display: none;" aria-label="Resposta escondida"><span class="dk-blur"></span><span class="dk-blur"></span></span>
+                <span class="dk-st" style="display: none;"></span>
+                <button type="button" class="sn-iconbtn" aria-label="Editar card" style="display: none;"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"></path><path d="m15 5 4 4"></path></svg></button>
+              </div>
+              <div class="dk-edit" style="display: none;">
+                <label>Pergunta<textarea class="dk-ta" rows="2" style="">A "mão caída" resulta da lesão de qual nervo?</textarea></label>
+                <label>Resposta<textarea class="dk-ta" rows="3" style="">Do nervo radial.</textarea></label>
+                <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px;">
+                  <button type="button" class="sn-btn sn-btn--ghost sn-btn--sm" style="color: var(--danger); margin-right: auto;"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path><line x1="10" x2="10" y1="11" y2="17"></line><line x1="14" x2="14" y1="11" y2="17"></line></svg> Excluir card</button>
+                  <button type="button" class="sn-btn sn-btn--ghost sn-btn--sm" style="color: var(--ink);">Cancelar</button>
+                  <button type="button" class="sn-btn sn-btn--primary sn-btn--sm">Salvar</button>
+                </div>
+              </div>
+            </li>
+          
+        </ol>
+        
+        
+        
+          <div class="dk-lock"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg><p>Prévia com 6 de 120 cards. Salve o deck para ver e estudar todos.</p><button type="button" class="sn-btn sn-btn--primary sn-btn--sm">Salvar</button></div>
+        
+      </section>
+  </main>
+  <div style="position: sticky; bottom: 0; z-index: 5;">
+    
+
+<div data-theme="light" style="width: 390px; box-sizing: border-box; padding-top: 34px; font-family: var(--font-sans);">
+  <nav class="sn-bottomnav" aria-label="Navegação principal" style="padding-bottom: 12px;">
+    <a class="sn-bottomnav__item" href="InicioCelular.dc.html"><span class="sn-bottomnav__icon"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg></span>Início</a>
+    <a class="sn-bottomnav__item" href="FlashcardsCelular.dc.html"><span class="sn-bottomnav__icon"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"></path><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"></path><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"></path></svg></span>Flashcards</a>
+    <a class="sn-bottomnav__item sn-bottomnav__item--play" href="EstudarCelular.dc.html"><span class="sn-bottomnav__play"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><polygon points="6 3 20 12 6 21 6 3"></polygon></svg></span>Estudar</a>
+    <a class="sn-bottomnav__item" href="ComunidadeCelular.dc.html" aria-current="page"><span class="sn-bottomnav__icon"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></span>Comunidade</a>
+    <a class="sn-bottomnav__item" href="PerfilCelular.dc.html"><span class="sn-bottomnav__icon"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span>Perfil</a>
+  </nav>
+</div>
+
+  </div>
+</div>
+</div>
+
+</body></html>

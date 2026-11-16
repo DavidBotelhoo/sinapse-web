@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Landing no celular — Sinapse</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/sinapse/tokens.css">
+<link rel="stylesheet" href="ds/sinapse/components/bundle.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&amp;family=Figtree:wght@400..800&amp;display=swap">
+<style>
+body{margin:0}
+.lucide{fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round}
+a{color:var(--primary)}a:hover{color:var(--primary-hover)}
+.lp-foot a{color:var(--ink-muted);text-decoration:none}
+</style>
+</helmet>
+<div data-theme="{{tema}}" style="width: 390px; min-height: 4400px; box-sizing: border-box; background: var(--bg); color: var(--ink); font-family: var(--font-sans); font-size: 15px; line-height: 22px;">
+
+<header style="display: flex; align-items: center; gap: 8px; padding: 14px 20px; border-bottom: 1px solid var(--line);">
+  <span class="sn-wordmark" style="font-size: 22px;">Sinapse</span>
+  <a class="sn-btn sn-btn--secondary sn-btn--sm" href="EntrarCelular.dc.html" style="margin-left: auto; color: var(--ink);">Entrar</a>
+  <a class="sn-btn sn-btn--primary sn-btn--sm" href="CriarContaCelular.dc.html" style="color: var(--on-primary);">Criar conta</a>
+</header>
+
+<section style="padding: 40px 20px 48px; display: flex; flex-direction: column; gap: 20px;">
+  <span class="sn-tag sn-tag--brand" style="align-self: flex-start;">Para estudantes de Medicina</span>
+  <h1 style="margin: 0; font-family: var(--font-display); font-size: 40px; line-height: 44px; font-weight: 700; letter-spacing: -0.015em;">Revise na hora certa. Lembre na prova.</h1>
+  <p style="margin: 0; font-size: 17px; line-height: 26px; color: var(--ink-muted);">Importe seus resumos em PDF ou Word, estude com flashcards e deixe o Sinapse calcular quando cada card precisa voltar.</p>
+  <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 4px;">
+    <a class="sn-btn sn-btn--primary sn-btn--lg sn-btn--block" href="CriarContaCelular.dc.html" style="color: var(--on-primary);">Criar conta</a>
+    <a class="sn-btn sn-btn--ghost sn-btn--block" href="#como-funciona" style="color: var(--ink);">Ver como funciona <svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></a>
+  </div>
+  <p style="margin: 0; text-align: center; font-size: 13px; line-height: 18px; color: var(--ink-muted);">Do 1º ao 6º ano. No computador e no celular.</p>
+
+  <div aria-hidden="true" style="position: relative; margin-top: 28px; display: flex; flex-direction: column; gap: 16px;">
+    <div class="sn-flashcard__face" style="padding: 24px; min-height: 230px; box-shadow: 0 -10px 0 -5px var(--surface-2), 0 -20px 0 -10px var(--line), var(--shadow-lg);">
+      <div class="sn-flashcard__meta"><span>Farmacologia · 2º ano</span><span class="sn-tag">Pergunta</span></div>
+      <p class="sn-flashcard__text" style="font-size: 22px; line-height: 30px;">Qual o principal mecanismo de ação da metformina?</p>
+    </div>
+    <div class="sn-rate">
+      <span class="sn-rate__btn sn-rate__btn--again" style="flex-direction: column; gap: 2px; min-height: 60px;"><svg class="lucide" viewBox="0 0 24 24"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>Errei</span>
+      <span class="sn-rate__btn sn-rate__btn--hard" style="flex-direction: column; gap: 2px; min-height: 60px;"><svg class="lucide" viewBox="0 0 24 24"><path d="M5 12h14"></path></svg>Difícil</span>
+      <span class="sn-rate__btn sn-rate__btn--easy" style="flex-direction: column; gap: 2px; min-height: 60px;"><svg class="lucide" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"></path></svg>Fácil</span>
+    </div>
+    <span class="sn-tag sn-tag--accent" style="position: absolute; top: -40px; right: 4px; height: 32px; padding: 0 12px; font-size: 13px; box-shadow: var(--shadow-md);"><svg class="lucide" viewBox="0 0 24 24" style="width: 16px; height: 16px;"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path></svg> 12 dias seguidos</span>
+  </div>
+</section>
+
+<section id="como-funciona" style="padding: 48px 20px; background: var(--surface); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); display: flex; flex-direction: column; gap: 24px;">
+  <div style="display: flex; flex-direction: column; gap: 8px;">
+    <span style="font-size: 13px; line-height: 18px; font-weight: 600; color: var(--primary);">Como funciona</span>
+    <h2 style="margin: 0; font-family: var(--font-display); font-size: 28px; line-height: 34px; font-weight: 700; letter-spacing: -0.01em;">Três passos, todo dia</h2>
+  </div>
+  <div style="display: flex; flex-direction: column; gap: 12px;">
+    <div style="display: flex; gap: 16px; padding: 20px; border-radius: var(--radius-lg); background: var(--bg); border: 1px solid var(--line);">
+      <span class="sn-drop__icon" style="margin: 0; flex: none; width: 44px; height: 44px;"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true" style="width: 20px; height: 20px;"><path d="M12 13v8"></path><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"></path><path d="m8 17 4-4 4 4"></path></svg></span>
+      <div style="display: flex; flex-direction: column; gap: 4px;"><h3 style="margin: 0; font-family: var(--font-display); font-size: 18px; line-height: 24px; font-weight: 600;">1. Importe</h3><p style="margin: 0; color: var(--ink-muted);">Envie um PDF ou Word com perguntas e respostas. O Sinapse separa os cards para você revisar antes de salvar.</p></div>
+    </div>
+    <div style="display: flex; gap: 16px; padding: 20px; border-radius: var(--radius-lg); background: var(--bg); border: 1px solid var(--line);">
+      <span class="sn-drop__icon" style="margin: 0; flex: none; width: 44px; height: 44px;"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true" style="width: 20px; height: 20px;"><polygon points="6 3 20 12 6 21 6 3"></polygon></svg></span>
+      <div style="display: flex; flex-direction: column; gap: 4px;"><h3 style="margin: 0; font-family: var(--font-display); font-size: 18px; line-height: 24px; font-weight: 600;">2. Estude</h3><p style="margin: 0; color: var(--ink-muted);">Veja a pergunta, pense no seu tempo, vire o card e diga como foi: Errei, Difícil ou Fácil.</p></div>
+    </div>
+    <div style="display: flex; gap: 16px; padding: 20px; border-radius: var(--radius-lg); background: var(--bg); border: 1px solid var(--line);">
+      <span class="sn-drop__icon" style="margin: 0; flex: none; width: 44px; height: 44px;"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true" style="width: 20px; height: 20px;"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path><path d="M8 14h.01"></path><path d="M12 14h.01"></path><path d="M16 14h.01"></path><path d="M8 18h.01"></path><path d="M12 18h.01"></path><path d="M16 18h.01"></path></svg></span>
+      <div style="display: flex; flex-direction: column; gap: 4px;"><h3 style="margin: 0; font-family: var(--font-display); font-size: 18px; line-height: 24px; font-weight: 600;">3. Revise na hora certa</h3><p style="margin: 0; color: var(--ink-muted);">Cada card volta quando você está prestes a esquecer. A agenda mostra o que vence em cada dia.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="para-quem" style="padding: 48px 20px; display: flex; flex-direction: column; gap: 20px;">
+  <span style="font-size: 13px; line-height: 18px; font-weight: 600; color: var(--primary);">Para quem</span>
+  <h2 style="margin: 0; font-family: var(--font-display); font-size: 28px; line-height: 34px; font-weight: 700; letter-spacing: -0.01em;">Feito para a rotina de Medicina</h2>
+  <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 14px; font-size: 16px; line-height: 24px;">
+    <li style="display: flex; gap: 12px;"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true" style="margin-top: 2px; color: var(--primary);"><path d="M20 6 9 17l-5-5"></path></svg>Decks organizados por ano do curso e por matéria.</li>
+    <li style="display: flex; gap: 12px;"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true" style="margin-top: 2px; color: var(--primary);"><path d="M20 6 9 17l-5-5"></path></svg>Comunidade para salvar decks prontos de outros estudantes.</li>
+    <li style="display: flex; gap: 12px;"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true" style="margin-top: 2px; color: var(--primary);"><path d="M20 6 9 17l-5-5"></path></svg>Agenda de revisão, streak, horas estudadas e taxa de acerto.</li>
+    <li style="display: flex; gap: 12px;"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true" style="margin-top: 2px; color: var(--primary);"><path d="M20 6 9 17l-5-5"></path></svg>Modo escuro para as madrugadas de estudo.</li>
+  </ul>
+  <div aria-hidden="true" style="display: flex; flex-direction: column; gap: 8px; margin-top: 8px;">
+    <div class="sn-deck">
+      <div class="sn-deck__top"><div class="sn-tags"><span class="sn-tag">2º ano</span><span class="sn-tag sn-tag--brand">Farmacologia</span></div></div>
+      <h3 class="sn-deck__title">Farmacologia do sistema nervoso autônomo</h3>
+      <div class="sn-deck__meta"><span>84 cards</span><span>62% dominado</span></div>
+      <div class="sn-progress"><span style="--value: 62%;"></span></div>
+    </div>
+    <div class="sn-deck">
+      <div class="sn-deck__top"><div class="sn-tags"><span class="sn-tag">1º ano</span><span class="sn-tag sn-tag--brand">Anatomia</span></div></div>
+      <h3 class="sn-deck__title">Membro superior: músculos e inervação</h3>
+      <div class="sn-deck__foot"><span class="sn-deck__owner"><span class="sn-avatar sn-avatar--xs">M</span>por <b>Marina</b></span><span class="sn-btn sn-btn--secondary sn-btn--sm"><svg class="lucide" viewBox="0 0 24 24"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path></svg> Salvar</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="planos" style="padding: 48px 20px; background: var(--surface); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); display: flex; flex-direction: column; gap: 24px;">
+  <div style="display: flex; flex-direction: column; gap: 8px;">
+    <span style="font-size: 13px; line-height: 18px; font-weight: 600; color: var(--primary);">Planos</span>
+    <h2 style="margin: 0; font-family: var(--font-display); font-size: 28px; line-height: 34px; font-weight: 700; letter-spacing: -0.01em;">Um plano, duas formas de pagar</h2>
+    <p style="margin: 0; color: var(--ink-muted);">Tudo liberado nos dois. Cancele quando quiser.</p>
+  </div>
+  <div class="sn-plan sn-plan--current">
+    <div class="sn-plan__head"><h3 class="sn-plan__name">Pro anual</h3><span class="sn-tag sn-tag--brand">Pagamento único por ano</span></div>
+    <div class="sn-plan__price"><b>R$ [preço]</b><span>/ano</span></div>
+    <ul class="sn-plan__list">
+      <li><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>Tudo do Pro mensal</li>
+      <li><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>Menor preço por mês</li>
+    </ul>
+    <a class="sn-btn sn-btn--primary sn-btn--block" href="CriarContaCelular.dc.html" style="color: var(--on-primary);">Assinar anual</a>
+  </div>
+  <div class="sn-plan">
+    <div class="sn-plan__head"><h3 class="sn-plan__name">Pro mensal</h3></div>
+    <div class="sn-plan__price"><b>R$ [preço]</b><span>/mês</span></div>
+    <ul class="sn-plan__list">
+      <li><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>Decks e cards ilimitados</li>
+      <li><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>Importar PDF e Word</li>
+      <li><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>Estatísticas e agenda de revisão</li>
+      <li><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>Salvar decks da Comunidade</li>
+    </ul>
+    <a class="sn-btn sn-btn--secondary sn-btn--block" href="CriarContaCelular.dc.html" style="color: var(--ink);">Assinar mensal</a>
+  </div>
+</section>
+
+<section style="padding: 48px 20px;">
+  <div style="position: relative; overflow: hidden; border-radius: var(--radius-xl); background: var(--primary); color: var(--on-primary); padding: 40px 24px; display: flex; flex-direction: column; gap: 16px;">
+    <div class="sn-auth__pattern" aria-hidden="true"></div>
+    <span class="sn-auth__orb sn-auth__orb--a" aria-hidden="true" style="width: 160px; height: 160px; top: -60px; right: -50px;"></span>
+    <h2 style="position: relative; margin: 0; font-family: var(--font-display); font-size: 28px; line-height: 34px; font-weight: 700; letter-spacing: -0.01em;">Seu próximo deck começa com um arquivo</h2>
+    <p style="position: relative; margin: 0; font-size: 16px; line-height: 24px;">Crie a conta, importe um resumo e faça a primeira revisão hoje.</p>
+    <a class="sn-btn sn-btn--secondary sn-btn--lg sn-btn--block" href="CriarContaCelular.dc.html" style="position: relative; color: var(--ink); border-color: var(--surface);">Criar conta</a>
+  </div>
+</section>
+
+<footer class="lp-foot" style="padding: 32px 20px; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 16px; font-size: 14px; line-height: 20px; color: var(--ink-muted);">
+  <span class="sn-wordmark" style="font-size: 20px;">Sinapse</span>
+  <span>Flashcards que conectam o que você estuda.</span>
+  <nav aria-label="Rodapé" style="display: flex; flex-wrap: wrap; gap: 16px 20px;">
+    <a href="#termos">Termos de uso</a>
+    <a href="#privacidade">Privacidade</a>
+    <a href="#contato">Contato</a>
+  </nav>
+  <span>© 2026 Sinapse</span>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"tema":{"editor":"enum","options":["Claro","Escuro"],"default":"Claro"},"$preview":{"width":390,"height":4400}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return { tema: (this.props.tema ?? 'Claro') === 'Escuro' ? 'dark' : 'light' };
+  }
+}
+</script>
+</body>
+</html>

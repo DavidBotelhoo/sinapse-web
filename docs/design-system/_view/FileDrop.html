@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="pt-BR">
+<head><link rel="stylesheet" href="../fonts/fonts.css"><link rel="stylesheet" href="../tokens.css"><link rel="stylesheet" href="../components/bundle.css"><script src="../components/lib/lucide.min.js"></script><script>document.documentElement.setAttribute("data-theme", new URLSearchParams(location.search).get("theme") || "light")</script>
+<meta charset="utf-8">
+<title>FileDrop</title>
+<style>
+  .demo { display: grid; gap: 12px; max-width: 560px; padding: 24px; }
+</style>
+</head>
+<body>
+<div class="demo">
+  <label class="sn-drop" id="drop" tabindex="0">
+    <span class="sn-drop__icon"><i data-lucide="cloud-upload"></i></span>
+    <p class="sn-drop__title">Arraste seu PDF ou Word aqui, ou <span class="sn-link">escolha um arquivo</span></p>
+    <p class="sn-drop__hint">.pdf ou .docx · até 20 MB · uma pergunta e uma resposta por bloco</p>
+    <input type="file" accept=".pdf,.docx" class="sn-sr">
+  </label>
+  <div class="sn-file">
+    <span class="sn-file__badge">PDF</span>
+    <div class="sn-file__main">
+      <span class="sn-file__name">Farmacologia_SNA_resumo.pdf</span>
+      <div class="sn-progress" role="progressbar" aria-valuenow="64" aria-valuemin="0" aria-valuemax="100" aria-label="Lendo arquivo"><span style="--value:64%"></span></div>
+      <span class="sn-file__meta">Lendo perguntas… 64%</span>
+    </div>
+    <button class="sn-iconbtn" aria-label="Cancelar"><i data-lucide="x"></i></button>
+  </div>
+  <div class="sn-file">
+    <span class="sn-file__badge">DOCX</span>
+    <div class="sn-file__main">
+      <span class="sn-file__name">Fisiologia_renal.docx</span>
+      <span class="sn-file__meta sn-file__meta--ok"><i data-lucide="circle-check"></i> 84 perguntas encontradas · 1,2 MB</span>
+    </div>
+    <button class="sn-iconbtn" aria-label="Remover arquivo"><i data-lucide="trash-2"></i></button>
+  </div>
+  <div class="sn-file">
+    <span class="sn-file__badge">PDF</span>
+    <div class="sn-file__main">
+      <span class="sn-file__name">Anatomia_membros.pdf</span>
+      <span class="sn-file__meta sn-file__meta--warn"><i data-lucide="circle-alert"></i> 3 perguntas sem resposta. Você pode completar antes de criar.</span>
+    </div>
+    <button class="sn-iconbtn" aria-label="Remover arquivo"><i data-lucide="trash-2"></i></button>
+  </div>
+</div>
+<script>
+  (function () {
+    function icons() { if (window.lucide) window.lucide.createIcons(); }
+    if (window.lucide) icons(); else { var s = document.createElement('script'); s.src = 'https://cdn.jsdelivr.net/npm/lucide@0.460.0/dist/umd/lucide.min.js'; s.onload = icons; document.head.appendChild(s); }
+    var d = document.getElementById('drop');
+    ['dragenter', 'dragover'].forEach(function (t) { d.addEventListener(t, function (e) { e.preventDefault(); d.setAttribute('data-dragover', ''); }); });
+    ['dragleave', 'drop'].forEach(function (t) { d.addEventListener(t, function (e) { e.preventDefault(); d.removeAttribute('data-dragover'); }); });
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!-- @dsCard group="Navegação" height=440 subtitle="Filtro por ano do curso e matéria" -->
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>FilterBar</title>
+<style>
+  .demo { padding: 24px; min-height: 400px; }
+</style>
+</head>
+<body>
+<div class="demo">
+  <div class="sn-filterbar">
+    <div class="sn-filter">
+      <button class="sn-chip sn-filter__trigger" aria-expanded="false" aria-controls="pop-ano" data-pop="pop-ano">Ano do curso <i data-lucide="chevron-down" class="sn-filter__chevron"></i></button>
+      <div class="sn-popover" id="pop-ano" hidden>
+        <p class="sn-popover__title">Ano do curso</p>
+        <div class="sn-chips">
+          <button class="sn-chip" aria-pressed="false"><i data-lucide="check" class="sn-chip__check"></i>1º</button>
+          <button class="sn-chip" aria-pressed="true"><i data-lucide="check" class="sn-chip__check"></i>2º</button>
+          <button class="sn-chip" aria-pressed="false"><i data-lucide="check" class="sn-chip__check"></i>3º</button>
+          <button class="sn-chip" aria-pressed="false"><i data-lucide="check" class="sn-chip__check"></i>4º</button>
+          <button class="sn-chip" aria-pressed="false"><i data-lucide="check" class="sn-chip__check"></i>5º</button>
+          <button class="sn-chip" aria-pressed="false"><i data-lucide="check" class="sn-chip__check"></i>6º</button>
+        </div>
+      </div>
+    </div>
+    <div class="sn-filter">
+      <button class="sn-chip sn-filter__trigger" aria-expanded="true" aria-pressed="true" aria-controls="pop-mat" data-pop="pop-mat">Matéria · 2 <i data-lucide="chevron-down" class="sn-filter__chevron"></i></button>
+      <div class="sn-popover" id="pop-mat">
+        <label class="sn-search"><i data-lucide="search"></i><input placeholder="Buscar matéria" aria-label="Buscar matéria"></label>
+        <ul class="sn-options" role="listbox" aria-multiselectable="true" aria-label="Matérias">
+          <li><button class="sn-option" role="option" aria-checked="true"><span class="sn-check"><i data-lucide="check"></i></span>Farmacologia</button></li>
+          <li><button class="sn-option" role="option" aria-checked="true"><span class="sn-check"><i data-lucide="check"></i></span>Fisiologia</button></li>
+          <li><button class="sn-option" role="option" aria-checked="false"><span class="sn-check"><i data-lucide="check"></i></span>Anatomia</button></li>
+          <li><button class="sn-option" role="option" aria-checked="false"><span class="sn-check"><i data-lucide="check"></i></span>Bioquímica</button></li>
+          <li><button class="sn-option" role="option" aria-checked="false"><span class="sn-check"><i data-lucide="check"></i></span>Histologia</button></li>
+          <li><button class="sn-option" role="option" aria-checked="false"><span class="sn-check"><i data-lucide="check"></i></span>Patologia</button></li>
+        </ul>
+        <div class="sn-popover__foot">
+          <button class="sn-btn sn-btn--ghost sn-btn--sm">Limpar</button>
+          <button class="sn-btn sn-btn--primary sn-btn--sm">Aplicar</button>
+        </div>
+      </div>
+    </div>
+    <span class="sn-filterbar__divider" aria-hidden="true"></span>
+    <span class="sn-chip sn-chip--removable">2º ano <button class="sn-chip__remove" aria-label="Remover filtro 2º ano"><i data-lucide="x"></i></button></span>
+    <span class="sn-chip sn-chip--removable">Farmacologia <button class="sn-chip__remove" aria-label="Remover filtro Farmacologia"><i data-lucide="x"></i></button></span>
+    <span class="sn-chip sn-chip--removable">Fisiologia <button class="sn-chip__remove" aria-label="Remover filtro Fisiologia"><i data-lucide="x"></i></button></span>
+    <button class="sn-btn sn-btn--ghost sn-btn--sm">Limpar filtros</button>
+  </div>
+</div>
+<script>
+  (function () {
+    function icons() { if (window.lucide) window.lucide.createIcons(); }
+    if (window.lucide) icons(); else { var s = document.createElement('script'); s.src = 'https://cdn.jsdelivr.net/npm/lucide@0.460.0/dist/umd/lucide.min.js'; s.onload = icons; document.head.appendChild(s); }
+    var triggers = document.querySelectorAll('[data-pop]');
+    triggers.forEach(function (t) {
+      t.addEventListener('click', function () {
+        var open = t.getAttribute('aria-expanded') !== 'true';
+        triggers.forEach(function (o) { o.setAttribute('aria-expanded', 'false'); document.getElementById(o.getAttribute('data-pop')).hidden = true; });
+        t.setAttribute('aria-expanded', String(open));
+        document.getElementById(t.getAttribute('data-pop')).hidden = !open;
+      });
+    });
+    document.querySelectorAll('.sn-option').forEach(function (o) {
+      o.addEventListener('click', function () { o.setAttribute('aria-checked', String(o.getAttribute('aria-checked') !== 'true')); });
+    });
+    document.querySelectorAll('.sn-popover .sn-chip').forEach(function (c) {
+      c.addEventListener('click', function () { c.setAttribute('aria-pressed', String(c.getAttribute('aria-pressed') !== 'true')); });
+    });
+    document.querySelectorAll('.sn-chip__remove').forEach(function (b) {
+      b.addEventListener('click', function () { b.closest('.sn-chip').remove(); });
+    });
+  })();
+</script>
+</body>
+</html>

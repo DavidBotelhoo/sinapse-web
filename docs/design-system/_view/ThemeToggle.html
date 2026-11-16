@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="pt-BR">
+<head><link rel="stylesheet" href="../fonts/fonts.css"><link rel="stylesheet" href="../tokens.css"><link rel="stylesheet" href="../components/bundle.css"><script src="../components/lib/lucide.min.js"></script><script>document.documentElement.setAttribute("data-theme", new URLSearchParams(location.search).get("theme") || "light")</script>
+<meta charset="utf-8">
+<title>ThemeToggle</title>
+<style>
+  .demo { padding: 24px; display: grid; gap: 12px; }
+  .box { width: 216px; }
+  .note { margin: 0; font-size: 12px; line-height: 16px; color: var(--ink-muted); }
+</style>
+</head>
+<body>
+<div class="demo">
+  <div class="box">
+    <div class="sn-theme" role="radiogroup" aria-label="Tema" data-value="light" id="theme">
+      <span class="sn-theme__thumb" aria-hidden="true"></span>
+      <button class="sn-theme__opt" role="radio" aria-checked="true" data-v="light"><i data-lucide="sun"></i> Claro</button>
+      <button class="sn-theme__opt" role="radio" aria-checked="false" data-v="dark"><i data-lucide="moon"></i> Escuro</button>
+    </div>
+  </div>
+  <p class="note">Clique para trocar o tema desta prévia.</p>
+</div>
+<script>
+  (function () {
+    function icons() { if (window.lucide) window.lucide.createIcons(); }
+    if (window.lucide) icons(); else { var s = document.createElement('script'); s.src = 'https://cdn.jsdelivr.net/npm/lucide@0.460.0/dist/umd/lucide.min.js'; s.onload = icons; document.head.appendChild(s); }
+    var root = document.getElementById('theme');
+    var opts = root.querySelectorAll('.sn-theme__opt');
+    function set(v) {
+      root.setAttribute('data-value', v);
+      opts.forEach(function (o) { o.setAttribute('aria-checked', String(o.getAttribute('data-v') === v)); });
+      document.documentElement.setAttribute('data-theme', v);
+    }
+    set(document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light');
+    opts.forEach(function (o) { o.addEventListener('click', function () { set(o.getAttribute('data-v')); }); });
+  })();
+</script>
+</body>
+</html>

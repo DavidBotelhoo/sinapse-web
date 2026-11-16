@@ -1,0 +1,39 @@
+<!-- @dsCard group="Ações" height=250 subtitle="Primário, secundário, fantasma, destaque e perigo" -->
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Button</title>
+<style>
+  .demo { display: grid; gap: 20px; padding: 24px; }
+  .row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+  .narrow { max-width: 360px; }
+</style>
+</head>
+<body>
+<div class="demo">
+  <div class="row">
+    <button class="sn-btn sn-btn--primary">Criar conta</button>
+    <button class="sn-btn sn-btn--secondary">Entrar</button>
+    <button class="sn-btn sn-btn--ghost">Ver todos <i data-lucide="arrow-right"></i></button>
+    <button class="sn-btn sn-btn--accent"><i data-lucide="crown"></i> Assinar o Pro</button>
+    <button class="sn-btn sn-btn--danger"><i data-lucide="log-out"></i> Sair da conta</button>
+  </div>
+  <div class="row">
+    <button class="sn-btn sn-btn--secondary sn-btn--sm"><i data-lucide="bookmark"></i> Salvar deck</button>
+    <button class="sn-btn sn-btn--primary sn-btn--sm">Revisar</button>
+    <button class="sn-btn sn-btn--secondary sn-btn--icon" aria-label="Filtros"><i data-lucide="sliders-horizontal"></i></button>
+    <button class="sn-btn sn-btn--primary" aria-busy="true"><i data-lucide="loader-circle"></i> Lendo arquivo…</button>
+  </div>
+  <div class="narrow">
+    <button class="sn-btn sn-btn--primary sn-btn--lg sn-btn--block">Mostrar resposta <span class="sn-kbd">Espaço</span></button>
+  </div>
+</div>
+<script>
+  (function () {
+    function icons() { if (window.lucide) window.lucide.createIcons(); }
+    if (window.lucide) icons(); else { var s = document.createElement('script'); s.src = 'https://cdn.jsdelivr.net/npm/lucide@0.460.0/dist/umd/lucide.min.js'; s.onload = icons; document.head.appendChild(s); }
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="pt-BR"><head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../../design-system/fonts/fonts.css">
+<link rel="stylesheet" href="../../../design-system/tokens.css">
+<link rel="stylesheet" href="../../../design-system/components/bundle.css">
+<style>html,body{margin:0}.sn-theme__thumb{z-index:0}</style>
+
+
+<style>
+body{margin:0}
+.lucide{fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round}
+a{color:var(--primary)}a:hover{color:var(--primary-hover)}
+.cd-card{display:flex;flex-direction:column;gap:20px;padding:24px;border:1px solid var(--line);border-radius:var(--radius-xl);background:var(--surface)}
+.cd-step{display:flex;align-items:center;gap:10px}
+.cd-step b{display:grid;place-items:center;width:26px;height:26px;border-radius:var(--radius-full);background:var(--primary-soft);color:var(--on-primary-soft);font:700 13px/1 var(--font-sans)}
+.cd-step h2{margin:0;font-family:var(--font-display);font-size:20px;line-height:26px;font-weight:600}
+.cd-label{margin:0;font:600 14px/20px var(--font-sans);color:var(--ink)}
+.cd-help{margin:0;font:500 13px/18px var(--font-sans);color:var(--ink-muted)}
+.cd-qa{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px}
+.cd-qa li{display:grid;grid-template-columns:28px minmax(0,1fr);gap:4px 10px;padding:12px 14px;border:1px solid var(--line);border-radius:var(--radius-md);background:var(--bg)}
+.cd-qa .n{grid-row:span 2;font:700 12px/20px var(--font-sans);color:var(--ink-faint);font-variant-numeric:tabular-nums}
+.cd-qa .q{font:600 14px/20px var(--font-sans)}
+.cd-qa .a{font:400 14px/20px var(--font-sans);color:var(--ink-muted)}
+.cd-qa li[data-warn="true"]{border-color:var(--warning);background:var(--warning-soft)}
+.cd-qa li[data-warn="true"] .a{color:var(--warning);font-weight:600;display:flex;align-items:center;gap:6px}
+.cd-qa li[data-warn="true"] .a .lucide{width:16px;height:16px}
+.sn-tabs__tab[aria-checked="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow-sm)}
+.cd-disabled{opacity:.45;pointer-events:none}
+</style><style>
+body{margin:0}
+.lucide{fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round}
+</style></head>
+<body><div id="root">
+
+<div data-theme="light" style="min-height: 1300px; display: flex; flex-wrap: wrap; align-items: stretch; background: var(--bg); color: var(--ink); font-family: var(--font-sans); font-size: 15px; line-height: 22px;">
+  <div style="flex: 0 0 248px; background: var(--surface); border-right: 1px solid var(--line);">
+    
+
+<aside class="sn-sidebar" data-theme="light" aria-label="Navegação principal" style="position: static; width: 248px; height: auto; min-height: 860px; box-sizing: border-box; border-right: 0; background: var(--surface); color: var(--ink); font-family: var(--font-sans);">
+  <div class="sn-sidebar__brand"><a class="sn-wordmark" href="Main.dc.html">Sinapse</a></div>
+  <nav class="sn-nav">
+    <a class="sn-navitem" href="Inicio.dc.html"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>Início</a>
+    <a class="sn-navitem" href="Estudar.dc.html"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><polygon points="6 3 20 12 6 21 6 3"></polygon></svg>Estudar <span class="sn-count">32</span></a>
+    <a class="sn-navitem" href="Flashcards.dc.html" aria-current="page"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"></path><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"></path><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"></path></svg>Flashcards</a>
+    <a class="sn-navitem" href="Comunidade.dc.html"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>Comunidade</a>
+  </nav>
+  <div class="sn-sidebar__foot">
+    <div class="sn-theme" role="radiogroup" aria-label="Tema" data-value="light">
+      <span class="sn-theme__thumb" aria-hidden="true"></span>
+      <button class="sn-theme__opt" type="button" role="radio" aria-checked="true"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg> Claro</button>
+      <button class="sn-theme__opt" type="button" role="radio" aria-checked="false"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg> Escuro</button>
+    </div>
+    <a class="sn-profilelink" href="Perfil.dc.html">
+      <span class="sn-avatar sn-avatar--sm" aria-hidden="true">AS</span>
+      <span class="sn-profilelink__text"><span class="sn-profilelink__name">Ana Souza</span><span class="sn-profilelink__sub">Perfil e assinatura</span></span>
+      <svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+    </a>
+  </div>
+</aside>
+
+  </div>
+  <main style="flex: 999 1 560px; min-width: 0; box-sizing: border-box; padding: 40px 40px 64px;">
+    <div style="max-width: 1120px; margin: 0 auto; display: flex; flex-direction: column; gap: 32px;">
+      <header style="display: flex; flex-direction: column; gap: 8px;">
+        <a class="sn-btn sn-btn--ghost sn-btn--sm" href="Flashcards.dc.html" style="align-self: flex-start; margin-left: -12px; color: var(--ink-muted);"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg> Flashcards</a>
+        <h1 style="margin: 0; font-family: var(--font-display); font-size: 28px; line-height: 34px; font-weight: 700; letter-spacing: -0.01em;">Criar deck</h1>
+        <p style="margin: 0; color: var(--ink-muted);">Importe um arquivo com perguntas e respostas e diga de que matéria ele é.</p>
+      </header>
+      <div style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: 24px;">
+        <div style="flex: 3 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 24px;">
+          <section class="cd-card" aria-labelledby="passo1">
+            <div class="cd-step"><b>1</b><h2 id="passo1">Arquivo</h2></div>
+          
+          
+            <div class="sn-file">
+              <span class="sn-file__badge">PDF</span>
+              <div class="sn-file__main">
+                <span class="sn-file__name">Farmacologia_SNA_P1.pdf</span>
+                
+                <span class="sn-file__meta sn-file__meta--warn">46 prontas · 2 perguntas sem resposta</span>
+              </div>
+              <button type="button" class="sn-iconbtn" aria-label="Remover arquivo"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button>
+            </div>
+          
+          </section>
+        
+          <section class="cd-card" aria-labelledby="previa">
+            <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px;">
+              <div class="cd-step"><b><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true" style="width: 14px; height: 14px;"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"></path><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"></path><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"></path></svg></b><h2 id="previa">Prévia dos cards</h2></div>
+              <span class="sn-tag sn-tag--accent">2 para revisar</span>
+            </div>
+            <ol class="cd-qa">
+              
+                <li data-warn="false"><span class="n">01</span><span class="q">Qual receptor a atropina bloqueia?</span><span class="a">Os receptores muscarínicos, de forma competitiva.</span></li>
+              
+                <li data-warn="false"><span class="n">02</span><span class="q">Qual o efeito da adrenalina nos receptores β2 dos brônquios?</span><span class="a">Broncodilatação.</span></li>
+              
+                <li data-warn="true"><span class="n">03</span><span class="q">Cite dois efeitos adversos do propranolol.</span><span class="a">Sem resposta no arquivo</span></li>
+              
+                <li data-warn="false"><span class="n">04</span><span class="q">Qual enzima a neostigmina inibe?</span><span class="a">A acetilcolinesterase.</span></li>
+              
+            </ol>
+            <button type="button" class="sn-btn sn-btn--ghost sn-btn--sm" style="align-self: flex-start; color: var(--ink);"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"></path><path d="m15 5 4 4"></path></svg> Revisar e editar os 48 cards</button>
+          </section>
+        
+        </div>
+        <section class="cd-card" aria-labelledby="passo2" style="flex: 2 1 360px; min-width: 0; position: sticky; top: 24px;">
+            <div class="cd-step"><b>2</b><h2 id="passo2">Detalhes</h2></div>
+            <div class="sn-field">
+              <label class="sn-field__label" for="nome-deck">Nome do deck</label>
+              <div class="sn-field__control"><input id="nome-deck" type="text" value="Farmacologia do SNA, P1" placeholder="Ex.: Farmacologia do SNA, P1" style=""></div>
+              <p class="sn-field__hint">Sugerido a partir do nome do arquivo. Pode mudar.</p>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              <p class="cd-label" id="lbl-ano">Ano do curso</p>
+              <div class="sn-chips" role="radiogroup" aria-labelledby="lbl-ano">
+                
+                  <button type="button" class="sn-chip" role="radio" aria-checked="false"><svg class="lucide sn-chip__check" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>1º ano</button>
+                
+                  <button type="button" class="sn-chip" role="radio" aria-checked="true"><svg class="lucide sn-chip__check" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>2º ano</button>
+                
+                  <button type="button" class="sn-chip" role="radio" aria-checked="false"><svg class="lucide sn-chip__check" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>3º ano</button>
+                
+                  <button type="button" class="sn-chip" role="radio" aria-checked="false"><svg class="lucide sn-chip__check" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>4º ano</button>
+                
+                  <button type="button" class="sn-chip" role="radio" aria-checked="false"><svg class="lucide sn-chip__check" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>5º ano</button>
+                
+                  <button type="button" class="sn-chip" role="radio" aria-checked="false"><svg class="lucide sn-chip__check" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>6º ano</button>
+                
+              </div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              <p class="cd-label" id="lbl-mat">Matérias <span style="font-weight: 500; color: var(--ink-muted);">· escolha uma ou mais</span></p>
+              <label class="sn-search"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg><input placeholder="Buscar outra matéria" aria-label="Buscar outra matéria" style=""></label>
+              <div class="sn-chips" role="group" aria-labelledby="lbl-mat">
+                
+                  <button type="button" class="sn-chip" aria-pressed="true"><svg class="lucide sn-chip__check" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>Farmacologia</button>
+                
+                  <button type="button" class="sn-chip" aria-pressed="false"><svg class="lucide sn-chip__check" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>Fisiologia</button>
+                
+                  <button type="button" class="sn-chip" aria-pressed="false"><svg class="lucide sn-chip__check" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>Anatomia</button>
+                
+                  <button type="button" class="sn-chip" aria-pressed="false"><svg class="lucide sn-chip__check" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>Patologia</button>
+                
+                  <button type="button" class="sn-chip" aria-pressed="false"><svg class="lucide sn-chip__check" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>Bioquímica</button>
+                
+                  <button type="button" class="sn-chip" aria-pressed="false"><svg class="lucide sn-chip__check" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>Microbiologia</button>
+                
+                  <button type="button" class="sn-chip" aria-pressed="false"><svg class="lucide sn-chip__check" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>Semiologia</button>
+                
+                  <button type="button" class="sn-chip" aria-pressed="false"><svg class="lucide sn-chip__check" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>Histologia</button>
+                
+              </div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              <p class="cd-label" id="lbl-vis">Visibilidade</p>
+              <div class="sn-tabs sn-tabs--block" role="radiogroup" aria-labelledby="lbl-vis">
+                <button type="button" class="sn-tabs__tab" role="radio" aria-checked="true"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg> Privado</button>
+                <button type="button" class="sn-tabs__tab" role="radio" aria-checked="false"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg> Público</button>
+              </div>
+              <p class="cd-help">Só você vê este deck. Dá para publicar depois.</p>
+            </div>
+            <hr style="margin: 0; border: 0; border-top: 1px solid var(--line);">
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+              <a class="sn-btn sn-btn--primary sn-btn--lg sn-btn--block" href="Flashcards.dc.html" style="color: var(--on-primary);"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg> Criar deck</a>
+              <p class="cd-help" style="text-align: center;"></p>
+            </div>
+        </section>
+      </div>
+    </div>
+  </main>
+</div>
+</div>
+
+</body></html>

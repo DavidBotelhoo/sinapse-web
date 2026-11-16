@@ -1,0 +1,29 @@
+<!-- @dsCard group="Base" height=170 subtitle="Iniciais e foto; versão editável do Perfil" -->
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Avatar</title>
+<style>
+  .demo { display: flex; flex-wrap: wrap; align-items: center; gap: 20px; padding: 24px; }
+</style>
+</head>
+<body>
+<div class="demo">
+  <span class="sn-avatar sn-avatar--xs" aria-hidden="true">A</span>
+  <span class="sn-avatar sn-avatar--sm" aria-hidden="true">AS</span>
+  <span class="sn-avatar" aria-hidden="true">AS</span>
+  <span class="sn-avatar sn-avatar--lg" aria-hidden="true">AS</span>
+  <span class="sn-avatar-edit">
+    <span class="sn-avatar sn-avatar--xl" aria-hidden="true">AS</span>
+    <button class="sn-avatar-edit__btn" aria-label="Trocar foto de perfil"><i data-lucide="camera"></i></button>
+  </span>
+</div>
+<script>
+  (function () {
+    function icons() { if (window.lucide) window.lucide.createIcons(); }
+    if (window.lucide) icons(); else { var s = document.createElement('script'); s.src = 'https://cdn.jsdelivr.net/npm/lucide@0.460.0/dist/umd/lucide.min.js'; s.onload = icons; document.head.appendChild(s); }
+  })();
+</script>
+</body>
+</html>

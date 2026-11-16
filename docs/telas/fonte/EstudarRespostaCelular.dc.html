@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Estudar no celular · resposta — Sinapse</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/sinapse/tokens.css">
+<link rel="stylesheet" href="ds/sinapse/components/bundle.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&amp;family=Figtree:wght@400..800&amp;display=swap">
+<style>
+body{margin:0}
+.lucide{fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round}
+a{color:var(--primary)}a:hover{color:var(--primary-hover)}
+.ss-top{display:flex;align-items:center;gap:16px;padding:14px 32px;border-bottom:1px solid var(--line);background:var(--surface)}
+.ss-title{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;align-items:center;text-align:center}
+.ss-title b{font:600 15px/20px var(--font-sans)}
+.ss-title span{font:500 13px/18px var(--font-sans);color:var(--ink-muted)}
+.ss-time{display:inline-flex;align-items:center;gap:6px;font:600 14px/20px var(--font-sans);color:var(--ink-muted);font-variant-numeric:tabular-nums}
+.ss-time .lucide{width:16px;height:16px}
+.ss-keys{margin:0;text-align:center;font:500 13px/18px var(--font-sans);color:var(--ink-muted)}
+.ss-keys .sn-kbd{margin:0 2px}
+.ss-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column}
+.ss-list li{display:flex;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
+.ss-list li:first-child{border-top:0;padding-top:0}
+.ss-list .sn-dot{margin-top:7px;flex:none}
+.ss-list p{margin:0}
+.ss-list small{display:block;font:500 12px/16px var(--font-sans);color:var(--ink-muted)}
+.ss-card{display:flex;flex-direction:column;gap:16px;padding:24px;border:1px solid var(--line);border-radius:var(--radius-xl);background:var(--surface)}
+.ss-h3{margin:0;font-family:var(--font-display);font-size:18px;line-height:24px;font-weight:600}
+
+.sn-summary{padding:24px 0 0;border:0;background:transparent;box-shadow:none}.ss-card{padding:20px}
+</style>
+</helmet>
+<div data-theme="{{tema}}" style="width: 390px; min-height: 844px; box-sizing: border-box; display: flex; flex-direction: column; background: var(--bg); color: var(--ink); font-family: var(--font-sans); font-size: 15px; line-height: 22px;">
+  <sc-if value="{{emSessao}}" hint-placeholder-val="{{ true }}">
+    <header style="display: flex; align-items: center; gap: 12px; padding: 12px 16px 8px;">
+      <a class="sn-iconbtn" href="EstudarCelular.dc.html" aria-label="Sair da sessão" style="color: var(--ink);"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></a>
+      <div class="sn-study__bar" style="flex: 1 1 auto;"><span class="sn-num">{{posicao}}</span><div class="sn-progress" aria-hidden="true"><span style="{{progresso}}"></span></div></div>
+      <span class="ss-time" aria-label="Tempo de sessão"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> 08:24</span>
+    </header>
+    <main style="flex: 1 1 auto; padding: 8px 16px 12px;">
+      <div class="sn-flashcard" data-flipped="{{virado}}" role="button" tabindex="0" aria-label="{{rotuloCard}}" onClick="{{virar}}">
+            <div class="sn-flashcard__inner" style="min-height: 520px;">
+              <div class="sn-flashcard__face sn-flashcard__face--front">
+                <div class="sn-flashcard__meta"><span>{{materia}}</span><span class="sn-tag">Pergunta</span></div>
+                <p class="sn-flashcard__text">{{pergunta}}</p>
+                <p class="sn-flashcard__hint">Pense na resposta. Depois toque no card.</p>
+              </div>
+              <div class="sn-flashcard__face sn-flashcard__face--back" aria-live="polite">
+                <div class="sn-flashcard__meta"><span class="sn-flashcard__eyebrow"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"></path><path d="M20 3v4"></path><path d="M22 5h-4"></path><path d="M4 17v2"></path><path d="M5 18H3"></path></svg> Resposta</span><span>{{materia}}</span></div>
+                <p class="sn-flashcard__recall">{{pergunta}}</p>
+                <p class="sn-flashcard__text sn-flashcard__text--long">{{resposta}}</p>
+              </div>
+            </div>
+          </div>
+    </main>
+    <div style="position: sticky; bottom: 0; padding: 12px 16px 28px; background: var(--bg);">
+      <sc-if value="{{naoVirado}}" hint-placeholder-val="{{ true }}">
+            <button type="button" class="sn-btn sn-btn--primary sn-btn--lg sn-btn--block" onClick="{{virar}}">Mostrar resposta</button>
+          </sc-if>
+          <sc-if value="{{virado2}}" hint-placeholder-val="{{ false }}">
+            <div class="sn-rate" role="group" aria-label="Como você foi?">
+              <button type="button" class="sn-rate__btn sn-rate__btn--again" onClick="{{errei}}"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg> Errei</button>
+              <button type="button" class="sn-rate__btn sn-rate__btn--hard" onClick="{{dificil}}"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"></path></svg> Difícil</button>
+              <button type="button" class="sn-rate__btn sn-rate__btn--easy" onClick="{{facil}}"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg> Fácil</button>
+            </div>
+          </sc-if>
+    </div>
+  </sc-if>
+  <sc-if value="{{fim}}" hint-placeholder-val="{{ false }}">
+    <header style="display: flex; align-items: center; gap: 12px; padding: 12px 16px 0;">
+      <a class="sn-iconbtn" href="InicioCelular.dc.html" aria-label="Fechar e voltar ao início" style="color: var(--ink);"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></a>
+    </header>
+    <main style="flex: 1 1 auto; padding: 8px 16px 16px; display: flex; flex-direction: column; gap: 16px;">
+      <section class="sn-summary" aria-labelledby="sum-title">
+            <div class="sn-summary__hero">
+              <div class="sn-ring" role="img" aria-label="{{taxa}}% de acerto">
+                <svg viewBox="0 0 120 120" aria-hidden="true">
+                  <circle class="sn-ring__track" cx="60" cy="60" r="52"></circle>
+                  <circle class="sn-ring__value" cx="60" cy="60" r="52" stroke-dasharray="{{dash}}"></circle>
+                </svg>
+                <div class="sn-ring__label" aria-hidden="true"><b>{{taxa}}%</b><span>de acerto</span></div>
+              </div>
+              <div>
+                <h2 class="sn-summary__title" id="sum-title">Sessão concluída</h2>
+                <p class="sn-summary__sub">{{subtitulo}}</p>
+              </div>
+            </div>
+            <div class="sn-breakdown">
+              <div class="sn-breakdown__bar" aria-hidden="true"><span class="sn-mark--again" style="{{nAgain}}"></span><span class="sn-mark--hard" style="{{nHard}}"></span><span class="sn-mark--easy" style="{{nEasy}}"></span></div>
+              <ul class="sn-breakdown__legend">
+                <li><span class="sn-dot sn-mark--again"></span>Errei <b>{{again}}</b></li>
+                <li><span class="sn-dot sn-mark--hard"></span>Difícil <b>{{hard}}</b></li>
+                <li><span class="sn-dot sn-mark--easy"></span>Fácil <b>{{easy}}</b></li>
+              </ul>
+            </div>
+            <dl class="sn-summary__facts">
+              <div><dt>Tempo</dt><dd>14 min</dd></div>
+              <div><dt>Por card</dt><dd>42 s</dd></div>
+              <div><dt>Streak</dt><dd class="is-streak"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path></svg>13 dias</dd></div>
+            </dl>
+            
+          </section>
+          <section class="ss-card" aria-labelledby="errou">
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+              <h3 class="ss-h3" id="errou">Para rever</h3>
+              <span class="sn-tag sn-tag--accent">voltam em 10 min</span>
+            </div>
+            <ul class="ss-list">
+              <li><span class="sn-dot sn-mark--again" aria-hidden="true"></span><p>Qual receptor a atropina bloqueia e o que acontece com a frequência cardíaca?<small>Farmacologia · 2º ano</small></p></li>
+              <li><span class="sn-dot sn-mark--again" aria-hidden="true"></span><p>O que a mácula densa detecta?<small>Fisiologia · 2º ano</small></p></li>
+              <li><span class="sn-dot sn-mark--again" aria-hidden="true"></span><p>Por que betabloqueadores não seletivos são evitados em asmáticos?<small>Farmacologia · 2º ano</small></p></li>
+              <li><span class="sn-dot sn-mark--again" aria-hidden="true"></span><p>Qual é o neurotransmissor das fibras pós-ganglionares simpáticas na maioria dos órgãos?<small>Farmacologia · 2º ano</small></p></li>
+            </ul>
+          </section>
+    </main>
+    <div style="position: sticky; bottom: 0; padding: 12px 16px 28px; border-top: 1px solid var(--line); background: var(--bg);">
+      <div class="sn-summary__actions">
+              <button type="button" class="sn-btn sn-btn--primary" onClick="{{reiniciar}}"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg> Estudar novamente</button>
+              <a class="sn-btn sn-btn--secondary" href="EstudarCelular.dc.html" style="color: var(--ink);">Escolher novos temas</a>
+            </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"tema": {"editor": "enum", "options": ["Claro", "Escuro"], "default": "Claro"}, "etapa": {"editor": "enum", "options": ["Pergunta", "Resposta", "Resumo"], "default": "Resposta"}, "$preview": {"width": 390, "height": 844}}'>
+class Component extends DCLogic {
+CARDS = [{"materia": "Fisiologia · 2º ano", "pergunta": "Qual hormônio aumenta a reabsorção de água no ducto coletor?", "resposta": "O ADH (vasopressina). Ele faz as células principais inserirem aquaporinas 2 na membrana apical, e a água volta para o interstício."}, {"materia": "Farmacologia · 2º ano", "pergunta": "Qual é o neurotransmissor das fibras pós-ganglionares simpáticas na maioria dos órgãos?", "resposta": "Noradrenalina. A exceção principal são as glândulas sudoríparas, que recebem fibras simpáticas colinérgicas."}, {"materia": "Farmacologia · 2º ano", "pergunta": "Qual receptor a atropina bloqueia e o que acontece com a frequência cardíaca?", "resposta": "Bloqueia os receptores muscarínicos de forma competitiva. Sem o tônus vagal no nó sinusal, a frequência cardíaca aumenta (taquicardia)."}, {"materia": "Fisiologia · 2º ano", "pergunta": "O que a mácula densa detecta?", "resposta": "A concentração de NaCl no túbulo distal. Com isso regula a taxa de filtração glomerular (feedback tubuloglomerular) e a liberação de renina."}, {"materia": "Farmacologia · 2º ano", "pergunta": "Por que betabloqueadores não seletivos são evitados em asmáticos?", "resposta": "Porque bloqueiam também os receptores β2 da musculatura brônquica e podem causar broncoespasmo."}, {"materia": "Fisiologia · 2º ano", "pergunta": "Qual é a taxa de filtração glomerular normal de um adulto?", "resposta": "Cerca de 125 mL/min, o que dá uns 180 litros filtrados por dia."}];
+  TOTAL = 20;
+  estado() {
+    const s = this.state || {};
+    const etapa = this.props.etapa || 'Resposta';
+    return {
+      i: s.i ?? 2,
+      virado: s.virado ?? (etapa === 'Resposta'),
+      fim: s.fim ?? (etapa === 'Resumo'),
+      notas: s.notas ?? null,
+      base: s.base ?? ['easy', 'hard']
+    };
+  }
+  avaliar(n) {
+    const e = this.estado();
+    const notas = (e.notas || []).concat(n);
+    if (e.i + 1 >= this.TOTAL) this.setState({ fim: true, notas: notas });
+    else this.setState({ i: e.i + 1, virado: false, notas: notas });
+  }
+  renderVals() {
+    const temaNome = this.props.tema || 'Claro';
+    const e = this.estado();
+    const c = this.CARDS[e.i % this.CARDS.length];
+    let cnt = { again: 4, hard: 6, easy: 10 };
+    if (e.notas) {
+      cnt = { again: 0, hard: 0, easy: 0 };
+      e.base.concat(e.notas).forEach((n) => { cnt[n] += 1; });
+    }
+    const tot = cnt.again + cnt.hard + cnt.easy;
+    const taxa = Math.round((cnt.hard + cnt.easy) / tot * 100);
+    return {
+      tema: temaNome === 'Escuro' ? 'dark' : 'light',
+      emSessao: !e.fim,
+      fim: e.fim,
+      posicao: (e.i + 1) + ' / ' + this.TOTAL,
+      progresso: '--value: ' + Math.round(e.i / this.TOTAL * 100) + '%;',
+      virado: e.virado ? 'true' : 'false',
+      virado2: e.virado,
+      naoVirado: !e.virado,
+      rotuloCard: e.virado ? 'Resposta do flashcard' : 'Flashcard. Toque para ver a resposta.',
+      materia: c.materia,
+      pergunta: c.pergunta,
+      resposta: e.virado ? c.resposta : '',
+      virar: () => { if (!this.estado().virado) this.setState({ virado: true }); },
+      errei: () => this.avaliar('again'),
+      dificil: () => this.avaliar('hard'),
+      facil: () => this.avaliar('easy'),
+      reiniciar: () => this.setState({ i: 0, virado: false, fim: false, notas: [], base: [] }),
+      again: String(cnt.again), hard: String(cnt.hard), easy: String(cnt.easy),
+      nAgain: '--n: ' + cnt.again, nHard: '--n: ' + cnt.hard, nEasy: '--n: ' + cnt.easy,
+      taxa: String(taxa),
+      dash: (taxa / 100 * 326.7).toFixed(1) + ' 326.7',
+      subtitulo: tot + ' cards de Farmacologia e Fisiologia em 14 minutos.'
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Criar deck — Sinapse</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/sinapse/tokens.css">
+<link rel="stylesheet" href="ds/sinapse/components/bundle.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&amp;family=Figtree:wght@400..800&amp;display=swap">
+<style>
+body{margin:0}
+.lucide{fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round}
+a{color:var(--primary)}a:hover{color:var(--primary-hover)}
+.cd-card{display:flex;flex-direction:column;gap:20px;padding:24px;border:1px solid var(--line);border-radius:var(--radius-xl);background:var(--surface)}
+.cd-step{display:flex;align-items:center;gap:10px}
+.cd-step b{display:grid;place-items:center;width:26px;height:26px;border-radius:var(--radius-full);background:var(--primary-soft);color:var(--on-primary-soft);font:700 13px/1 var(--font-sans)}
+.cd-step h2{margin:0;font-family:var(--font-display);font-size:20px;line-height:26px;font-weight:600}
+.cd-label{margin:0;font:600 14px/20px var(--font-sans);color:var(--ink)}
+.cd-help{margin:0;font:500 13px/18px var(--font-sans);color:var(--ink-muted)}
+.cd-qa{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px}
+.cd-qa li{display:grid;grid-template-columns:28px minmax(0,1fr);gap:4px 10px;padding:12px 14px;border:1px solid var(--line);border-radius:var(--radius-md);background:var(--bg)}
+.cd-qa .n{grid-row:span 2;font:700 12px/20px var(--font-sans);color:var(--ink-faint);font-variant-numeric:tabular-nums}
+.cd-qa .q{font:600 14px/20px var(--font-sans)}
+.cd-qa .a{font:400 14px/20px var(--font-sans);color:var(--ink-muted)}
+.cd-qa li[data-warn="true"]{border-color:var(--warning);background:var(--warning-soft)}
+.cd-qa li[data-warn="true"] .a{color:var(--warning);font-weight:600;display:flex;align-items:center;gap:6px}
+.cd-qa li[data-warn="true"] .a .lucide{width:16px;height:16px}
+.sn-tabs__tab[aria-checked="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow-sm)}
+.cd-disabled{opacity:.45;pointer-events:none}
+</style>
+</helmet>
+<div data-theme="{{tema}}" style="min-height: 1300px; display: flex; flex-wrap: wrap; align-items: stretch; background: var(--bg); color: var(--ink); font-family: var(--font-sans); font-size: 15px; line-height: 22px;">
+  <div style="flex: 0 0 248px; background: var(--surface); border-right: 1px solid var(--line);">
+    <dc-import name="Sidebar" ativo="flashcards" tema="{{temaNome}}" on-tema="{{setTema}}" hint-size="248px,860px"></dc-import>
+  </div>
+  <main style="flex: 999 1 560px; min-width: 0; box-sizing: border-box; padding: 40px 40px 64px;">
+    <div style="max-width: 1120px; margin: 0 auto; display: flex; flex-direction: column; gap: 32px;">
+      <header style="display: flex; flex-direction: column; gap: 8px;">
+        <a class="sn-btn sn-btn--ghost sn-btn--sm" href="Flashcards.dc.html" style="align-self: flex-start; margin-left: -12px; color: var(--ink-muted);"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg> Flashcards</a>
+        <h1 style="margin: 0; font-family: var(--font-display); font-size: 28px; line-height: 34px; font-weight: 700; letter-spacing: -0.01em;">Criar deck</h1>
+        <p style="margin: 0; color: var(--ink-muted);">Importe um arquivo com perguntas e respostas e diga de que matéria ele é.</p>
+      </header>
+      <div style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: 24px;">
+        <div style="flex: 3 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 24px;">
+          <section class="cd-card" aria-labelledby="passo1">
+            <div class="cd-step"><b>1</b><h2 id="passo1">Arquivo</h2></div>
+          <sc-if value="{{semArquivo}}" hint-placeholder-val="{{ false }}">
+            <label class="sn-drop" onClick="{{escolher}}">
+              <span class="sn-drop__icon"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 13v8"></path><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"></path><path d="m8 17 4-4 4 4"></path></svg></span>
+              <p class="sn-drop__title">Arraste seu PDF ou Word aqui, ou <span class="sn-link">escolha um arquivo</span></p>
+              <p class="sn-drop__hint">.pdf ou .docx · até 20 MB · uma pergunta e uma resposta por bloco</p>
+            </label>
+          </sc-if>
+          <sc-if value="{{temArquivo}}" hint-placeholder-val="{{ true }}">
+            <div class="sn-file">
+              <span class="sn-file__badge">PDF</span>
+              <div class="sn-file__main">
+                <span class="sn-file__name">Farmacologia_SNA_P1.pdf</span>
+                <sc-if value="{{lendo}}" hint-placeholder-val="{{ false }}">
+                  <div class="sn-progress" role="progressbar" aria-label="Lendo o arquivo" aria-valuenow="64" aria-valuemin="0" aria-valuemax="100"><span style="--value: 64%;"></span></div>
+                </sc-if>
+                <span class="{{fileMetaCls}}">{{fileMeta}}</span>
+              </div>
+              <button type="button" class="sn-iconbtn" aria-label="{{removerRotulo}}" onClick="{{remover}}"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button>
+            </div>
+          </sc-if>
+          </section>
+        <sc-if value="{{lido}}" hint-placeholder-val="{{ true }}">
+          <section class="cd-card" aria-labelledby="previa">
+            <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px;">
+              <div class="cd-step"><b><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true" style="width: 14px; height: 14px;"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"></path><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"></path><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"></path></svg></b><h2 id="previa">Prévia dos cards</h2></div>
+              <span class="{{previaTagCls}}">{{previaTag}}</span>
+            </div>
+            <ol class="cd-qa">
+              <sc-for list="{{previa}}" as="p" hint-placeholder-count="4">
+                <li data-warn="{{p.warn}}"><span class="n">{{p.n}}</span><span class="q">{{p.q}}</span><span class="a">{{p.a}}</span></li>
+              </sc-for>
+            </ol>
+            <button type="button" class="sn-btn sn-btn--ghost sn-btn--sm" style="align-self: flex-start; color: var(--ink);"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"></path><path d="m15 5 4 4"></path></svg> Revisar e editar os 48 cards</button>
+          </section>
+        </sc-if>
+        </div>
+        <section class="cd-card" aria-labelledby="passo2" style="flex: 2 1 360px; min-width: 0; position: sticky; top: 24px;">
+            <div class="cd-step"><b>2</b><h2 id="passo2">Detalhes</h2></div>
+            <div class="sn-field">
+              <label class="sn-field__label" for="nome-deck">Nome do deck</label>
+              <div class="sn-field__control"><input id="nome-deck" type="text" value="{{nome}}" placeholder="Ex.: Farmacologia do SNA, P1"></div>
+              <p class="sn-field__hint">{{nomeHint}}</p>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              <p class="cd-label" id="lbl-ano">Ano do curso</p>
+              <div class="sn-chips" role="radiogroup" aria-labelledby="lbl-ano">
+                <sc-for list="{{anos}}" as="a" hint-placeholder-count="6">
+                  <button type="button" class="sn-chip" role="radio" aria-checked="{{a.checked}}" onClick="{{a.escolher}}"><svg class="lucide sn-chip__check" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>{{a.rotulo}}</button>
+                </sc-for>
+              </div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              <p class="cd-label" id="lbl-mat">Matérias <span style="font-weight: 500; color: var(--ink-muted);">· escolha uma ou mais</span></p>
+              <label class="sn-search"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg><input placeholder="Buscar outra matéria" aria-label="Buscar outra matéria"></label>
+              <div class="sn-chips" role="group" aria-labelledby="lbl-mat">
+                <sc-for list="{{mats}}" as="m" hint-placeholder-count="8">
+                  <button type="button" class="sn-chip" aria-pressed="{{m.pressed}}" onClick="{{m.alternar}}"><svg class="lucide sn-chip__check" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>{{m.nome}}</button>
+                </sc-for>
+              </div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              <p class="cd-label" id="lbl-vis">Visibilidade</p>
+              <div class="sn-tabs sn-tabs--block" role="radiogroup" aria-labelledby="lbl-vis">
+                <button type="button" class="sn-tabs__tab" role="radio" aria-checked="{{privado}}" onClick="{{irPrivado}}"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg> Privado</button>
+                <button type="button" class="sn-tabs__tab" role="radio" aria-checked="{{publico}}" onClick="{{irPublico}}"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg> Público</button>
+              </div>
+              <p class="cd-help">{{visHelp}}</p>
+            </div>
+            <hr style="margin: 0; border: 0; border-top: 1px solid var(--line);">
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+              <a class="{{criarCls}}" href="Flashcards.dc.html" style="color: var(--on-primary);"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg> Criar deck</a>
+              <p class="cd-help" style="text-align: center;">{{faltam}}</p>
+            </div>
+        </section>
+      </div>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"tema": {"editor": "enum", "options": ["Claro", "Escuro"], "default": "Claro"}, "arquivo": {"editor": "enum", "options": ["Vazio", "Lendo", "Pronto", "Com aviso"], "default": "Pronto"}, "$preview": {"width": 1440, "height": 1300}}'>
+class Component extends DCLogic {
+MATS = ["Farmacologia", "Fisiologia", "Anatomia", "Patologia", "Bioquímica", "Microbiologia", "Semiologia", "Histologia"];
+  PREVIA = [{"q": "Qual receptor a atropina bloqueia?", "a": "Os receptores muscarínicos, de forma competitiva.", "warn": false}, {"q": "Qual o efeito da adrenalina nos receptores β2 dos brônquios?", "a": "Broncodilatação.", "warn": false}, {"q": "Cite dois efeitos adversos do propranolol.", "a": "", "warn": true}, {"q": "Qual enzima a neostigmina inibe?", "a": "A acetilcolinesterase.", "warn": false}, {"q": "Qual o principal uso clínico da pilocarpina?", "a": "Glaucoma: causa miose e aumenta a drenagem do humor aquoso.", "warn": false}];
+  renderVals() {
+    const temaNome = (this.state && this.state.tema) || this.props.tema || 'Claro';
+    const s = this.state || {};
+    const arqProp = { 'Vazio': 'vazio', 'Lendo': 'lendo', 'Pronto': 'pronto', 'Com aviso': 'aviso' }[this.props.arquivo] || 'pronto';
+    const arq = s.arq || arqProp;
+    const lido = arq === 'pronto' || arq === 'aviso';
+    const ano = s.ano !== undefined ? s.ano : (lido ? '2' : null);
+    const mats = s.mats || (lido ? ['Farmacologia'] : []);
+    const vis = s.vis || 'privado';
+    const nome = lido ? 'Farmacologia do SNA, P1' : '';
+    const valido = lido && nome && ano && mats.length > 0;
+    const previa = this.PREVIA.filter((p) => arq === 'aviso' || !p.warn).slice(0, 4).map((p, i) => ({
+      n: String(i + 1).padStart(2, '0'), q: p.q, a: p.warn ? 'Sem resposta no arquivo' : p.a, warn: p.warn ? 'true' : 'false'
+    }));
+    return {
+      tema: temaNome === 'Escuro' ? 'dark' : 'light', temaNome: temaNome, setTema: (nome) => this.setState({ tema: nome }),
+      semArquivo: arq === 'vazio',
+      temArquivo: arq !== 'vazio',
+      lendo: arq === 'lendo',
+      lido: lido,
+      escolher: () => { this.setState({ arq: 'lendo' }); setTimeout(() => { if ((this.state || {}).arq === 'lendo') this.setState({ arq: 'pronto' }); }, 1600); },
+      remover: () => this.setState({ arq: 'vazio', ano: null, mats: [] }),
+      removerRotulo: arq === 'lendo' ? 'Cancelar leitura' : 'Remover arquivo',
+      fileMeta: { lendo: 'Lendo perguntas… 64%', pronto: '48 perguntas com resposta encontradas', aviso: '46 prontas · 2 perguntas sem resposta' }[arq] || '',
+      fileMetaCls: 'sn-file__meta' + (arq === 'pronto' ? ' sn-file__meta--ok' : (arq === 'aviso' ? ' sn-file__meta--warn' : '')),
+      previa: previa,
+      previaTag: arq === 'aviso' ? '2 para revisar' : '48 cards',
+      previaTagCls: arq === 'aviso' ? 'sn-tag sn-tag--accent' : 'sn-tag sn-tag--brand',
+      nome: nome,
+      nomeHint: lido ? 'Sugerido a partir do nome do arquivo. Pode mudar.' : 'Aparece na sua lista e, se for público, na Comunidade.',
+      anos: ['1', '2', '3', '4', '5', '6'].map((a) => ({ rotulo: a + 'º ano', checked: ano === a ? 'true' : 'false', escolher: () => this.setState({ ano: a }) })),
+      mats: this.MATS.map((m) => ({ nome: m, pressed: mats.includes(m) ? 'true' : 'false', alternar: () => this.setState({ mats: mats.includes(m) ? mats.filter((x) => x !== m) : mats.concat(m) }) })),
+      privado: vis === 'privado' ? 'true' : 'false',
+      publico: vis === 'publico' ? 'true' : 'false',
+      irPrivado: () => this.setState({ vis: 'privado' }),
+      irPublico: () => this.setState({ vis: 'publico' }),
+      visHelp: vis === 'publico' ? 'Aparece na Comunidade com o seu primeiro nome. Outros estudantes podem salvar uma cópia.' : 'Só você vê este deck. Dá para publicar depois.',
+      criarCls: 'sn-btn sn-btn--primary sn-btn--lg sn-btn--block' + (valido ? '' : ' cd-disabled'),
+      faltam: valido ? '' : (arq === 'lendo' ? 'Aguarde a leitura do arquivo.' : !lido ? 'Importe um arquivo para continuar.' : (!ano ? 'Escolha o ano do curso.' : 'Escolha pelo menos uma matéria.'))
+    };
+  }
+}
+</script>
+</body>
+</html>

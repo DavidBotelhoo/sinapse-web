@@ -1,0 +1,66 @@
+<!-- @dsCard group="Painel" height=520 subtitle="Recente, da comunidade, meu deck e criar novo" -->
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>DeckCard</title>
+<style>
+  .demo { padding: 16px 24px 24px; }
+</style>
+</head>
+<body>
+<div class="demo">
+  <div class="sn-decks">
+    <a class="sn-deck" href="#">
+      <div class="sn-deck__top">
+        <div class="sn-tags"><span class="sn-tag">2º ano</span><span class="sn-tag sn-tag--brand">Farmacologia</span></div>
+        <button class="sn-iconbtn" aria-label="Favoritar" aria-pressed="true" onclick="event.preventDefault()"><i data-lucide="star"></i></button>
+      </div>
+      <h3 class="sn-deck__title">Farmacologia do sistema nervoso autônomo</h3>
+      <div class="sn-deck__meta"><span><i data-lucide="layers"></i>84 cards</span><span><i data-lucide="clock"></i>há 2 dias</span></div>
+      <div class="sn-progress" role="progressbar" aria-valuenow="62" aria-valuemin="0" aria-valuemax="100" aria-label="Domínio do deck"><span style="--value:62%"></span></div>
+    </a>
+    <article class="sn-deck sn-deck--interactive">
+      <div class="sn-deck__top">
+        <div class="sn-tags"><span class="sn-tag">1º ano</span><span class="sn-tag sn-tag--brand">Anatomia</span><span class="sn-tag sn-tag--brand">Histologia</span></div>
+      </div>
+      <h3 class="sn-deck__title">Membro superior: músculos e inervação</h3>
+      <div class="sn-deck__meta"><span><i data-lucide="layers"></i>120 cards</span><span><i data-lucide="bookmark"></i>1,4 mil salvos</span></div>
+      <div class="sn-deck__foot">
+        <span class="sn-deck__owner"><span class="sn-avatar sn-avatar--xs" aria-hidden="true">M</span>por <b>Marina</b></span>
+        <button class="sn-btn sn-btn--secondary sn-btn--sm" id="save"><i data-lucide="bookmark"></i> Salvar</button>
+      </div>
+    </article>
+    <a class="sn-deck" href="#">
+      <div class="sn-deck__top">
+        <div class="sn-tags"><span class="sn-tag">3º ano</span><span class="sn-tag sn-tag--brand">Patologia</span></div>
+        <span class="sn-tag sn-tag--outline"><i data-lucide="lock"></i> Privado</span>
+      </div>
+      <h3 class="sn-deck__title">Neoplasias: conceitos gerais</h3>
+      <div class="sn-deck__meta"><span><i data-lucide="layers"></i>46 cards</span><span><i data-lucide="calendar-days"></i>12 para hoje</span></div>
+    </a>
+    <button class="sn-deck sn-deck--new">
+      <span class="sn-deck__plus"><i data-lucide="plus"></i></span>
+      Criar novo deck
+      <small>Importe um PDF ou Word</small>
+    </button>
+  </div>
+</div>
+<script>
+  (function () {
+    function icons() { if (window.lucide) window.lucide.createIcons(); }
+    if (window.lucide) icons(); else { var s = document.createElement('script'); s.src = 'https://cdn.jsdelivr.net/npm/lucide@0.460.0/dist/umd/lucide.min.js'; s.onload = icons; document.head.appendChild(s); }
+    document.querySelectorAll('.sn-iconbtn[aria-pressed]').forEach(function (b) {
+      b.addEventListener('click', function () { b.setAttribute('aria-pressed', String(b.getAttribute('aria-pressed') !== 'true')); });
+    });
+    var save = document.getElementById('save'), saved = false;
+    save.addEventListener('click', function () {
+      saved = !saved;
+      save.className = 'sn-btn sn-btn--sm ' + (saved ? 'sn-btn--ghost' : 'sn-btn--secondary');
+      save.innerHTML = saved ? '<i data-lucide="bookmark-check"></i> Salvo' : '<i data-lucide="bookmark"></i> Salvar';
+      icons();
+    });
+  })();
+</script>
+</body>
+</html>

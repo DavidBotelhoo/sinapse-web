@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Estudar no celular — Sinapse</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/sinapse/tokens.css">
+<link rel="stylesheet" href="ds/sinapse/components/bundle.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&amp;family=Figtree:wght@400..800&amp;display=swap">
+<style>
+body{margin:0}
+.lucide{fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round}
+a{color:var(--primary)}a:hover{color:var(--primary-hover)}
+.st-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.st-tile{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:16px;border:1.5px solid var(--line);border-radius:var(--radius-lg);background:var(--surface);color:var(--ink);font:inherit;text-align:left;cursor:pointer;transition:border-color var(--dur-fast) var(--ease-out),background-color var(--dur-fast) var(--ease-out)}
+.st-tile:hover{border-color:var(--line-strong)}
+.st-tile[aria-pressed="true"]{border-color:var(--primary);background:var(--primary-soft)}
+.st-tile .sn-check{position:absolute;top:16px;right:16px}
+.st-tile[aria-pressed="true"] .sn-check,.st-row[aria-checked="true"] .sn-check{background:var(--primary);border-color:var(--primary);color:var(--on-primary)}
+.st-tile__name{padding-right:28px;font:600 16px/22px var(--font-sans)}
+.st-tile__meta{font:500 13px/18px var(--font-sans);color:var(--ink-muted)}
+.st-due{display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:var(--radius-full);font:600 12px/1 var(--font-sans);background:var(--surface-2);color:var(--ink-muted)}
+.st-due--hoje{background:var(--primary-soft);color:var(--on-primary-soft)}
+.st-tile[aria-pressed="true"] .st-due--hoje{background:var(--surface);color:var(--ink)}
+.st-due--atraso{background:var(--accent-soft);color:var(--on-accent-soft)}
+.st-list{margin:0;padding:0;list-style:none;border:1px solid var(--line);border-radius:var(--radius-lg);background:var(--surface);overflow:hidden}
+.st-list li+li{border-top:1px solid var(--line)}
+.st-row{display:flex;align-items:center;gap:14px;width:100%;padding:14px 16px;border:0;background:transparent;color:var(--ink);font:inherit;text-align:left;cursor:pointer}
+.st-row:hover{background:var(--surface-2)}
+.st-row__main{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:4px}
+.st-row__title{font:600 15px/20px var(--font-sans)}
+.st-row__meta{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font:500 13px/18px var(--font-sans);color:var(--ink-muted)}
+.st-label{margin:0;font:600 13px/18px var(--font-sans);color:var(--ink-muted)}
+.sn-tabs__tab[aria-checked="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow-sm)}
+.st-card{display:flex;flex-direction:column;gap:20px;padding:24px;border:1px solid var(--line);border-radius:var(--radius-xl);background:var(--surface);box-shadow:var(--shadow-sm)}
+.st-h2{margin:0;font-family:var(--font-display);font-size:20px;line-height:26px;font-weight:600}
+.st-facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:0}
+.st-facts>div{padding:10px 12px;border-radius:var(--radius-md);background:var(--surface-2)}
+.st-facts dt{font:500 12px/16px var(--font-sans);color:var(--ink-muted)}
+.st-facts dd{margin:2px 0 0;font:700 17px/24px var(--font-sans);font-variant-numeric:tabular-nums}
+.st-sel{display:flex;flex-wrap:wrap;gap:8px}
+.st-hero{display:flex;flex-wrap:wrap;align-items:center;gap:20px;padding:24px;border-radius:var(--radius-xl);background:var(--primary);color:var(--on-primary)}
+.st-hero__icon{display:grid;place-items:center;width:52px;height:52px;flex:none;border-radius:var(--radius-full);background:color-mix(in srgb,var(--on-primary) 14%,transparent)}
+.st-hero__icon .lucide{width:24px;height:24px}
+.st-hero h2{margin:0;font-family:var(--font-display);font-size:22px;line-height:28px;font-weight:700}
+.st-hero p{margin:2px 0 0;opacity:.85}
+.st-disabled{opacity:.45;pointer-events:none}
+
+.st-tile{padding:14px}.st-tile .sn-check{top:14px;right:14px}.st-tile__name{font-size:15px}
+</style>
+</helmet>
+<div data-theme="{{tema}}" style="width: 390px; min-height: 1420px; box-sizing: border-box; display: flex; flex-direction: column; background: var(--bg); color: var(--ink); font-family: var(--font-sans); font-size: 15px; line-height: 22px;">
+  <main style="flex: 1 1 auto; padding: 24px 16px 24px; display: flex; flex-direction: column; gap: 28px;">
+      <header style="display: flex; flex-direction: column; gap: 4px;">
+        <h1 style="margin: 0; font-family: var(--font-display); font-size: 28px; line-height: 34px; font-weight: 700; letter-spacing: -0.01em;">Estudar</h1>
+        <p style="margin: 0; color: var(--ink-muted);">Escolha o que revisar agora.</p>
+      </header>
+    <section class="st-hero" aria-labelledby="hoje">
+        <span class="st-hero__icon"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path></svg></span>
+        <div style="flex: 1 1 260px; min-width: 0;">
+          <h2 id="hoje">Revisão de hoje</h2>
+          <p>32 cards vencem hoje em 3 decks, cerca de 20 minutos. 5 estão atrasados.</p>
+        </div>
+        <a class="sn-btn sn-btn--secondary sn-btn--lg sn-btn--block" href="EstudarPerguntaCelular.dc.html" style="color: var(--ink);"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><polygon points="6 3 20 12 6 21 6 3"></polygon></svg> Revisar agora</a>
+      </section>
+    <section style="display: flex; flex-direction: column; gap: 16px;" aria-labelledby="montar-m">
+      <h2 id="montar-m" class="st-h2">Monte sua sessão</h2>
+      <div class="sn-tabs sn-tabs--block" role="tablist" aria-label="Estudar por">
+              <button type="button" class="sn-tabs__tab" role="tab" aria-selected="{{tabTemas}}" onClick="{{irTemas}}"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 7v14"></path><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"></path></svg> Por tema</button>
+              <button type="button" class="sn-tabs__tab" role="tab" aria-selected="{{tabDecks}}" onClick="{{irDecks}}"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"></path><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"></path><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"></path></svg> Por deck</button>
+            </div>
+      <sc-if value="{{modoTemas}}" hint-placeholder-val="{{ true }}">
+        <div class="st-grid" style="grid-template-columns: repeat(2, minmax(0, 1fr));">
+              <sc-for list="{{temas}}" as="t" hint-placeholder-count="8">
+                <button type="button" class="st-tile" aria-pressed="{{t.pressed}}" onClick="{{t.alternar}}">
+                  <span class="sn-check"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg></span>
+                  <span class="st-tile__name">{{t.nome}}</span>
+                  <span class="st-tile__meta">{{t.meta}}</span>
+                  <span class="{{t.dueCls}}">{{t.due}}</span>
+                </button>
+              </sc-for>
+            </div>
+      </sc-if>
+      <sc-if value="{{modoDecks}}" hint-placeholder-val="{{ false }}">
+        <ul class="st-list">
+              <sc-for list="{{decks}}" as="d" hint-placeholder-count="6">
+                <li>
+                  <button type="button" class="st-row" role="checkbox" aria-checked="{{d.checked}}" onClick="{{d.alternar}}">
+                    <span class="sn-check"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg></span>
+                    <span class="st-row__main">
+                      <span class="st-row__title">{{d.nome}}</span>
+                      <span class="st-row__meta"><span class="sn-tag">{{d.ano}}</span><span class="sn-tag sn-tag--brand">{{d.materia}}</span>{{d.meta}}</span>
+                    </span>
+                    <span class="{{d.dueCls}}">{{d.due}}</span>
+                  </button>
+                </li>
+              </sc-for>
+            </ul>
+      </sc-if>
+      <div style="display: flex; flex-wrap: wrap; gap: 16px;">
+              <div style="display: flex; flex-direction: column; gap: 8px;">
+                <p class="st-label" id="lbl-qtd">Quantos cards</p>
+                <div class="sn-chips" role="radiogroup" aria-labelledby="lbl-qtd">
+                  <sc-for list="{{qtds}}" as="q" hint-placeholder-count="4">
+                    <button type="button" class="sn-chip" role="radio" aria-checked="{{q.checked}}" onClick="{{q.escolher}}"><svg class="lucide sn-chip__check" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>{{q.rotulo}}</button>
+                  </sc-for>
+                </div>
+              </div>
+              <div style="flex: 1 1 260px; display: flex; flex-direction: column; gap: 8px;">
+                <p class="st-label" id="lbl-ordem">Ordem</p>
+                <div class="sn-tabs sn-tabs--block" role="radiogroup" aria-labelledby="lbl-ordem">
+                  <button type="button" class="sn-tabs__tab" role="radio" aria-checked="{{ordemPend}}" onClick="{{irPend}}">Pendentes primeiro</button>
+                  <button type="button" class="sn-tabs__tab" role="radio" aria-checked="{{ordemMist}}" onClick="{{irMist}}"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 18h1.4c1.3 0 2.5-.6 3.3-1.7l6.1-8.6c.7-1.1 2-1.7 3.3-1.7H22"></path><path d="m18 2 4 4-4 4"></path><path d="M2 6h1.9c1.5 0 2.9.9 3.6 2.2"></path><path d="M22 18h-5.9c-1.3 0-2.6-.7-3.3-1.8l-.5-.8"></path><path d="m18 14 4 4-4 4"></path></svg> Misturar</button>
+                </div>
+              </div>
+            </div>
+    </section>
+  </main>
+  <div class="st-card" style="position: sticky; bottom: 118px; z-index: 4; gap: 12px; margin: 0 8px 8px; padding: 16px; border-radius: var(--radius-lg); box-shadow: var(--shadow-lg);">
+    <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; font: 600 14px/20px var(--font-sans);"><span>{{rotuloSel}} · {{nCards}} cards</span><span style="color: var(--ink-muted); font-weight: 500;">{{tempo}}</span></div>
+    <a class="{{btnCls}}" href="EstudarPerguntaCelular.dc.html" style="color: var(--on-primary);"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><polygon points="6 3 20 12 6 21 6 3"></polygon></svg> Começar sessão</a>
+  </div>
+  <div style="position: sticky; bottom: 0; z-index: 5;">
+    <dc-import name="BottomNav" ativo="estudar" tema="{{temaNome}}" hint-size="390px,118px"></dc-import>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"tema": {"editor": "enum", "options": ["Claro", "Escuro"], "default": "Claro"}, "$preview": {"width": 390, "height": 1420}}'>
+class Component extends DCLogic {
+TEMAS = [{"id": "farmaco", "nome": "Farmacologia", "ano": "2º ano", "cards": 84, "hoje": 15, "atraso": false}, {"id": "fisio", "nome": "Fisiologia", "ano": "2º ano", "cards": 58, "hoje": 12, "atraso": false}, {"id": "pato", "nome": "Patologia", "ano": "3º ano", "cards": 46, "hoje": 5, "atraso": true}, {"id": "anato", "nome": "Anatomia", "ano": "1º ano", "cards": 120, "hoje": 0, "atraso": false}, {"id": "bioq", "nome": "Bioquímica", "ano": "1º ano", "cards": 64, "hoje": 0, "atraso": false}, {"id": "histo", "nome": "Histologia", "ano": "1º ano", "cards": 38, "hoje": 0, "atraso": false}, {"id": "micro", "nome": "Microbiologia", "ano": "2º ano", "cards": 52, "hoje": 0, "atraso": false}, {"id": "semio", "nome": "Semiologia", "ano": "3º ano", "cards": 30, "hoje": 0, "atraso": false}];
+  DECKS = [{"id": "d1", "nome": "Farmacologia do sistema nervoso autônomo", "ano": "2º ano", "materia": "Farmacologia", "cards": 84, "hoje": 15, "atraso": false, "dono": null}, {"id": "d2", "nome": "Fisiologia renal", "ano": "2º ano", "materia": "Fisiologia", "cards": 58, "hoje": 12, "atraso": false, "dono": null}, {"id": "d3", "nome": "Neoplasias: conceitos gerais", "ano": "3º ano", "materia": "Patologia", "cards": 46, "hoje": 5, "atraso": true, "dono": null}, {"id": "d4", "nome": "Membro superior: músculos e inervação", "ano": "1º ano", "materia": "Anatomia", "cards": 120, "hoje": 0, "atraso": false, "dono": "Marina"}, {"id": "d5", "nome": "Ciclo de Krebs e cadeia respiratória", "ano": "1º ano", "materia": "Bioquímica", "cards": 64, "hoje": 0, "atraso": false, "dono": null}, {"id": "d6", "nome": "Antibióticos betalactâmicos", "ano": "2º ano", "materia": "Microbiologia", "cards": 52, "hoje": 0, "atraso": false, "dono": "Rafael"}];
+
+  estado() {
+    const s = this.state || {};
+    return {
+      modo: s.modo || 'temas',
+      temas: s.temas || ['farmaco', 'fisio'],
+      decks: s.decks || ['d1', 'd2'],
+      qtd: s.qtd || '20',
+      ordem: s.ordem || 'pendentes'
+    };
+  }
+  toggle(lista, id) {
+    const e = this.estado();
+    const atual = e[lista];
+    const prox = atual.includes(id) ? atual.filter((x) => x !== id) : atual.concat(id);
+    this.setState({ [lista]: prox });
+  }
+  pick(temaNome) {
+    const e = this.estado();
+    const due = (x) => x.atraso ? x.hoje + ' atrasados' : (x.hoje ? x.hoje + ' para hoje' : 'Em dia');
+    const dueCls = (x) => 'st-due' + (x.atraso ? ' st-due--atraso' : (x.hoje ? ' st-due--hoje' : ''));
+    const fonte = e.modo === 'temas' ? this.TEMAS.filter((t) => e.temas.includes(t.id)) : this.DECKS.filter((d) => e.decks.includes(d.id));
+    const total = fonte.reduce((a, x) => a + x.cards, 0);
+    const pend = fonte.reduce((a, x) => a + x.hoje, 0);
+    const n = e.qtd === 'todos' ? total : Math.min(Number(e.qtd), total);
+    const min = Math.max(1, Math.round(n * 40 / 60));
+    const vazio = fonte.length === 0;
+    return {
+      modoTemas: e.modo === 'temas',
+      modoDecks: e.modo === 'decks',
+      tabTemas: e.modo === 'temas' ? 'true' : 'false',
+      tabDecks: e.modo === 'decks' ? 'true' : 'false',
+      irTemas: () => this.setState({ modo: 'temas' }),
+      irDecks: () => this.setState({ modo: 'decks' }),
+      temas: this.TEMAS.map((t) => ({
+        nome: t.nome,
+        meta: t.cards + ' cards · ' + t.ano,
+        due: due(t), dueCls: dueCls(t),
+        pressed: e.temas.includes(t.id) ? 'true' : 'false',
+        alternar: () => this.toggle('temas', t.id)
+      })),
+      decks: this.DECKS.map((d) => ({
+        nome: d.nome,
+        ano: d.ano, materia: d.materia,
+        meta: d.cards + ' cards' + (d.dono ? ' · por ' + d.dono : ''),
+        due: due(d), dueCls: dueCls(d),
+        checked: e.decks.includes(d.id) ? 'true' : 'false',
+        alternar: () => this.toggle('decks', d.id)
+      })),
+      qtds: [['10', '10'], ['20', '20'], ['30', '30'], ['todos', 'Todos']].map(([v, r]) => ({
+        rotulo: r, checked: e.qtd === v ? 'true' : 'false', escolher: () => this.setState({ qtd: v })
+      })),
+      ordemPend: e.ordem === 'pendentes' ? 'true' : 'false',
+      ordemMist: e.ordem === 'misturar' ? 'true' : 'false',
+      irPend: () => this.setState({ ordem: 'pendentes' }),
+      irMist: () => this.setState({ ordem: 'misturar' }),
+      selecionados: fonte.map((x) => ({ nome: x.nome, remover: () => this.toggle(e.modo, x.id), rotulo: 'Remover ' + x.nome })),
+      temSel: !vazio,
+      semSel: vazio,
+      nCards: String(n),
+      nPend: String(Math.min(pend, n)),
+      tempo: '~' + min + ' min',
+      rotuloSel: e.modo === 'temas' ? (fonte.length === 1 ? '1 tema' : fonte.length + ' temas') : (fonte.length === 1 ? '1 deck' : fonte.length + ' decks'),
+      btnCls: 'sn-btn sn-btn--primary sn-btn--lg sn-btn--block' + (vazio ? ' st-disabled' : ''),
+      btnTexto: vazio ? 'Escolha o que estudar' : 'Começar sessão · ' + n + ' cards'
+    };
+  }
+
+  renderVals() {
+    const temaNome = (this.state && this.state.tema) || this.props.tema || 'Claro';
+    return Object.assign({ tema: temaNome === 'Escuro' ? 'dark' : 'light', temaNome: temaNome, setTema: (nome) => this.setState({ tema: nome }), }, this.pick(temaNome));
+  }
+}
+</script>
+</body>
+</html>

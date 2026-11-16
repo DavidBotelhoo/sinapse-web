@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Comunidade no celular — Sinapse</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/sinapse/tokens.css">
+<link rel="stylesheet" href="ds/sinapse/components/bundle.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&amp;family=Figtree:wght@400..800&amp;display=swap">
+<style>
+body{margin:0}
+.lucide{fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round}
+a{color:var(--primary)}a:hover{color:var(--primary-hover)}
+.fx-row{display:flex;flex-wrap:wrap;align-items:center;gap:12px}
+.fx-row .sn-search{flex:0 1 300px}
+.fx-link{color:inherit;text-decoration:none}
+.fx-link::after{content:"";position:absolute;inset:0;border-radius:inherit}
+.sn-deck .sn-iconbtn,.sn-deck .sn-btn{position:relative;z-index:1}
+.fx-due{display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:var(--radius-full);font:600 12px/1 var(--font-sans);background:var(--surface-2);color:var(--ink-muted)}
+.fx-due--hoje{background:var(--primary-soft);color:var(--on-primary-soft)}
+.fx-due--atraso{background:var(--accent-soft);color:var(--on-accent-soft)}
+.fx-pct{font:600 12px/16px var(--font-sans);color:var(--ink-muted)}
+.fx-empty{grid-column:1/-1}
+
+.cm-saves{display:inline-flex;align-items:center;gap:4px}
+.sn-deck__foot .sn-avatar{flex:none}
+
+.fx-row .sn-search{flex:1 1 auto}
+</style>
+</helmet>
+<div data-theme="{{tema}}" style="position: relative; width: 390px; min-height: 3040px; box-sizing: border-box; display: flex; flex-direction: column; background: var(--bg); color: var(--ink); font-family: var(--font-sans); font-size: 15px; line-height: 22px;">
+  <main style="flex: 1 1 auto; padding: 24px 16px 24px; display: flex; flex-direction: column; gap: 28px;">
+    <header style="display: flex; flex-direction: column; gap: 4px;">
+      <h1 style="margin: 0; font-family: var(--font-display); font-size: 28px; line-height: 34px; font-weight: 700; letter-spacing: -0.01em;">Comunidade</h1>
+      <p style="margin: 0; color: var(--ink-muted);">Decks públicos de outros estudantes.</p>
+    </header>
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <label class="sn-search"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg><input placeholder="Buscar por nome ou assunto" aria-label="Buscar por nome ou assunto"></label>
+      <div class="sn-tabs sn-tabs--block" role="tablist" aria-label="Ordenar decks">
+            <button type="button" class="sn-tabs__tab" role="tab" aria-selected="{{ordPop}}" onClick="{{irPop}}"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path></svg> Populares</button>
+            <button type="button" class="sn-tabs__tab" role="tab" aria-selected="{{ordRec}}" onClick="{{irRec}}"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> Recentes</button>
+          </div>
+            <div class="sn-filterbar" style="flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none;">
+        <button type="button" class="sn-chip sn-filter__trigger" aria-expanded="{{expAno}}" aria-pressed="{{anoPressed}}" onClick="{{abrirAno}}" style="flex: none;">{{anoRotulo}} <svg class="lucide sn-filter__chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></button>
+        <button type="button" class="sn-chip sn-filter__trigger" aria-expanded="{{expMat}}" aria-pressed="{{matPressed}}" onClick="{{abrirMat}}" style="flex: none;">{{matRotulo}} <svg class="lucide sn-filter__chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></button>
+        <sc-if value="{{temFiltro}}" hint-placeholder-val="{{ false }}">
+          <button type="button" class="sn-btn sn-btn--ghost sn-btn--sm" onClick="{{limparTudo}}" style="flex: none; color: var(--ink);">Limpar</button>
+        </sc-if>
+      </div>
+    </div>
+    <section class="sn-decks" aria-label="Decks da comunidade" style="grid-template-columns: minmax(0, 1fr); gap: 16px; margin-top: -8px;">
+      <sc-for list="{{decks}}" as="d" hint-placeholder-count="12">
+        <div class="sn-deck sn-deck--interactive">
+          <div class="sn-deck__top">
+            <div class="sn-tags"><sc-for list="{{d.tags}}" as="t" hint-placeholder-count="2"><span class="{{t.cls}}">{{t.nome}}</span></sc-for></div>
+          </div>
+          <h3 class="sn-deck__title"><a class="fx-link" href="{{d.href}}">{{d.nome}}</a></h3>
+          <div class="sn-deck__meta">
+            <span><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"></path><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"></path><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"></path></svg>{{d.cards}} cards</span>
+            <span><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path></svg>{{d.saves}} salvaram</span>
+          </div>
+          <div class="sn-deck__foot">
+            <span class="sn-deck__owner"><span class="sn-avatar sn-avatar--xs" aria-hidden="true">{{d.inicial}}</span>por <b>{{d.dono}}</b></span>
+            <button type="button" class="sn-btn sn-btn--secondary sn-btn--sm" aria-pressed="false" onClick="{{d.salvar}}" style="{{d.styleSalvar}}"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path></svg> Salvar deck</button>
+            <button type="button" class="sn-btn sn-btn--ghost sn-btn--sm" aria-pressed="true" aria-label="Salvo. Toque para remover dos seus flashcards" onClick="{{d.salvar}}" style="{{d.styleSalvo}}"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2Z"></path><path d="m9 10 2 2 4-4"></path></svg> Salvo</button>
+          </div>
+        </div>
+      </sc-for>
+      <sc-if value="{{vazio}}" hint-placeholder-val="{{ false }}">
+          <div class="sn-empty fx-empty">
+            <div class="sn-empty__art" aria-hidden="true"><span class="sn-empty__card"></span><span class="sn-empty__card"></span><span class="sn-empty__card"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg></span></div>
+            <h2 class="sn-empty__title">Nenhum deck com esses filtros</h2>
+            <p class="sn-empty__body">Tire um filtro ou escolha outro ano para ver mais decks.</p>
+            <div class="sn-empty__actions"><button type="button" class="sn-btn sn-btn--secondary" onClick="{{limparTudo}}">Limpar filtros</button></div>
+          </div>
+        </sc-if>
+    </section>
+  </main>
+  <div style="position: sticky; bottom: 0; z-index: 5;">
+    <dc-import name="BottomNav" ativo="comunidade" tema="{{temaNome}}" hint-size="390px,118px"></dc-import>
+  </div>
+
+  <sc-if value="{{sheet}}" hint-placeholder-val="{{ false }}">
+    <div style="position: absolute; top: 0; left: 0; right: 0; height: 844px; z-index: 30; overflow: hidden;">
+    <div style="position: absolute; inset: 0; background: var(--scrim);" onClick="{{fechar}}"></div>
+    <section role="dialog" aria-modal="true" aria-labelledby="sheet-t" style="position: absolute; left: 0; right: 0; bottom: 0; z-index: 31; display: flex; flex-direction: column; gap: 20px; max-height: 760px; box-sizing: border-box; padding: 12px 16px 28px; border-radius: var(--radius-xl) var(--radius-xl) 0 0; background: var(--surface); box-shadow: var(--shadow-lg);">
+      <span aria-hidden="true" style="align-self: center; width: 40px; height: 4px; border-radius: 2px; background: var(--line-strong);"></span>
+      <div style="display: flex; align-items: center; justify-content: space-between;">
+        <h2 id="sheet-t" style="margin: 0; font-family: var(--font-display); font-size: 20px; line-height: 26px; font-weight: 600;">Filtros</h2>
+        <button type="button" class="sn-btn sn-btn--ghost sn-btn--sm" onClick="{{limparTudo}}" style="color: var(--ink);">Limpar</button>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <p class="sn-popover__title">Ano do curso</p>
+        <div class="sn-chips">
+          <sc-for list="{{anosOpts}}" as="a" hint-placeholder-count="6">
+            <button type="button" class="sn-chip" aria-pressed="{{a.pressed}}" onClick="{{a.alternar}}"><svg class="lucide sn-chip__check" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>{{a.rotulo}}</button>
+          </sc-for>
+        </div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 10px; min-height: 0;">
+        <p class="sn-popover__title">Matéria</p>
+        <label class="sn-search"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg><input placeholder="Buscar matéria" aria-label="Buscar matéria"></label>
+        <ul class="sn-options" role="listbox" aria-multiselectable="true" aria-label="Matérias" style="max-height: 260px;">
+          <sc-for list="{{matsOpts}}" as="m" hint-placeholder-count="10">
+            <li><button type="button" class="sn-option" role="option" aria-checked="{{m.checked}}" onClick="{{m.alternar}}" style="height: 44px;"><span class="sn-check"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg></span>{{m.nome}}</button></li>
+          </sc-for>
+        </ul>
+      </div>
+      <button type="button" class="sn-btn sn-btn--primary sn-btn--lg sn-btn--block" onClick="{{fechar}}">Ver {{nResultados}}</button>
+    </section>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"tema": {"editor": "enum", "options": ["Claro", "Escuro"], "default": "Claro"}, "filtros": {"editor": "enum", "options": ["Nenhum", "Com filtros"], "default": "Nenhum"}, "popover": {"editor": "enum", "options": ["Fechado", "Ano do curso", "Matéria"], "default": "Fechado"}, "$preview": {"width": 390, "height": 3040}}'>
+class Component extends DCLogic {
+DECKS = [{"id": "k1", "nome": "Neuroanatomia: nervos cranianos", "ano": "1", "mats": ["Anatomia"], "cards": 96, "dono": "Beatriz", "saves": 3400, "salvo": false, "dias": 2}, {"id": "k2", "nome": "ECG: ritmos e bloqueios", "ano": "3", "mats": ["Cardiologia", "Semiologia"], "cards": 72, "dono": "Camila", "saves": 2300, "salvo": true, "dias": 9}, {"id": "k3", "nome": "Antidepressivos", "ano": "4", "mats": ["Farmacologia"], "cards": 48, "dono": "Felipe", "saves": 1500, "salvo": false, "dias": 1}, {"id": "k4", "nome": "Membro superior: músculos e inervação", "ano": "1", "mats": ["Anatomia"], "cards": 120, "dono": "Marina", "saves": 1200, "salvo": true, "dias": 12}, {"id": "k5", "nome": "Diuréticos: mecanismos e efeitos adversos", "ano": "2", "mats": ["Farmacologia", "Fisiologia"], "cards": 40, "dono": "Lucas", "saves": 1100, "salvo": false, "dias": 3}, {"id": "k6", "nome": "Inflamação aguda e crônica", "ano": "3", "mats": ["Patologia"], "cards": 62, "dono": "Larissa", "saves": 980, "salvo": false, "dias": 5}, {"id": "k7", "nome": "Antibióticos betalactâmicos", "ano": "2", "mats": ["Microbiologia", "Farmacologia"], "cards": 52, "dono": "Rafael", "saves": 864, "salvo": true, "dias": 20}, {"id": "k8", "nome": "Insuficiência cardíaca", "ano": "4", "mats": ["Cardiologia"], "cards": 58, "dono": "Gabriel", "saves": 720, "salvo": false, "dias": 4}, {"id": "k9", "nome": "Glicólise e gliconeogênese", "ano": "1", "mats": ["Bioquímica"], "cards": 34, "dono": "Sofia", "saves": 640, "salvo": false, "dias": 6}, {"id": "k10", "nome": "Imunologia: hipersensibilidades", "ano": "2", "mats": ["Imunologia"], "cards": 44, "dono": "Pedro", "saves": 512, "salvo": true, "dias": 15}, {"id": "k11", "nome": "Sopros cardíacos", "ano": "3", "mats": ["Semiologia", "Cardiologia"], "cards": 26, "dono": "Thiago", "saves": 455, "salvo": false, "dias": 7}, {"id": "k12", "nome": "Histologia do tecido epitelial", "ano": "1", "mats": ["Histologia"], "cards": 38, "dono": "Júlia", "saves": 390, "salvo": true, "dias": 30}];
+  MATERIAS = ["Anatomia", "Bioquímica", "Cardiologia", "Farmacologia", "Fisiologia", "Histologia", "Imunologia", "Microbiologia", "Patologia", "Semiologia"];
+  fstate() {
+    const s = this.state || {};
+    const comFiltro = (this.props.filtros || 'Nenhum') === 'Com filtros';
+    const popProp = { 'Ano do curso': 'ano', 'Matéria': 'mat' }[this.props.popover] || null;
+    return {
+      anos: s.anos ?? (comFiltro ? ['2'] : []),
+      mats: s.mats ?? (comFiltro ? ['Farmacologia'] : []),
+      pop: s.pop !== undefined ? s.pop : popProp
+    };
+  }
+  passa(d) {
+    const f = this.fstate();
+    return (f.anos.length === 0 || f.anos.includes(d.ano)) && (f.mats.length === 0 || d.mats.some((m) => f.mats.includes(m)));
+  }
+  tira(lista, v) {
+    const f = this.fstate();
+    this.setState({ [lista]: f[lista].filter((x) => x !== v) });
+  }
+  alterna(lista, v) {
+    const f = this.fstate();
+    this.setState({ [lista]: f[lista].includes(v) ? f[lista].filter((x) => x !== v) : f[lista].concat(v) });
+  }
+  filterVals() {
+    const f = this.fstate();
+    const ativos = f.anos.map((a) => ({ rotulo: a + 'º ano', aria: 'Remover filtro ' + a + 'º ano', remover: () => this.tira('anos', a) }))
+      .concat(f.mats.map((m) => ({ rotulo: m, aria: 'Remover filtro ' + m, remover: () => this.tira('mats', m) })));
+    return {
+      popAno: f.pop === 'ano', popMat: f.pop === 'mat', sheet: f.pop !== null,
+      expAno: f.pop === 'ano' ? 'true' : 'false', expMat: f.pop === 'mat' ? 'true' : 'false',
+      anoPressed: f.anos.length ? 'true' : 'false', matPressed: f.mats.length ? 'true' : 'false',
+      anoRotulo: f.anos.length === 0 ? 'Ano do curso' : (f.anos.length === 1 ? f.anos[0] + 'º ano' : 'Ano · ' + f.anos.length),
+      matRotulo: f.mats.length === 0 ? 'Matéria' : (f.mats.length === 1 ? f.mats[0] : 'Matéria · ' + f.mats.length),
+      abrirAno: () => this.setState({ pop: this.fstate().pop === 'ano' ? null : 'ano' }),
+      abrirMat: () => this.setState({ pop: this.fstate().pop === 'mat' ? null : 'mat' }),
+      fechar: () => this.setState({ pop: null }),
+      anosOpts: ['1', '2', '3', '4', '5', '6'].map((a) => ({ rotulo: a + 'º', pressed: f.anos.includes(a) ? 'true' : 'false', alternar: () => this.alterna('anos', a) })),
+      matsOpts: this.MATERIAS.map((m) => ({ nome: m, checked: f.mats.includes(m) ? 'true' : 'false', alternar: () => this.alterna('mats', m) })),
+      limparAno: () => this.setState({ anos: [] }),
+      limparMat: () => this.setState({ mats: [] }),
+      ativos: ativos,
+      temFiltro: ativos.length > 0,
+      limparTudo: () => this.setState({ anos: [], mats: [], pop: null })
+    };
+  }
+  renderVals() {
+    const temaNome = (this.state && this.state.tema) || this.props.tema || 'Claro';
+    const s = this.state || {};
+    const ord = s.ord || 'pop';
+    const salvos = s.salvos || this.DECKS.filter((d) => d.salvo).map((d) => d.id);
+    const fmt = (n) => n >= 1000 ? (n / 1000).toFixed(1).replace('.', ',').replace(',0', '') + ' mil' : String(n);
+    const lista = this.DECKS.filter((d) => this.passa(d)).sort((a, b) => ord === 'pop' ? b.saves - a.saves : a.dias - b.dias);
+    const fv = this.filterVals();
+    return Object.assign({ tema: temaNome === 'Escuro' ? 'dark' : 'light', temaNome: temaNome, setTema: (nome) => this.setState({ tema: nome }), }, fv, {
+      ordPop: ord === 'pop' ? 'true' : 'false', ordRec: ord === 'rec' ? 'true' : 'false',
+      irPop: () => this.setState({ ord: 'pop' }), irRec: () => this.setState({ ord: 'rec' }),
+      decks: lista.map((d) => {
+        const salvo = salvos.includes(d.id);
+        return {
+          href: (salvo ? 'DeckSalvo' : 'DeckComunidade') + 'Celular' + '.dc.html',
+          nome: d.nome,
+          tags: [{ nome: d.ano + 'º ano', cls: 'sn-tag' }].concat(d.mats.map((m) => ({ nome: m, cls: 'sn-tag sn-tag--brand' }))),
+          cards: String(d.cards),
+          saves: fmt(d.saves + (salvo && !d.salvo ? 1 : 0)),
+          dono: d.dono, inicial: d.dono[0],
+          styleSalvar: salvo ? 'display: none;' : 'color: var(--ink);',
+          styleSalvo: salvo ? 'color: var(--primary);' : 'display: none;',
+          salvar: () => this.setState({ salvos: salvo ? salvos.filter((x) => x !== d.id) : salvos.concat(d.id) })
+        };
+      }),
+      vazio: lista.length === 0,
+      nResultados: lista.length === 1 ? '1 deck' : lista.length + ' decks',
+      resumo: fv.temFiltro ? lista.length + (lista.length === 1 ? ' deck encontrado' : ' decks encontrados') : '1.248 decks públicos · mostrando os mais salvos'
+    });
+  }
+}
+</script>
+</body>
+</html>

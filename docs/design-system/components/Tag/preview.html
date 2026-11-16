@@ -1,0 +1,35 @@
+<!-- @dsCard group="Base" height=110 subtitle="Ano, matéria, visibilidade e selos" -->
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Tag</title>
+<style>
+  .demo { display: grid; gap: 14px; padding: 24px; }
+  .row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+</style>
+</head>
+<body>
+<div class="demo">
+  <div class="row">
+    <span class="sn-tag">2º ano</span>
+    <span class="sn-tag sn-tag--brand">Farmacologia</span>
+    <span class="sn-tag sn-tag--brand">Fisiologia</span>
+    <span class="sn-tag sn-tag--outline"><i data-lucide="globe"></i> Público</span>
+    <span class="sn-tag sn-tag--outline"><i data-lucide="lock"></i> Privado</span>
+  </div>
+  <div class="row">
+    <span class="sn-tag sn-tag--accent"><i data-lucide="crown"></i> Seu plano</span>
+    <span class="sn-tag sn-tag--accent">Atrasado</span>
+    <span class="sn-count">32</span>
+    <span class="sn-count sn-count--accent">5</span>
+  </div>
+</div>
+<script>
+  (function () {
+    function icons() { if (window.lucide) window.lucide.createIcons(); }
+    if (window.lucide) icons(); else { var s = document.createElement('script'); s.src = 'https://cdn.jsdelivr.net/npm/lucide@0.460.0/dist/umd/lucide.min.js'; s.onload = icons; document.head.appendChild(s); }
+  })();
+</script>
+</body>
+</html>

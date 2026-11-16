@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="pt-BR"><head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../../design-system/fonts/fonts.css">
+<link rel="stylesheet" href="../../../design-system/tokens.css">
+<link rel="stylesheet" href="../../../design-system/components/bundle.css">
+<style>html,body{margin:0}.sn-theme__thumb{z-index:0}</style>
+
+
+<style>
+body{margin:0}
+.lucide{fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round}
+a{color:var(--primary)}a:hover{color:var(--primary-hover)}
+.pf-card{display:flex;flex-direction:column;gap:20px;padding:24px;border:1px solid var(--line);border-radius:var(--radius-xl);background:var(--surface)}
+.pf-h2{margin:0;font-family:var(--font-display);font-size:20px;line-height:26px;font-weight:600}
+.pf-sub{margin:2px 0 0;font:500 13px/18px var(--font-sans);color:var(--ink-muted)}
+.pf-row{display:flex;flex-wrap:wrap;align-items:center;gap:16px}
+.pf-line{display:flex;align-items:center;gap:14px;padding:4px 0}
+.pf-line__icon{display:grid;place-items:center;width:40px;height:40px;flex:none;border-radius:var(--radius-md);background:var(--surface-2);color:var(--ink-muted)}
+.pf-line__icon .lucide{width:20px;height:20px}
+.pf-line__main{flex:1 1 auto;min-width:0;display:flex;flex-direction:column}
+.pf-line__main b{font:600 15px/20px var(--font-sans)}
+.pf-line__main span{font:500 13px/18px var(--font-sans);color:var(--ink-muted)}
+.pf-readonly .sn-field__control{background:var(--surface-2)}
+.pf-readonly input{color:var(--ink-muted)}
+.pf-pay{margin:0;padding:0;list-style:none}
+.pf-pay li{display:grid;grid-template-columns:minmax(0,1fr) auto auto;align-items:center;gap:16px;padding:12px 0;border-top:1px solid var(--line);font:500 14px/20px var(--font-sans)}
+.pf-pay li:first-child{border-top:0}
+.pf-pay small{display:block;font:500 12px/16px var(--font-sans);color:var(--ink-muted)}
+.pf-ok{color:var(--success);font-weight:600}
+.pf-warn{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border-radius:var(--radius-md);background:var(--warning-soft);color:var(--ink)}
+.pf-warn .lucide{flex:none;width:20px;height:20px;color:var(--warning)}
+.pf-warn p{margin:0}
+.pf-warn b{display:block}
+.pf-scrim{position:absolute;inset:0;z-index:30;background:var(--scrim)}
+.pf-modal{position:absolute;z-index:31;display:flex;flex-direction:column;gap:16px;box-sizing:border-box;padding:24px;border-radius:var(--radius-xl);background:var(--surface);box-shadow:var(--shadow-lg)}
+.sn-plan__status--warn{background:var(--warning-soft);color:var(--ink)}
+.sn-plan__status--warn .lucide{color:var(--warning)}
+</style><style>
+body{margin:0}
+.lucide{fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round}
+</style></head>
+<body><div id="root">
+
+<div data-theme="light" style="position: relative; min-height: 1200px; display: flex; flex-wrap: wrap; align-items: stretch; background: var(--bg); color: var(--ink); font-family: var(--font-sans); font-size: 15px; line-height: 22px;">
+  <div style="flex: 0 0 248px; background: var(--surface); border-right: 1px solid var(--line);">
+    
+
+<aside class="sn-sidebar" data-theme="light" aria-label="Navegação principal" style="position: static; width: 248px; height: auto; min-height: 860px; box-sizing: border-box; border-right: 0; background: var(--surface); color: var(--ink); font-family: var(--font-sans);">
+  <div class="sn-sidebar__brand"><a class="sn-wordmark" href="Main.dc.html">Sinapse</a></div>
+  <nav class="sn-nav">
+    <a class="sn-navitem" href="Inicio.dc.html"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>Início</a>
+    <a class="sn-navitem" href="Estudar.dc.html"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><polygon points="6 3 20 12 6 21 6 3"></polygon></svg>Estudar <span class="sn-count">32</span></a>
+    <a class="sn-navitem" href="Flashcards.dc.html"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"></path><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"></path><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"></path></svg>Flashcards</a>
+    <a class="sn-navitem" href="Comunidade.dc.html"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>Comunidade</a>
+  </nav>
+  <div class="sn-sidebar__foot">
+    <div class="sn-theme" role="radiogroup" aria-label="Tema" data-value="light">
+      <span class="sn-theme__thumb" aria-hidden="true"></span>
+      <button class="sn-theme__opt" type="button" role="radio" aria-checked="true"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg> Claro</button>
+      <button class="sn-theme__opt" type="button" role="radio" aria-checked="false"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg> Escuro</button>
+    </div>
+    <a class="sn-profilelink" href="Perfil.dc.html" aria-current="page">
+      <span class="sn-avatar sn-avatar--sm" aria-hidden="true">AS</span>
+      <span class="sn-profilelink__text"><span class="sn-profilelink__name">Ana Souza</span><span class="sn-profilelink__sub">Perfil e assinatura</span></span>
+      <svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+    </a>
+  </div>
+</aside>
+
+  </div>
+  <main style="flex: 999 1 560px; min-width: 0; box-sizing: border-box; padding: 40px 40px 64px;">
+    <div style="max-width: 880px; margin: 0 auto; display: flex; flex-direction: column; gap: 32px;">
+      <header style="display: flex; flex-direction: column; gap: 4px;">
+        <h1 style="margin: 0; font-family: var(--font-display); font-size: 28px; line-height: 34px; font-weight: 700; letter-spacing: -0.01em;">Perfil</h1>
+        <p style="margin: 0; color: var(--ink-muted);">Seus dados, sua senha e sua assinatura.</p>
+      </header>
+      <div class="sn-tabs" role="tablist" aria-label="Seções do perfil">
+          <button type="button" class="sn-tabs__tab" role="tab" aria-selected="true"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> Conta</button>
+          <button type="button" class="sn-tabs__tab" role="tab" aria-selected="false"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z"></path><path d="M5 21h14"></path></svg> Assinatura</button>
+        </div>
+      
+        <section class="pf-card" aria-labelledby="dados">
+          <div><h2 class="pf-h2" id="dados">Foto e nome</h2><p class="pf-sub">Na Comunidade, só seu primeiro nome e a foto aparecem.</p></div>
+          <div class="pf-row">
+            <span class="sn-avatar-edit">
+              <span class="sn-avatar sn-avatar--xl" aria-hidden="true">AS</span>
+              <button type="button" class="sn-avatar-edit__btn" aria-label="Trocar foto de perfil"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"></path><circle cx="12" cy="13" r="3"></circle></svg></button>
+            </span>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              <div style="display: flex; gap: 8px;">
+                <button type="button" class="sn-btn sn-btn--secondary sn-btn--sm"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"></path><circle cx="12" cy="13" r="3"></circle></svg> Trocar foto</button>
+                <button type="button" class="sn-btn sn-btn--ghost sn-btn--sm" style="color: var(--ink-muted);">Remover</button>
+              </div>
+              <p class="pf-sub" style="margin: 0;">JPG, PNG ou WebP, até 5 MB. Recortamos em quadrado.</p>
+            </div>
+          </div>
+          <div class="sn-form">
+            <div class="sn-field-row">
+              <div class="sn-field"><label class="sn-field__label" for="pf-nome">Nome</label><div class="sn-field__control"><input id="pf-nome" type="text" autocomplete="given-name" value="Ana" style=""></div></div>
+              <div class="sn-field"><label class="sn-field__label" for="pf-sobrenome">Sobrenome</label><div class="sn-field__control"><input id="pf-sobrenome" type="text" autocomplete="family-name" value="Souza" style=""></div></div>
+            </div>
+            <div class="sn-field pf-readonly">
+              <label class="sn-field__label" for="pf-email">Email</label>
+              <div class="sn-field__control"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg><input id="pf-email" type="email" value="ana.souza@faculdade.edu.br" readonly="" aria-readonly="true" style=""><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px; color: var(--ink-faint);"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg></div>
+              <p class="sn-field__hint">O email não pode ser alterado por aqui.</p>
+            </div>
+          </div>
+          <div style="display: flex; justify-content: flex-end;"><button type="button" class="sn-btn sn-btn--primary">Salvar alterações</button></div>
+        </section>
+        <section class="pf-card" aria-labelledby="seg">
+          <h2 class="pf-h2" id="seg">Segurança</h2>
+          <div class="pf-line">
+            <span class="pf-line__icon"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"></path><circle cx="16.5" cy="7.5" r=".5" fill="currentColor"></circle></svg></span>
+            <div class="pf-line__main"><b>Senha</b><span>Alterada há 3 meses</span></div>
+            <button type="button" class="sn-btn sn-btn--secondary sn-btn--sm">Trocar senha</button>
+          </div>
+        </section>
+        <section class="pf-card" aria-labelledby="sair" style="flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: space-between;">
+          <div><h2 class="pf-h2" id="sair">Sair da conta</h2><p class="pf-sub">Seus decks e seu progresso ficam salvos.</p></div>
+          <button type="button" class="sn-btn sn-btn--danger"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" x2="9" y1="12" y2="12"></line></svg> Sair da conta</button>
+        </section>
+      
+      
+    </div>
+  </main>
+  
+    <div class="pf-scrim"></div>
+    <section class="pf-modal" role="dialog" aria-modal="true" aria-labelledby="t-senha" style="top: 160px; left: 50%; width: 440px; margin-left: -96px;">
+      <div><h2 class="pf-h2" id="t-senha">Trocar senha</h2><p class="pf-sub">Depois de salvar, você continua conectado neste aparelho.</p></div>
+      <div class="sn-form">
+        <div class="sn-field"><label class="sn-field__label" for="s-atual">Senha atual</label><div class="sn-field__control"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg><input id="s-atual" type="password" autocomplete="current-password" value="senhaatual" style=""></div></div>
+        <div class="sn-field"><label class="sn-field__label" for="s-nova">Nova senha</label><div class="sn-field__control"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg><input id="s-nova" type="password" autocomplete="new-password" placeholder="Mínimo de 8 caracteres" style=""></div><p class="sn-field__hint">Mínimo de 8 caracteres.</p></div>
+        <div class="sn-field"><label class="sn-field__label" for="s-conf">Repita a nova senha</label><div class="sn-field__control"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg><input id="s-conf" type="password" autocomplete="new-password" style=""></div></div>
+      </div>
+      <div style="display: flex; justify-content: flex-end; gap: 8px;">
+        <button type="button" class="sn-btn sn-btn--ghost" style="color: var(--ink);">Cancelar</button>
+        <button type="button" class="sn-btn sn-btn--primary">Salvar nova senha</button>
+      </div>
+    </section>
+  
+</div>
+</div>
+
+</body></html>

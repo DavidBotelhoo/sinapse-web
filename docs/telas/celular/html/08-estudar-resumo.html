@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="pt-BR"><head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../../design-system/fonts/fonts.css">
+<link rel="stylesheet" href="../../../design-system/tokens.css">
+<link rel="stylesheet" href="../../../design-system/components/bundle.css">
+<style>html,body{margin:0}.sn-theme__thumb{z-index:0}</style>
+
+
+<style>
+body{margin:0}
+.lucide{fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round}
+a{color:var(--primary)}a:hover{color:var(--primary-hover)}
+.ss-top{display:flex;align-items:center;gap:16px;padding:14px 32px;border-bottom:1px solid var(--line);background:var(--surface)}
+.ss-title{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;align-items:center;text-align:center}
+.ss-title b{font:600 15px/20px var(--font-sans)}
+.ss-title span{font:500 13px/18px var(--font-sans);color:var(--ink-muted)}
+.ss-time{display:inline-flex;align-items:center;gap:6px;font:600 14px/20px var(--font-sans);color:var(--ink-muted);font-variant-numeric:tabular-nums}
+.ss-time .lucide{width:16px;height:16px}
+.ss-keys{margin:0;text-align:center;font:500 13px/18px var(--font-sans);color:var(--ink-muted)}
+.ss-keys .sn-kbd{margin:0 2px}
+.ss-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column}
+.ss-list li{display:flex;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
+.ss-list li:first-child{border-top:0;padding-top:0}
+.ss-list .sn-dot{margin-top:7px;flex:none}
+.ss-list p{margin:0}
+.ss-list small{display:block;font:500 12px/16px var(--font-sans);color:var(--ink-muted)}
+.ss-card{display:flex;flex-direction:column;gap:16px;padding:24px;border:1px solid var(--line);border-radius:var(--radius-xl);background:var(--surface)}
+.ss-h3{margin:0;font-family:var(--font-display);font-size:18px;line-height:24px;font-weight:600}
+
+.sn-summary{padding:24px 0 0;border:0;background:transparent;box-shadow:none}.ss-card{padding:20px}
+</style></head>
+<body><div id="root">
+
+<div data-theme="light" style="width: 390px; min-height: 1180px; box-sizing: border-box; display: flex; flex-direction: column; background: var(--bg); color: var(--ink); font-family: var(--font-sans); font-size: 15px; line-height: 22px;">
+  
+  
+    <header style="display: flex; align-items: center; gap: 12px; padding: 12px 16px 0;">
+      <a class="sn-iconbtn" href="InicioCelular.dc.html" aria-label="Fechar e voltar ao início" style="color: var(--ink);"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></a>
+    </header>
+    <main style="flex: 1 1 auto; padding: 8px 16px 16px; display: flex; flex-direction: column; gap: 16px;">
+      <section class="sn-summary" aria-labelledby="sum-title">
+            <div class="sn-summary__hero">
+              <div class="sn-ring" role="img" aria-label="80% de acerto">
+                <svg viewBox="0 0 120 120" aria-hidden="true">
+                  <circle class="sn-ring__track" cx="60" cy="60" r="52"></circle>
+                  <circle class="sn-ring__value" cx="60" cy="60" r="52" stroke-dasharray="261.4 326.7"></circle>
+                </svg>
+                <div class="sn-ring__label" aria-hidden="true"><b>80%</b><span>de acerto</span></div>
+              </div>
+              <div>
+                <h2 class="sn-summary__title" id="sum-title">Sessão concluída</h2>
+                <p class="sn-summary__sub">20 cards de Farmacologia e Fisiologia em 14 minutos.</p>
+              </div>
+            </div>
+            <div class="sn-breakdown">
+              <div class="sn-breakdown__bar" aria-hidden="true"><span class="sn-mark--again" style="--n: 4"></span><span class="sn-mark--hard" style="--n: 6"></span><span class="sn-mark--easy" style="--n: 10"></span></div>
+              <ul class="sn-breakdown__legend">
+                <li><span class="sn-dot sn-mark--again"></span>Errei <b>4</b></li>
+                <li><span class="sn-dot sn-mark--hard"></span>Difícil <b>6</b></li>
+                <li><span class="sn-dot sn-mark--easy"></span>Fácil <b>10</b></li>
+              </ul>
+            </div>
+            <dl class="sn-summary__facts">
+              <div><dt>Tempo</dt><dd>14 min</dd></div>
+              <div><dt>Por card</dt><dd>42 s</dd></div>
+              <div><dt>Streak</dt><dd class="is-streak"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path></svg>13 dias</dd></div>
+            </dl>
+            
+          </section>
+          <section class="ss-card" aria-labelledby="errou">
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+              <h3 class="ss-h3" id="errou">Para rever</h3>
+              <span class="sn-tag sn-tag--accent">voltam em 10 min</span>
+            </div>
+            <ul class="ss-list">
+              <li><span class="sn-dot sn-mark--again" aria-hidden="true"></span><p>Qual receptor a atropina bloqueia e o que acontece com a frequência cardíaca?<small>Farmacologia · 2º ano</small></p></li>
+              <li><span class="sn-dot sn-mark--again" aria-hidden="true"></span><p>O que a mácula densa detecta?<small>Fisiologia · 2º ano</small></p></li>
+              <li><span class="sn-dot sn-mark--again" aria-hidden="true"></span><p>Por que betabloqueadores não seletivos são evitados em asmáticos?<small>Farmacologia · 2º ano</small></p></li>
+              <li><span class="sn-dot sn-mark--again" aria-hidden="true"></span><p>Qual é o neurotransmissor das fibras pós-ganglionares simpáticas na maioria dos órgãos?<small>Farmacologia · 2º ano</small></p></li>
+            </ul>
+          </section>
+    </main>
+    <div style="position: sticky; bottom: 0; padding: 12px 16px 28px; border-top: 1px solid var(--line); background: var(--bg);">
+      <div class="sn-summary__actions">
+              <button type="button" class="sn-btn sn-btn--primary"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg> Estudar novamente</button>
+              <a class="sn-btn sn-btn--secondary" href="EstudarCelular.dc.html" style="color: var(--ink);">Escolher novos temas</a>
+            </div>
+    </div>
+  
+</div>
+</div>
+
+</body></html>

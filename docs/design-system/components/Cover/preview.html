@@ -1,0 +1,63 @@
+<!-- @dsCard height=300 -->
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Sinapse</title>
+<style>
+  html, body { margin: 0; height: 100%; }
+  body { background: var(--bg); color: var(--ink); font-family: var(--font-sans); overflow: hidden; }
+  .cover { position: relative; width: 960px; height: 300px; overflow: hidden; }
+  .art { position: absolute; top: 0; left: 480px; width: 480px; height: 300px; overflow: hidden; }
+  .art svg { display: block; width: 480px; height: 300px; overflow: visible; }
+  .deep { fill: var(--ink); }
+  .brand { fill: var(--primary); }
+  .spark { fill: var(--accent); }
+  .tint { fill: var(--primary-soft); }
+  .blk { rx: var(--radius-xl); }
+  .node { fill: var(--primary); }
+  .cut { fill: var(--bg); }
+  .words { position: absolute; left: var(--space-8); bottom: var(--space-8); max-width: 440px; }
+  .name { margin: 0; font-family: var(--font-display); font-size: 104px; line-height: .92; font-weight: 800; letter-spacing: -0.03em; color: var(--ink); }
+  .tag { margin: var(--space-3) 0 0 4px; font-size: 14px; line-height: 20px; color: var(--ink-muted); }
+</style>
+</head>
+<body>
+<div class="cover">
+  <div class="art" aria-hidden="true">
+    <svg viewBox="0 0 480 300" width="480" height="300">
+      <!--
+        blocks      ink 216×184 bled off the top (back card) · primary 216×184 (middle card) · accent 200×144 bled off the right (front card) · primary-soft 96×48 pill for relief — ≈41% of 960×300
+        arrangement a staggered stack, fanned like a deck: the DeckCard silhouette (cards peeking behind cards), each card a space-2 multiple, corners radius-xl
+        pattern     discs from radius-full, the "synapse" the name means: two rows of nodes at a space-6 pitch growing space-2 → space-4 across the stack, primary on the ground, cut in bg where they cross the primary card
+        scales      sides in space-2 multiples; offsets space-8/space-12; pitch space-6 (24); disc diameters space-2, space-3, space-4; corners radius-xl, pill rx = half its height = radius-xl
+      -->
+      <rect class="deep blk" x="168" y="-32" width="216" height="184" rx="24"/>
+      <rect class="brand blk" x="96" y="56" width="216" height="184" rx="24"/>
+      <rect class="spark blk" x="336" y="152" width="200" height="144" rx="24"/>
+      <rect class="tint blk" x="8" y="236" width="96" height="48" rx="24"/>
+      <circle class="node" cx="24" cy="148" r="4"/>
+      <circle class="node" cx="48" cy="148" r="4"/>
+      <circle class="node" cx="72" cy="148" r="6"/>
+      <circle class="cut" cx="120" cy="148" r="6"/>
+      <circle class="cut" cx="144" cy="148" r="6"/>
+      <circle class="cut" cx="168" cy="148" r="8"/>
+      <circle class="cut" cx="192" cy="148" r="8"/>
+      <circle class="cut" cx="216" cy="148" r="8"/>
+      <circle class="cut" cx="240" cy="148" r="8"/>
+      <circle class="cut" cx="264" cy="148" r="8"/>
+      <circle class="cut" cx="288" cy="148" r="8"/>
+      <circle class="node" cx="48" cy="172" r="4"/>
+      <circle class="node" cx="72" cy="172" r="4"/>
+      <circle class="cut" cx="144" cy="172" r="4"/>
+      <circle class="cut" cx="168" cy="172" r="6"/>
+      <circle class="cut" cx="192" cy="172" r="6"/>
+    </svg>
+  </div>
+  <div class="words">
+    <h1 class="name">Sinapse</h1>
+    <p class="tag">Flashcards que conectam o que você estuda.</p>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="pt-BR"><head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../../design-system/fonts/fonts.css">
+<link rel="stylesheet" href="../../../design-system/tokens.css">
+<link rel="stylesheet" href="../../../design-system/components/bundle.css">
+<style>html,body{margin:0}.sn-theme__thumb{z-index:0}</style>
+
+
+<style>
+body{margin:0}
+.lucide{fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round}
+a{color:var(--primary)}a:hover{color:var(--primary-hover)}
+.ss-top{display:flex;align-items:center;gap:16px;padding:14px 32px;border-bottom:1px solid var(--line);background:var(--surface)}
+.ss-title{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;align-items:center;text-align:center}
+.ss-title b{font:600 15px/20px var(--font-sans)}
+.ss-title span{font:500 13px/18px var(--font-sans);color:var(--ink-muted)}
+.ss-time{display:inline-flex;align-items:center;gap:6px;font:600 14px/20px var(--font-sans);color:var(--ink-muted);font-variant-numeric:tabular-nums}
+.ss-time .lucide{width:16px;height:16px}
+.ss-keys{margin:0;text-align:center;font:500 13px/18px var(--font-sans);color:var(--ink-muted)}
+.ss-keys .sn-kbd{margin:0 2px}
+.ss-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column}
+.ss-list li{display:flex;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
+.ss-list li:first-child{border-top:0;padding-top:0}
+.ss-list .sn-dot{margin-top:7px;flex:none}
+.ss-list p{margin:0}
+.ss-list small{display:block;font:500 12px/16px var(--font-sans);color:var(--ink-muted)}
+.ss-card{display:flex;flex-direction:column;gap:16px;padding:24px;border:1px solid var(--line);border-radius:var(--radius-xl);background:var(--surface)}
+.ss-h3{margin:0;font-family:var(--font-display);font-size:18px;line-height:24px;font-weight:600}
+</style></head>
+<body><div id="root">
+
+<div data-theme="light" style="min-height: 900px; display: flex; flex-direction: column; background: var(--bg); color: var(--ink); font-family: var(--font-sans); font-size: 15px; line-height: 22px;">
+  <header class="ss-top">
+    <a class="sn-btn sn-btn--ghost sn-btn--sm" href="Estudar.dc.html" style="color: var(--ink);"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg> Sair</a>
+    <div class="ss-title"><b>Revisão de hoje</b><span>Farmacologia e Fisiologia · 20 cards</span></div>
+    <span class="ss-time" aria-label="Tempo de sessão"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> 08:24</span>
+  </header>
+  <main style="flex: 1 1 auto; box-sizing: border-box; padding: 40px 32px 56px;">
+    
+      <div class="sn-study">
+        <div class="sn-study__bar"><span class="sn-num">3 / 20</span><div class="sn-progress" aria-hidden="true"><span style="--value: 10%;"></span></div></div>
+        <div class="sn-flashcard" data-flipped="true" role="button" tabindex="0" aria-label="Resposta do flashcard">
+            <div class="sn-flashcard__inner" style="min-height: 380px;">
+              <div class="sn-flashcard__face sn-flashcard__face--front">
+                <div class="sn-flashcard__meta"><span>Farmacologia · 2º ano</span><span class="sn-tag">Pergunta</span></div>
+                <p class="sn-flashcard__text">Qual receptor a atropina bloqueia e o que acontece com a frequência cardíaca?</p>
+                <p class="sn-flashcard__hint">Pense na resposta. Depois clique no card ou aperte Espaço.</p>
+              </div>
+              <div class="sn-flashcard__face sn-flashcard__face--back" aria-live="polite">
+                <div class="sn-flashcard__meta"><span class="sn-flashcard__eyebrow"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"></path><path d="M20 3v4"></path><path d="M22 5h-4"></path><path d="M4 17v2"></path><path d="M5 18H3"></path></svg> Resposta</span><span>Farmacologia · 2º ano</span></div>
+                <p class="sn-flashcard__recall">Qual receptor a atropina bloqueia e o que acontece com a frequência cardíaca?</p>
+                <p class="sn-flashcard__text sn-flashcard__text--long">Bloqueia os receptores muscarínicos de forma competitiva. Sem o tônus vagal no nó sinusal, a frequência cardíaca aumenta (taquicardia).</p>
+              </div>
+            </div>
+          </div>
+        
+          
+            <div class="sn-rate" role="group" aria-label="Como você foi?">
+              <button type="button" class="sn-rate__btn sn-rate__btn--again"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg> Errei <span class="sn-kbd">1</span></button>
+              <button type="button" class="sn-rate__btn sn-rate__btn--hard"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"></path></svg> Difícil <span class="sn-kbd">2</span></button>
+              <button type="button" class="sn-rate__btn sn-rate__btn--easy"><svg class="lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg> Fácil <span class="sn-kbd">3</span></button>
+            </div>
+          
+        <p class="ss-keys"><span class="sn-kbd">Espaço</span> vira o card · <span class="sn-kbd">1</span> <span class="sn-kbd">2</span> <span class="sn-kbd">3</span> avaliam e passam para o próximo</p>
+      </div>
+    
+    
+  </main>
+</div>
+</div>
+
+</body></html>
