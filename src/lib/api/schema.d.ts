@@ -164,6 +164,182 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/courses/{slug}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["CatalogController_findBySlug"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/decks": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["DecksController_list"];
+        put?: never;
+        post: operations["DecksController_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/decks/recent": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["DecksController_recent"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/decks/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["DecksController_detail"];
+        put?: never;
+        post?: never;
+        delete: operations["DecksController_delete"];
+        options?: never;
+        head?: never;
+        patch: operations["DecksController_update"];
+        trace?: never;
+    };
+    "/v1/decks/{id}/imports": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["DecksController_appendImport"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/decks/{id}/favorite": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["DecksController_favorite"];
+        post?: never;
+        delete: operations["DecksController_unfavorite"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/decks/{id}/save": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["DecksController_save"];
+        post?: never;
+        delete: operations["DecksController_unsave"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/decks/{id}/cards": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["CardsController_list"];
+        put?: never;
+        post: operations["CardsController_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/cards/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: operations["CardsController_delete"];
+        options?: never;
+        head?: never;
+        patch: operations["CardsController_update"];
+        trace?: never;
+    };
+    "/v1/imports": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["ImportsController_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/imports/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["ImportsController_detail"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -301,6 +477,183 @@ export interface components {
             currentPassword: string;
             /** @example nova-senha */
             newPassword: string;
+        };
+        SubjectDto: {
+            /** @example 7f1f2c6c-5a2a-4e2e-8f1e-9c7f9e0a1b2c */
+            id: string;
+            /** @example anatomia */
+            slug: string;
+            /** @example Anatomia */
+            name: string;
+        };
+        CourseResponseDto: {
+            /** @example 0a7c... */
+            id: string;
+            /** @example medicina */
+            slug: string;
+            /** @example Medicina */
+            name: string;
+            /** @example 6 */
+            years: number;
+            subjects: components["schemas"]["SubjectDto"][];
+        };
+        DeckSubjectDto: {
+            /** @example 7f1f2c6c-5a2a-4e2e-8f1e-9c7f9e0a1b2c */
+            id: string;
+            /** @example cardiologia */
+            slug: string;
+            /** @example Cardiologia */
+            name: string;
+        };
+        DeckOwnerDto: {
+            /** @example Davi */
+            firstName: string;
+            /** @example null */
+            avatarUrl: string | null;
+        };
+        DeckListItemDto: {
+            id: string;
+            name: string;
+            /** @example 1 */
+            year: number;
+            cardCount: number;
+            subjects: components["schemas"]["DeckSubjectDto"][];
+            isMine: boolean;
+            /**
+             * @description So quando isMine.
+             * @enum {string|null}
+             */
+            visibility: "PRIVATE" | "PUBLIC" | null;
+            /** @description So quando !isMine. */
+            owner: components["schemas"]["DeckOwnerDto"] | null;
+            isFavorite: boolean;
+            dueToday: number;
+            overdue: number;
+            /**
+             * @description 0..100 arredondado.
+             * @example 42
+             */
+            masteryPct: number;
+            /** Format: date-time */
+            contentUpdatedAt: string;
+        };
+        DeckListCountsDto: {
+            all: number;
+            mine: number;
+            community: number;
+            favorites: number;
+        };
+        DeckListResponseDto: {
+            items: components["schemas"]["DeckListItemDto"][];
+            /** @example null */
+            nextCursor: string | null;
+            counts: components["schemas"]["DeckListCountsDto"];
+        };
+        CreateDeckDto: {
+            /** Format: uuid */
+            importId: string;
+            /** @example Cardio — Insuficiencia cardiaca */
+            name: string;
+            /** @example 3 */
+            year: number;
+            subjectIds: string[];
+            /**
+             * @default PRIVATE
+             * @enum {string}
+             */
+            visibility: "PRIVATE" | "PUBLIC";
+        };
+        MyStatsDto: {
+            masteryPct: number;
+            dueToday: number;
+            overdue: number;
+            newCount: number;
+            masteredCount: number;
+            /** @description Null se nao houver avaliacoes. */
+            accuracy: number | null;
+        };
+        DeckDetailDto: {
+            id: string;
+            name: string;
+            /** @example 1 */
+            year: number;
+            cardCount: number;
+            subjects: components["schemas"]["DeckSubjectDto"][];
+            isMine: boolean;
+            isSaved: boolean;
+            isFavorite: boolean;
+            /** @enum {string} */
+            visibility: "PRIVATE" | "PUBLIC";
+            saveCount: number;
+            owner: components["schemas"]["DeckOwnerDto"];
+            /** Format: date-time */
+            contentUpdatedAt: string;
+            myStats: components["schemas"]["MyStatsDto"];
+        };
+        UpdateDeckDto: {
+            name?: string;
+            /** @example 3 */
+            year?: number;
+            subjectIds?: string[];
+            /** @enum {string} */
+            visibility?: "PRIVATE" | "PUBLIC";
+        };
+        AppendImportDto: {
+            importId: string;
+        };
+        CardItemDto: {
+            id: string;
+            /** @example 1 */
+            position: number;
+            question: string;
+            answer: string;
+            /** @enum {string} */
+            status: "NEW" | "DUE_TODAY" | "OVERDUE" | "SCHEDULED" | "MASTERED";
+            /** @description So quando SCHEDULED. */
+            dueInDays: number | null;
+        };
+        CardListCountsDto: {
+            all: number;
+            due: number;
+            new: number;
+            mastered: number;
+        };
+        CardListResponseDto: {
+            items: components["schemas"]["CardItemDto"][];
+            nextCursor: string | null;
+            counts: components["schemas"]["CardListCountsDto"];
+        };
+        CreateCardDto: {
+            question: string;
+            answer: string;
+        };
+        UpdateCardDto: {
+            question?: string;
+            answer?: string;
+        };
+        ImportCreatedDto: {
+            id: string;
+            /** @enum {string} */
+            status: "PENDING" | "PROCESSING" | "READY" | "FAILED" | "CONSUMED";
+        };
+        ImportPairDto: {
+            question: string;
+            answer: string | null;
+        };
+        ImportDetailDto: {
+            id: string;
+            /** @enum {string} */
+            status: "PENDING" | "PROCESSING" | "READY" | "FAILED" | "CONSUMED";
+            /**
+             * @description 0..100.
+             * @example 50
+             */
+            progress: number;
+            pairsFound: number | null;
+            pairsMissingAnswer: number | null;
+            suggestedName: string;
+            pairs: components["schemas"]["ImportPairDto"][];
+            error: string | null;
         };
     };
     responses: never;
@@ -660,6 +1013,552 @@ export interface operations {
                 };
             };
             415: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    CatalogController_findBySlug: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                slug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CourseResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    DecksController_list: {
+        parameters: {
+            query?: {
+                scope?: "all" | "mine" | "community" | "favorites";
+                year?: number[];
+                subjectIds?: string[];
+                q?: string;
+                cursor?: string;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeckListResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    DecksController_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateDeckDto"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeckDetailDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    DecksController_recent: {
+        parameters: {
+            query?: {
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeckListItemDto"][];
+                };
+            };
+        };
+    };
+    DecksController_detail: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeckDetailDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    DecksController_delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    DecksController_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateDeckDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeckDetailDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    DecksController_appendImport: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AppendImportDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeckDetailDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    DecksController_favorite: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    DecksController_unfavorite: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    DecksController_save: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    DecksController_unsave: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    CardsController_list: {
+        parameters: {
+            query?: {
+                status?: "all" | "due" | "new" | "mastered";
+                q?: string;
+                cursor?: string;
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CardListResponseDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    CardsController_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateCardDto"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CardItemDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    CardsController_delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    CardsController_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateCardDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CardItemDto"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ImportsController_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "multipart/form-data": {
+                    /**
+                     * Format: binary
+                     * @description PDF ou DOCX, ate 20 MB.
+                     */
+                    file: string;
+                };
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ImportCreatedDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            415: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ImportsController_detail: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ImportDetailDto"];
+                };
+            };
+            404: {
                 headers: {
                     [name: string]: unknown;
                 };

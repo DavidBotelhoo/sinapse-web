@@ -1,2 +1,6 @@
 @import "tailwindcss";
 @import "../styles/sinapse-theme.css";
+
+html[data-hide-bottom-nav] [data-sinapse-bottom-nav] {
+  display: none;
+}

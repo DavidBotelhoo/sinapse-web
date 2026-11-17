@@ -25,6 +25,7 @@ export function BottomNav() {
   return (
     <nav
       aria-label="Navegação principal"
+      data-sinapse-bottom-nav
       className={cn(
         "md:hidden fixed inset-x-0 bottom-0 z-40 grid grid-cols-5 items-stretch h-bottom-nav px-2",
         "border-t border-line bg-surface",
