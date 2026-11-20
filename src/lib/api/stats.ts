@@ -3,13 +3,12 @@
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { api } from "./client";
 import type { components } from "./schema";
+import { AGENDA_DAYS } from "./constants";
 
 export type MeStats = components["schemas"]["MeStatsDto"];
 export type Agenda = components["schemas"]["AgendaDto"];
 export type AgendaDay = components["schemas"]["AgendaDayDto"];
 export type AgendaDeck = components["schemas"]["AgendaDeckDto"];
-
-export const AGENDA_DAYS = 7;
 
 export function agendaKey(date: string) {
   return ["agenda", AGENDA_DAYS, date] as const;
