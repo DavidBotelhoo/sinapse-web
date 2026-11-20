@@ -340,6 +340,140 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/study/overview": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Tela Estudar: Revisao de hoje e as opcoes por materia e por deck. */
+        get: operations["StudyController_overview"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/study/sessions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Monta uma sessao: atrasados, depois os de hoje, depois os novos; corta no limite. */
+        post: operations["StudyController_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/study/sessions/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Uma sessao com os cards, o que ja foi avaliado e se terminou (para retomar). */
+        get: operations["StudyController_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/study/sessions/{id}/reviews": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Avalia um card da sessao (FSRS) e grava o ReviewLog. */
+        post: operations["StudyController_review"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/study/sessions/{id}/finish": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Encerra a sessao e devolve o resumo. Pode ser chamado de novo. */
+        post: operations["StudyController_finish"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/study/sessions/{id}/repeat": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** "Estudar novamente": nova sessao com os mesmos cards. */
+        post: operations["StudyController_repeat"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/me/stats": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["StatsController_getStats"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/me/agenda": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["StatsController_getAgenda"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -536,6 +670,11 @@ export interface components {
             masteryPct: number;
             /** Format: date-time */
             contentUpdatedAt: string;
+            /**
+             * Format: date-time
+             * @description Ultima avaliacao do usuario neste deck ("ha 2 horas"). Null se nunca estudou.
+             */
+            lastStudiedAt: string | null;
         };
         DeckListCountsDto: {
             all: number;
@@ -654,6 +793,359 @@ export interface components {
             suggestedName: string;
             pairs: components["schemas"]["ImportPairDto"][];
             error: string | null;
+        };
+        StudyTodayDto: {
+            /**
+             * @description Vencem hoje (sem os atrasados).
+             * @example 27
+             */
+            dueToday: number;
+            /** @example 5 */
+            overdue: number;
+            /**
+             * @description Decks com cards para hoje ou atrasados.
+             * @example 3
+             */
+            deckCount: number;
+            /**
+             * @description (dueToday + overdue) x tempo medio por card.
+             * @example 20
+             */
+            estimatedMinutes: number;
+        };
+        StudySubjectOptionDto: {
+            id: string;
+            /** @example farmacologia */
+            slug: string;
+            /** @example Farmacologia */
+            name: string;
+            /**
+             * @description Anos dos decks dessa materia.
+             * @example [
+             *       2
+             *     ]
+             */
+            years: number[];
+            /** @example 84 */
+            cardCount: number;
+            /** @example 15 */
+            dueToday: number;
+            /** @example 0 */
+            overdue: number;
+            /**
+             * @description Nunca estudados.
+             * @example 10
+             */
+            newCount: number;
+        };
+        StudyDeckOptionDto: {
+            id: string;
+            name: string;
+            /** @example 2 */
+            year: number;
+            subjects: components["schemas"]["DeckSubjectDto"][];
+            cardCount: number;
+            isMine: boolean;
+            /** @description So quando o deck e da comunidade. */
+            owner: components["schemas"]["DeckOwnerDto"] | null;
+            dueToday: number;
+            overdue: number;
+            /** @description Nunca estudados. */
+            newCount: number;
+        };
+        StudyOverviewDto: {
+            /** @description "Revisao de hoje". */
+            today: components["schemas"]["StudyTodayDto"];
+            /**
+             * @description Tempo medio por card do usuario (40 s sem historico), para o tempo estimado de "Sua sessao".
+             * @example 40
+             */
+            secondsPerCard: number;
+            /** @description Aba "Por tema"; pendentes primeiro. */
+            subjects: components["schemas"]["StudySubjectOptionDto"][];
+            /** @description Aba "Por deck"; pendentes primeiro. */
+            decks: components["schemas"]["StudyDeckOptionDto"][];
+        };
+        CreateStudySessionDto: {
+            /** @description Decks escolhidos (proprios ou salvos). */
+            deckIds?: string[];
+            /** @description Materias escolhidas. */
+            subjectIds?: string[];
+            /**
+             * @description Quantos cards. null = todos. Padrao: 20 (ou todos com mode=today).
+             * @enum {number|null}
+             */
+            limit?: 10 | 20 | 30 | null;
+            /**
+             * @default DUE_FIRST
+             * @enum {string}
+             */
+            order: "DUE_FIRST" | "SHUFFLE";
+            /**
+             * @description "today" = Revisao de hoje: so os que vencem hoje e os atrasados, de todos os decks.
+             * @enum {string}
+             */
+            mode?: "today";
+        };
+        StudyCardDto: {
+            id: string;
+            deckId: string;
+            question: string;
+            answer: string;
+            /** @example 2 */
+            year: number;
+            subjects: components["schemas"]["DeckSubjectDto"][];
+            /**
+             * @description Situacao do card quando a sessao foi montada.
+             * @enum {string}
+             */
+            status: "NEW" | "DUE_TODAY" | "OVERDUE" | "SCHEDULED" | "MASTERED";
+        };
+        StudySessionDto: {
+            sessionId: string;
+            /**
+             * @description "today" = Revisao de hoje; "custom" = montada por materia ou por deck.
+             * @enum {string}
+             */
+            mode: "today" | "custom";
+            /** @example 20 */
+            total: number;
+            /** @enum {string} */
+            order: "DUE_FIRST" | "SHUFFLE";
+            /** Format: date-time */
+            startedAt: string;
+            /**
+             * Format: date-time
+             * @description Preenchido depois do finish.
+             */
+            finishedAt: string | null;
+            /** @description Cards ja avaliados nesta sessao, para continuar de onde parou. */
+            reviewedCardIds: string[];
+            /** @description Materias da sessao, as com mais cards primeiro ("Farmacologia e Fisiologia"). */
+            subjects: components["schemas"]["DeckSubjectDto"][];
+            /** @description Na ordem da sessao. */
+            cards: components["schemas"]["StudyCardDto"][];
+        };
+        CreateReviewDto: {
+            /** Format: uuid */
+            cardId: string;
+            /**
+             * @description Errei = AGAIN, Dificil = HARD, Facil = GOOD.
+             * @enum {string}
+             */
+            rating: "AGAIN" | "HARD" | "GOOD";
+            /**
+             * @description Tempo entre mostrar a pergunta e avaliar. Acima de 5 min conta como 5 min.
+             * @example 12000
+             */
+            durationMs: number;
+        };
+        ReviewResultDto: {
+            cardId: string;
+            /** @enum {string} */
+            rating: "AGAIN" | "HARD" | "GOOD";
+            /**
+             * @description Nova situacao do card.
+             * @enum {string}
+             */
+            status: "NEW" | "DUE_TODAY" | "OVERDUE" | "SCHEDULED" | "MASTERED";
+            /** @description So quando SCHEDULED. */
+            dueInDays: number | null;
+            /**
+             * Format: date-time
+             * @description Quando o card volta.
+             */
+            due: string;
+            /**
+             * @description Cards ja avaliados nesta sessao.
+             * @example 3
+             */
+            reviewed: number;
+            /** @example 20 */
+            total: number;
+        };
+        RatingCountsDto: {
+            /**
+             * @description Errei.
+             * @example 4
+             */
+            again: number;
+            /**
+             * @description Dificil.
+             * @example 6
+             */
+            hard: number;
+            /**
+             * @description Facil.
+             * @example 10
+             */
+            good: number;
+        };
+        SessionStreakDto: {
+            /** @example 13 */
+            days: number;
+            /** @description Esta sessao teve a primeira avaliacao do dia (o streak subiu). */
+            increased: boolean;
+        };
+        ToReviewCardDto: {
+            id: string;
+            deckId: string;
+            question: string;
+            answer: string;
+            /** @example 2 */
+            year: number;
+            subjects: components["schemas"]["DeckSubjectDto"][];
+            /**
+             * Format: date-time
+             * @description Quando volta ("voltam em 10 min").
+             */
+            due: string;
+        };
+        StudySessionSummaryDto: {
+            sessionId: string;
+            /** Format: date-time */
+            startedAt: string;
+            /** Format: date-time */
+            finishedAt: string;
+            /**
+             * @description Cards na sessao.
+             * @example 20
+             */
+            total: number;
+            /**
+             * @description Cards avaliados.
+             * @example 20
+             */
+            reviewed: number;
+            counts: components["schemas"]["RatingCountsDto"];
+            /**
+             * @description Null sem avaliacoes.
+             * @example 80
+             */
+            accuracyPct: number | null;
+            /** @example 840000 */
+            totalDurationMs: number;
+            /**
+             * @description Null sem avaliacoes.
+             * @example 42000
+             */
+            avgDurationMs: number | null;
+            streak: components["schemas"]["SessionStreakDto"];
+            subjects: components["schemas"]["DeckSubjectDto"][];
+            /** @description "Para rever": os cards com Errei. */
+            toReview: components["schemas"]["ToReviewCardDto"][];
+        };
+        MeStatsDto: {
+            /**
+             * @description Dias seguidos com ao menos uma avaliacao (fuso do usuario).
+             * @example 12
+             */
+            streak: number;
+            /** @description Ja avaliou algum card hoje. */
+            studiedToday: boolean;
+            /**
+             * Format: date
+             * @description Segunda-feira da semana atual.
+             * @example 2026-11-16
+             */
+            weekStart: string;
+            /**
+             * @description Seg..dom: dias da semana atual com avaliacao.
+             * @example [
+             *       true,
+             *       true,
+             *       true,
+             *       true,
+             *       true,
+             *       true,
+             *       false
+             *     ]
+             */
+            weekStudied: boolean[];
+            /**
+             * @description Avaliacoes na semana atual.
+             * @example 342
+             */
+            cardsThisWeek: number;
+            /**
+             * @description % contra o mesmo periodo da semana anterior. Null se a anterior teve 0.
+             * @example 18
+             */
+            cardsDeltaPct: number | null;
+            /**
+             * @description Minutos de estudo na semana atual.
+             * @example 400
+             */
+            minutesThisWeek: number;
+            /**
+             * @description Seg..dom: minutos por dia na semana atual.
+             * @example [
+             *       40,
+             *       75,
+             *       60,
+             *       120,
+             *       30,
+             *       55,
+             *       20
+             *     ]
+             */
+            minutesPerDay: number[];
+            /**
+             * @description (Dificil + Facil) / total, em %, nos ultimos 7 dias. Null sem avaliacoes.
+             * @example 78
+             */
+            accuracy7d: number | null;
+        };
+        AgendaDayDto: {
+            /**
+             * Format: date
+             * @example 2026-11-16
+             */
+            date: string;
+            /**
+             * @description Cards que vencem no dia (em hoje, inclui os atrasados).
+             * @example 32
+             */
+            total: number;
+            /**
+             * @description Atrasados (so no primeiro dia, hoje).
+             * @example 5
+             */
+            overdue: number;
+        };
+        AgendaDeckDto: {
+            id: string;
+            name: string;
+            /** @example 3 */
+            year: number;
+            subjects: components["schemas"]["DeckSubjectDto"][];
+            /** @description Vencem no dia escolhido. */
+            due: number;
+            /** @description Atrasados (so quando o dia escolhido e hoje). */
+            overdue: number;
+            total: number;
+            /**
+             * Format: date
+             * @description Dia local do atrasado mais antigo ("atrasado desde ontem").
+             * @example 2026-11-15
+             */
+            overdueSince: string | null;
+        };
+        AgendaDto: {
+            /** @description Um item por dia, a partir de hoje. */
+            days: components["schemas"]["AgendaDayDto"][];
+            /**
+             * @description Soma dos dias ("57 na semana").
+             * @example 57
+             */
+            total: number;
+            /**
+             * Format: date
+             * @description Dia escolhido.
+             */
+            date: string;
+            /** @description Decks do dia escolhido; atrasados primeiro. */
+            decks: components["schemas"]["AgendaDeckDto"][];
         };
     };
     responses: never;
@@ -1521,6 +2013,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorResponseDto"];
                 };
             };
+            /** @description SUBSCRIPTION_REQUIRED: sem assinatura ativa (ainda nao bloqueia; etapa 11). */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -1559,6 +2060,370 @@ export interface operations {
                 };
             };
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    StudyController_overview: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StudyOverviewDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    StudyController_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateStudySessionDto"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StudySessionDto"];
+                };
+            };
+            /** @description VALIDATION_ERROR (nada escolhido, ou mode=today com deckIds/subjectIds). */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description SUBSCRIPTION_REQUIRED: sem assinatura ativa (ainda nao bloqueia; etapa 11). */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description DECK_NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description NOTHING_TO_STUDY: nenhum card pendente ou novo na selecao. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    StudyController_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StudySessionDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description STUDY_SESSION_NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    StudyController_review: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateReviewDto"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ReviewResultDto"];
+                };
+            };
+            /** @description VALIDATION_ERROR ou CARD_NOT_IN_SESSION. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description SUBSCRIPTION_REQUIRED: sem assinatura ativa (ainda nao bloqueia; etapa 11). */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description STUDY_SESSION_NOT_FOUND ou CARD_NOT_FOUND (card excluido durante a sessao). */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description STUDY_SESSION_FINISHED ou CARD_ALREADY_REVIEWED. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    StudyController_finish: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StudySessionSummaryDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description STUDY_SESSION_NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    StudyController_repeat: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StudySessionDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description SUBSCRIPTION_REQUIRED: sem assinatura ativa (ainda nao bloqueia; etapa 11). */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description STUDY_SESSION_NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description NOTHING_TO_STUDY: nenhum dos cards esta mais disponivel. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    StatsController_getStats: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Cards de estatistica da tela Inicio (fuso do usuario). */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MeStatsDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    StatsController_getAgenda: {
+        parameters: {
+            query?: {
+                /** @description Quantos dias, a partir de hoje. */
+                days?: number;
+                /** @description Dia escolhido (fuso do usuario), dentro da janela. Padrao: hoje. */
+                date?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Agenda de revisao: total por dia e decks do dia escolhido. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AgendaDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
                 headers: {
                     [name: string]: unknown;
                 };
