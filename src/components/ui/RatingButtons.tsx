@@ -27,6 +27,8 @@ const ratings: ReadonlyArray<{
   { value: "easy", label: "Fácil", icon: Check, key: "3", classes: "bg-easy-soft text-on-easy-soft" },
 ];
 
+const byKey: Record<string, Rating> = { "1": "again", "2": "hard", "3": "easy" };
+
 export function RatingButtons({
   onRate,
   disabled,
@@ -37,6 +39,7 @@ export function RatingButtons({
   useEffect(() => {
     if (!keyboardEnabled || disabled) return;
     function onKey(e: KeyboardEvent) {
+      if (e.repeat || e.defaultPrevented || e.ctrlKey || e.metaKey || e.altKey) return;
       const target = e.target as HTMLElement | null;
       if (
         target &&
@@ -44,16 +47,10 @@ export function RatingButtons({
       ) {
         return;
       }
-      if (e.key === "1") {
-        e.preventDefault();
-        onRate("again");
-      } else if (e.key === "2") {
-        e.preventDefault();
-        onRate("hard");
-      } else if (e.key === "3") {
-        e.preventDefault();
-        onRate("easy");
-      }
+      const rating = byKey[e.key];
+      if (!rating) return;
+      e.preventDefault();
+      onRate(rating);
     }
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
@@ -73,18 +70,21 @@ export function RatingButtons({
             type="button"
             disabled={disabled}
             onClick={() => onRate(r.value)}
+            aria-keyshortcuts={r.key}
             className={cn(
-              "flex flex-col items-center justify-center gap-[2px] min-h-14 px-3 rounded-lg",
+              "flex flex-col items-center justify-center gap-[2px] min-h-16 md:min-h-14 px-3 rounded-lg",
               "border-[1.5px] border-transparent font-sans font-bold text-[15px] leading-5 cursor-pointer",
               "transition-[border-color,transform] duration-(--dur-fast) ease-[var(--ease-spring)]",
-              "hover:border-current active:scale-[0.96]",
+              "hover:border-current active:scale-[0.96] disabled:cursor-default",
               r.classes,
             )}
           >
-            <span className="flex items-center gap-2">
-              <Icon aria-hidden strokeWidth={1.75} className="size-[18px]" />
+            <span className="flex flex-col md:flex-row items-center gap-[2px] md:gap-2">
+              <Icon aria-hidden strokeWidth={1.75} className="size-5 md:size-[18px]" />
               {r.label}
-              <Kbd>{r.key}</Kbd>
+              <span className="max-md:hidden [@media(hover:none)]:hidden ml-1 inline-flex">
+                <Kbd>{r.key}</Kbd>
+              </span>
             </span>
             {intervals?.[r.value] ? (
               <span className="font-sans font-medium text-[11px] leading-none opacity-70">

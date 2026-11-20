@@ -10,8 +10,13 @@ export type StatCardProps = {
   value: ReactNode;
   unit?: ReactNode;
   tone?: StatCardTone;
-  trend?: { direction: "up" | "down"; label: string };
+  trend?: { direction: "up" | "down" | "flat"; label: ReactNode };
   footer?: ReactNode;
+  /**
+   * Arranjo no celular (tela 04): "split" põe rótulo e valor à esquerda e o rodapé à direita (Streak);
+   * "inline" põe o valor na linha do rótulo (Taxa de acerto). Sem isso, empilha como no desktop.
+   */
+  mobileLayout?: "split" | "inline";
   className?: string;
 };
 
@@ -19,6 +24,15 @@ const iconTones: Record<StatCardTone, string> = {
   brand: "bg-primary-soft text-on-primary-soft",
   accent: "bg-accent-soft text-on-accent-soft",
 };
+
+/** Unidade ao lado do número ("12 dias", "6 h 40 min"). */
+export function StatUnit({ children }: { children: ReactNode }) {
+  return (
+    <span className="ml-[3px] mr-[6px] last:mr-0 font-sans font-semibold text-[15px] leading-none tracking-normal text-ink-muted">
+      {children}
+    </span>
+  );
+}
 
 export function StatCard({
   icon,
@@ -28,34 +42,47 @@ export function StatCard({
   tone = "brand",
   trend,
   footer,
+  mobileLayout,
   className,
 }: StatCardProps) {
   return (
     <section
       className={cn(
-        "grid content-start gap-2 min-w-0 p-5 rounded-lg border border-line bg-surface",
+        "grid content-start gap-2 min-w-0 p-4 md:p-5 rounded-lg border border-line bg-surface",
+        mobileLayout === "split" &&
+          "max-md:flex max-md:flex-wrap max-md:items-center max-md:justify-between max-md:gap-3",
         className,
       )}
     >
-      <div className="flex items-center gap-2 font-sans font-semibold text-[13px] leading-[18px] text-ink-muted">
-        <span
-          className={cn(
-            "grid place-items-center size-8 rounded-[10px] [&_svg]:size-[18px]",
-            iconTones[tone],
-          )}
-          aria-hidden
-        >
-          {icon}
-        </span>
-        {label}
-      </div>
-      <div className="flex items-baseline mt-1 font-display font-bold text-stat-value tabular-nums text-ink">
-        {value}
-        {unit ? (
-          <span className="mx-[3px] font-sans font-semibold text-[15px] leading-none text-ink-muted">
-            {unit}
+      <div
+        className={cn(
+          "grid gap-2",
+          mobileLayout === "split" && "max-md:gap-1",
+          mobileLayout === "inline" && "max-md:flex max-md:items-center max-md:justify-between max-md:gap-3",
+        )}
+      >
+        <div className="flex items-center gap-2 font-sans font-semibold text-[13px] leading-[18px] text-ink-muted">
+          <span
+            className={cn(
+              "grid place-items-center size-8 shrink-0 rounded-[10px] [&_svg]:size-[18px]",
+              iconTones[tone],
+            )}
+            aria-hidden
+          >
+            {icon}
           </span>
-        ) : null}
+          {label}
+        </div>
+        <div
+          className={cn(
+            "flex items-baseline mt-1 font-display font-bold text-stat-value tabular-nums text-ink",
+            "max-md:text-[26px] max-md:leading-[30px]",
+            mobileLayout && "max-md:mt-0",
+          )}
+        >
+          {value}
+          {unit ? <StatUnit>{unit}</StatUnit> : null}
+        </div>
       </div>
       {trend ? (
         <div
@@ -66,13 +93,13 @@ export function StatCard({
         >
           {trend.direction === "up" ? (
             <ArrowUpRight aria-hidden strokeWidth={1.75} className="size-[14px]" />
-          ) : (
+          ) : trend.direction === "down" ? (
             <ArrowDownRight aria-hidden strokeWidth={1.75} className="size-[14px]" />
-          )}
+          ) : null}
           {trend.label}
         </div>
       ) : null}
-      {footer ? <div className="mt-1">{footer}</div> : null}
+      {footer ? <div className={cn("mt-1", mobileLayout && "max-md:mt-0")}>{footer}</div> : null}
     </section>
   );
 }
@@ -152,16 +179,25 @@ export function ProgressBar({ value, tone = "brand", label, className }: Progres
   );
 }
 
-export function StatsGrid({ children, className }: { children: ReactNode; className?: string }) {
+export function StatsGrid({
+  children,
+  className,
+  "aria-label": ariaLabel,
+}: {
+  children: ReactNode;
+  className?: string;
+  "aria-label"?: string;
+}) {
   return (
-    <div
+    <section
+      aria-label={ariaLabel}
       className={cn(
-        "grid gap-4",
-        "[grid-template-columns:repeat(auto-fit,minmax(190px,1fr))]",
+        "grid grid-cols-2 gap-3 md:gap-4",
+        "md:[grid-template-columns:repeat(auto-fit,minmax(190px,1fr))]",
         className,
       )}
     >
       {children}
-    </div>
+    </section>
   );
 }
