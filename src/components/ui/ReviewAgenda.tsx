@@ -60,7 +60,7 @@ export function ReviewAgenda({
   return (
     <section
       aria-labelledby={titleId}
-      className={cn("grid gap-4 p-5 rounded-lg border border-line bg-surface", className)}
+      className={cn("grid gap-4 p-4 md:p-5 rounded-lg border border-line bg-surface", className)}
     >
       <div className="flex items-center justify-between gap-3">
         <h2 id={titleId} className="m-0 font-display font-semibold text-[18px] leading-6 text-ink">
@@ -71,7 +71,7 @@ export function ReviewAgenda({
         </Tag>
       </div>
 
-      <ol className="grid grid-cols-7 gap-1 m-0 p-0 list-none">
+      <ol className="grid grid-cols-7 gap-[2px] md:gap-1 m-0 p-0 list-none">
         {days.map((d) => {
           const pressed = d.key === selectedKey;
           return (
@@ -85,7 +85,7 @@ export function ReviewAgenda({
                   onSelect(d.key);
                 }}
                 className={cn(
-                  "grid justify-items-center gap-[2px] w-full min-w-11 py-2 px-[2px] rounded-md border-0 cursor-pointer",
+                  "grid justify-items-center gap-[2px] w-full min-w-11 py-2 px-0 md:px-[2px] rounded-md border-0 cursor-pointer",
                   "font-sans font-semibold text-[12px] leading-4",
                   "transition-colors duration-(--dur-fast) ease-out",
                   pressed ? "bg-primary text-on-primary" : "bg-transparent text-ink-muted hover:bg-surface-2",
@@ -117,7 +117,7 @@ export function ReviewAgenda({
               <li
                 key={it.id}
                 className={cn(
-                  "flex items-center gap-3 py-[10px] px-2 rounded-md hover:bg-surface-2",
+                  "flex items-center gap-3 py-[10px] px-1 md:px-2 rounded-md hover:bg-surface-2",
                   i >= items.length - hiddenOnMobile && "max-md:hidden",
                 )}
               >
