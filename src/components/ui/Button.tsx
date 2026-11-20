@@ -3,16 +3,9 @@
 import { forwardRef, type ButtonHTMLAttributes, type ReactNode } from "react";
 import { LoaderCircle } from "lucide-react";
 import { cn } from "@/lib/cn";
+import { base, sizes, variants, type ButtonSize, type ButtonVariant } from "./buttonStyles";
 
-export type ButtonVariant =
-  | "primary"
-  | "secondary"
-  | "ghost"
-  | "accent"
-  | "danger"
-  | "onPrimary";
-
-export type ButtonSize = "sm" | "md" | "lg";
+export type { ButtonSize, ButtonVariant };
 
 export type ButtonProps = {
   variant?: ButtonVariant;
@@ -25,35 +18,6 @@ export type ButtonProps = {
   loadingText?: string;
   children?: ReactNode;
 } & Omit<ButtonHTMLAttributes<HTMLButtonElement>, "children">;
-
-const base =
-  "inline-flex items-center justify-center gap-2 font-sans font-semibold leading-none whitespace-nowrap cursor-pointer select-none " +
-  "transition-[background-color,border-color,color,transform] duration-(--dur-fast) ease-out " +
-  "active:scale-[0.98] rounded-md border border-transparent";
-
-const sizes: Record<ButtonSize, string> = {
-  sm: "h-control-sm px-4 text-[14px] rounded-sm",
-  md: "h-control px-5 text-[15px]",
-  lg: "h-[52px] px-6 text-[16px]",
-};
-
-const variants: Record<ButtonVariant, string> = {
-  primary: "bg-primary text-on-primary hover:bg-primary-hover",
-  secondary: "bg-surface text-ink border-line-strong hover:bg-surface-2",
-  ghost: "bg-transparent text-ink hover:bg-surface-2",
-  accent: "bg-accent text-on-accent",
-  danger: "bg-transparent text-danger hover:bg-danger-soft",
-  onPrimary: "bg-transparent text-on-primary border-current hover:bg-primary-hover",
-};
-
-/** As classes do botão, para links com cara de botão (`ButtonLink`). */
-export function buttonClasses({
-  variant = "primary",
-  size = "md",
-  block,
-}: { variant?: ButtonVariant; size?: ButtonSize; block?: boolean } = {}) {
-  return cn(base, sizes[size], variants[variant], block && "w-full", "no-underline");
-}
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
   {

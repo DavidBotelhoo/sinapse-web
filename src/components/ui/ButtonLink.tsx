@@ -1,6 +1,6 @@
 import Link, { type LinkProps } from "next/link";
 import type { AnchorHTMLAttributes, ReactNode } from "react";
-import { buttonClasses, type ButtonSize, type ButtonVariant } from "./Button";
+import { buttonClasses, type ButtonSize, type ButtonVariant } from "./buttonStyles";
 import { cn } from "@/lib/cn";
 
 export type ButtonLinkProps = LinkProps &
