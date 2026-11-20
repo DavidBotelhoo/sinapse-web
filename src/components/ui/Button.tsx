@@ -27,7 +27,7 @@ export type ButtonProps = {
 } & Omit<ButtonHTMLAttributes<HTMLButtonElement>, "children">;
 
 const base =
-  "inline-flex items-center justify-center gap-2 font-sans whitespace-nowrap cursor-pointer select-none " +
+  "inline-flex items-center justify-center gap-2 font-sans font-semibold leading-none whitespace-nowrap cursor-pointer select-none " +
   "transition-[background-color,border-color,color,transform] duration-(--dur-fast) ease-out " +
   "active:scale-[0.98] rounded-md border border-transparent";
 
@@ -45,6 +45,15 @@ const variants: Record<ButtonVariant, string> = {
   danger: "bg-transparent text-danger hover:bg-danger-soft",
   onPrimary: "bg-transparent text-on-primary border-current hover:bg-primary-hover",
 };
+
+/** As classes do botão, para links com cara de botão (`ButtonLink`). */
+export function buttonClasses({
+  variant = "primary",
+  size = "md",
+  block,
+}: { variant?: ButtonVariant; size?: ButtonSize; block?: boolean } = {}) {
+  return cn(base, sizes[size], variants[variant], block && "w-full", "no-underline");
+}
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
   {
