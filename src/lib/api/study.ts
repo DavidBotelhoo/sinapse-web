@@ -41,6 +41,13 @@ export function useRepeatSession() {
   });
 }
 
+/** A sessão como está agora na API (para não confiar numa página guardada pelo voltar do navegador). */
+export async function fetchSession(sessionId: string): Promise<StudySession> {
+  const { data } = await api.GET("/v1/study/sessions/{id}", { params: { path: { id: sessionId } } });
+  if (!data) throw new Error("sessão vazia");
+  return data;
+}
+
 export async function postReview(sessionId: string, body: ReviewInput): Promise<ReviewResult> {
   const { data } = await api.POST("/v1/study/sessions/{id}/reviews", {
     params: { path: { id: sessionId } },
