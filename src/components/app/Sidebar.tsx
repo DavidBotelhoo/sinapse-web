@@ -6,7 +6,7 @@ import { House, Layers, Play, Settings, Users, type LucideIcon } from "lucide-re
 import { Wordmark } from "./Wordmark";
 import { Avatar } from "@/components/ui/Avatar";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
-import { getHomeCardsTodayMock } from "@/lib/api/mocks/homeCount";
+import { useTodayCount } from "@/lib/api/stats";
 import { cn } from "@/lib/cn";
 
 type Item = {
@@ -16,9 +16,15 @@ type Item = {
   count?: number;
 };
 
-export function Sidebar({ user }: { user: { firstName: string; lastName: string; avatarUrl?: string | null } }) {
+export function Sidebar({
+  user,
+  initialTodayCount,
+}: {
+  user: { firstName: string; lastName: string; avatarUrl?: string | null };
+  initialTodayCount?: number;
+}) {
   const pathname = usePathname();
-  const todayCount = getHomeCardsTodayMock();
+  const { data: todayCount = 0 } = useTodayCount(initialTodayCount);
 
   const items: ReadonlyArray<Item> = [
     { href: "/inicio", label: "Início", icon: House },
