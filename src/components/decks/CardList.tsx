@@ -1,12 +1,13 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Search, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Chip } from "@/components/ui/Chip";
 import { SegmentedTabs } from "@/components/ui/SegmentedTabs";
 import { ConfirmDialog } from "@/components/ui/Dialog";
 import { CardRow } from "./CardRow";
+import { SearchField } from "./SearchField";
+import { cardListClass, deckSectionClass } from "./deckSection";
 import { CardEditInline } from "./CardEditInline";
 import {
   useCardsQuery,
@@ -102,8 +103,8 @@ export function CardList({ deckId, canEdit, counts }: CardListProps) {
   }
 
   return (
-    <section aria-labelledby="deck-cards" className="flex flex-col gap-4">
-      <h2 id="deck-cards" className="m-0 font-display font-semibold text-[22px] leading-7 text-ink">
+    <section aria-labelledby="deck-cards" className={deckSectionClass}>
+      <h2 id="deck-cards" className="m-0 font-display font-semibold text-[20px] leading-[26px] text-ink">
         Cards
       </h2>
 
@@ -122,17 +123,7 @@ export function CardList({ deckId, canEdit, counts }: CardListProps) {
       />
 
       <div className="flex flex-wrap items-center gap-3">
-        <label className="flex items-center gap-2 h-control px-4 rounded-md border border-line-strong bg-surface focus-within:border-primary focus-within:shadow-[0_0_0_3px_var(--color-primary-soft)] flex-1 min-w-[220px]">
-          <Search aria-hidden strokeWidth={1.75} className="size-[18px] text-ink-faint" />
-          <input
-            type="search"
-            value={q}
-            onChange={(e) => setQ(e.target.value)}
-            placeholder="Buscar no deck"
-            aria-label="Buscar no deck"
-            className="flex-1 min-w-0 bg-transparent outline-0 border-0 font-sans text-[15px] leading-[22px] text-ink placeholder:text-ink-faint"
-          />
-        </label>
+        <SearchField value={q} onChange={setQ} placeholder="Buscar no deck" className="flex-1 min-w-[220px]" />
         <Chip selected={showAnswers} onClick={() => setShowAnswers((v) => !v)}>
           Mostrar respostas
         </Chip>
@@ -154,7 +145,7 @@ export function CardList({ deckId, canEdit, counts }: CardListProps) {
           {debouncedQ ? "Nenhum card com essa busca." : "Nenhum card nessa aba."}
         </p>
       ) : (
-        <ol className="m-0 p-0 list-none">
+        <ol className={cardListClass}>
           {allCards.map((card, i) => (
             <li key={card.id}>
               <CardRow
