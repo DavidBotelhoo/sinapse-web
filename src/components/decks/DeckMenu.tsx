@@ -30,6 +30,8 @@ export type DeckMenuProps = {
   onDelete?: () => void;
   onRemoveSaved?: () => void;
   onReport?: () => void;
+  /** Classes extras do botão "…" (sem borda no celular, no topo do cabeçalho). */
+  triggerClassName?: string;
 };
 
 export function DeckMenu(props: DeckMenuProps) {
@@ -94,6 +96,7 @@ export function DeckMenu(props: DeckMenuProps) {
         aria-expanded={open}
         aria-controls={id}
         onClick={() => setOpen((v) => !v)}
+        className={props.triggerClassName}
       >
         <Ellipsis strokeWidth={1.75} className="size-[18px]" />
       </Button>

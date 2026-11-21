@@ -6,6 +6,7 @@ import type { DeckDetail } from "@/lib/api/decks";
 
 type Props = {
   params: Promise<{ deckId: string }>;
+  searchParams: Promise<{ salvo?: string }>;
 };
 
 async function fetchDeck(deckId: string): Promise<DeckDetail> {
@@ -23,15 +24,16 @@ async function fetchDeck(deckId: string): Promise<DeckDetail> {
   }
 }
 
-export default async function DeckDetailPage({ params }: Props) {
-  const { deckId } = await params;
+export default async function DeckDetailPage({ params, searchParams }: Props) {
+  const [{ deckId }, { salvo }] = await Promise.all([params, searchParams]);
   const deck = await fetchDeck(deckId);
 
   if (!deck.isMine && !deck.isSaved) {
     redirect(`/comunidade/${deck.id}`);
   }
 
-  return <DeckPage initialDeck={deck} />;
+  // ?salvo=1: acabou de salvar pela Comunidade; o botão principal vira "Estudar agora".
+  return <DeckPage initialDeck={deck} justSaved={salvo === "1" && !deck.isMine} />;
 }
 
 export async function generateMetadata({ params }: Props) {

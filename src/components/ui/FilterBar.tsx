@@ -6,6 +6,7 @@ import {
   useRef,
   useState,
   type ReactNode,
+  type Ref,
 } from "react";
 import { ChevronDown, Check, Search } from "lucide-react";
 import { Button } from "./Button";
@@ -15,6 +16,8 @@ import { cn } from "@/lib/cn";
 export type FilterOption = {
   value: string;
   label: string;
+  /** Rótulo nos chips do popover ("2º"); o chip removível usa `label` ("2º ano"). */
+  shortLabel?: string;
 };
 
 export type FilterDef = {
@@ -76,20 +79,74 @@ export function FilterBar({ filters, onClearAll, removedLabel, className, traili
   );
 }
 
+/** Rótulo do gatilho: "Ano do curso", "2º ano" ou "Matéria · 2". */
+export function filterTriggerLabel(filter: FilterDef) {
+  const n = filter.selected.length;
+  if (n === 0) return filter.label;
+  if (n === 1) {
+    const v = filter.selected[0] ?? "";
+    return filter.singleValueLabel
+      ? filter.singleValueLabel(v)
+      : (filter.options.find((o) => o.value === v)?.label ?? filter.label);
+  }
+  return `${filter.label} · ${n}`;
+}
+
+export type FilterTriggerProps = {
+  label: ReactNode;
+  active: boolean;
+  expanded: boolean;
+  onClick: () => void;
+  className?: string;
+  "aria-controls"?: string;
+  "aria-haspopup"?: "dialog";
+  ref?: Ref<HTMLButtonElement>;
+};
+
+/** O chip que abre um filtro (sn-filter__trigger): popover no desktop, folha no celular. */
+export function FilterTrigger({
+  label,
+  active,
+  expanded,
+  onClick,
+  className,
+  ref,
+  ...aria
+}: FilterTriggerProps) {
+  return (
+    <button
+      ref={ref}
+      type="button"
+      aria-expanded={expanded}
+      aria-pressed={active || undefined}
+      onClick={onClick}
+      {...aria}
+      className={cn(
+        "inline-flex shrink-0 items-center gap-[6px] h-control-sm px-[14px] rounded-full font-sans font-semibold text-[14px] leading-none cursor-pointer whitespace-nowrap",
+        "border transition-colors duration-(--dur-fast) ease-out [&_svg]:size-4",
+        active
+          ? "bg-primary-soft border-primary text-on-primary-soft"
+          : "bg-surface border-line-strong text-ink hover:bg-surface-2",
+        className,
+      )}
+    >
+      {label}
+      <ChevronDown
+        strokeWidth={1.75}
+        aria-hidden
+        className={cn("transition-transform duration-(--dur-fast) ease-out", expanded && "rotate-180")}
+      />
+    </button>
+  );
+}
+
 function FilterPopover({ filter }: { filter: FilterDef }) {
   const [open, setOpen] = useState(false);
   const popoverId = useId();
   const triggerRef = useRef<HTMLButtonElement>(null);
 
   const selectedCount = filter.selected.length;
-  const triggerLabel =
-    selectedCount === 0
-      ? filter.label
-      : selectedCount === 1
-        ? filter.singleValueLabel
-          ? filter.singleValueLabel(filter.selected[0] ?? "")
-          : (filter.options.find((o) => o.value === filter.selected[0])?.label ?? filter.label)
-        : `${filter.label} · ${selectedCount}`;
+  const triggerLabel = filterTriggerLabel(filter);
 
   function closeAndRestoreFocus() {
     setOpen(false);
@@ -98,28 +155,14 @@ function FilterPopover({ filter }: { filter: FilterDef }) {
 
   return (
     <div className="relative">
-      <button
+      <FilterTrigger
         ref={triggerRef}
-        type="button"
-        aria-expanded={open}
+        label={triggerLabel}
+        active={selectedCount > 0}
+        expanded={open}
         aria-controls={popoverId}
-        aria-pressed={selectedCount > 0 || undefined}
         onClick={() => setOpen((v) => !v)}
-        className={cn(
-          "inline-flex items-center gap-[6px] h-control-sm px-[14px] rounded-full font-sans font-semibold text-[14px] leading-none cursor-pointer whitespace-nowrap",
-          "border transition-colors duration-(--dur-fast) ease-out [&_svg]:size-4",
-          selectedCount > 0
-            ? "bg-primary-soft border-primary text-on-primary-soft"
-            : "bg-surface border-line-strong text-ink hover:bg-surface-2",
-        )}
-      >
-        {triggerLabel}
-        <ChevronDown
-          strokeWidth={1.75}
-          aria-hidden
-          className={cn("transition-transform duration-(--dur-fast) ease-out", open && "rotate-180")}
-        />
-      </button>
+      />
       {open ? (
         <FilterPopoverBody
           id={popoverId}
@@ -193,9 +236,12 @@ function FilterPopoverBody({
           setQuery={setQuery}
         />
       ) : (
-        <ChipList options={filter.options} draft={draft} toggle={toggle} />
+        <>
+          <p className="m-0 font-sans font-semibold text-[13px] leading-[18px] text-ink-muted">{filter.label}</p>
+          <ChipList options={filter.options} draft={draft} toggle={toggle} />
+        </>
       )}
-      <div className="flex items-center justify-between gap-2 pt-1 border-t border-line">
+      <div className="flex items-center justify-between gap-2 pt-3 border-t border-line">
         <Button variant="ghost" size="sm" onClick={() => setDraft([])}>
           Limpar
         </Button>
@@ -226,8 +272,8 @@ function ChipList({
   return (
     <div className="flex flex-wrap gap-2">
       {options.map((o) => (
-        <Chip key={o.value} selected={draft.includes(o.value)} onClick={() => toggle(o.value)}>
-          {o.label}
+        <Chip key={o.value} selected={draft.includes(o.value)} onClick={() => toggle(o.value)} aria-label={o.label}>
+          {o.shortLabel ?? o.label}
         </Chip>
       ))}
     </div>
