@@ -3,7 +3,7 @@
 import { forwardRef, type ButtonHTMLAttributes, type ReactNode } from "react";
 import { LoaderCircle } from "lucide-react";
 import { cn } from "@/lib/cn";
-import { base, sizes, variants, type ButtonSize, type ButtonVariant } from "./buttonStyles";
+import { base, iconOnlySizes, sizes, variants, type ButtonSize, type ButtonVariant } from "./buttonStyles";
 
 export type { ButtonSize, ButtonVariant };
 
@@ -38,7 +38,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
   },
   ref,
 ) {
-  const iconOnlyClasses = iconOnly ? (size === "sm" ? "w-control-sm px-0" : "w-control px-0") : "";
+  // Só ícone: quadrado, sem o padding do tamanho (px-5 com px-0 juntos, o px-5 vencia e esmagava o ícone).
+  const sizeClasses = iconOnly ? iconOnlySizes[size] : sizes[size];
 
   if (iconOnly && !ariaLabel && typeof process !== "undefined" && process.env.NODE_ENV !== "production") {
     console.warn("Button com iconOnly exige aria-label.");
@@ -53,10 +54,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
       disabled={disabled}
       className={cn(
         base,
-        sizes[size],
+        sizeClasses,
         variants[variant],
         block && "w-full",
-        iconOnlyClasses,
         loading && "pointer-events-none",
         className,
       )}

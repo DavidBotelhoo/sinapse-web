@@ -21,6 +21,12 @@ export const sizes: Record<ButtonSize, string> = {
   lg: "h-[52px] px-6 text-[16px]",
 };
 
+export const iconOnlySizes: Record<ButtonSize, string> = {
+  sm: "size-control-sm rounded-sm",
+  md: "size-control",
+  lg: "size-[52px]",
+};
+
 export const variants: Record<ButtonVariant, string> = {
   // A cor da borda fica em cada variante: com border-transparent na base, a do secundário perdia pela ordem do CSS.
   primary: "border-transparent bg-primary text-on-primary hover:bg-primary-hover",
