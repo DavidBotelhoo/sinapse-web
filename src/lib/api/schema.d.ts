@@ -276,6 +276,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/decks/{id}/report": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["DecksController_report"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/decks/{id}/cards": {
         parameters: {
             query?: never;
@@ -474,6 +490,38 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/community/decks": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["CommunityController_list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/community/decks/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["CommunityController_preview"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -642,7 +690,10 @@ export interface components {
         DeckOwnerDto: {
             /** @example Davi */
             firstName: string;
-            /** @example null */
+            /**
+             * @description Miniatura de 64px do avatar. Null se a pessoa nao tem foto.
+             * @example null
+             */
             avatarUrl: string | null;
         };
         DeckListItemDto: {
@@ -739,6 +790,13 @@ export interface components {
         };
         AppendImportDto: {
             importId: string;
+        };
+        /** @enum {string} */
+        ReportReason: "WRONG_CONTENT" | "COPYRIGHT" | "OFFENSIVE" | "SPAM" | "OTHER";
+        ReportDeckDto: {
+            reason: components["schemas"]["ReportReason"];
+            /** @description Opcional. Espacos nas pontas sao cortados; vazio vira null. */
+            details?: string | null;
         };
         CardItemDto: {
             id: string;
@@ -1146,6 +1204,62 @@ export interface components {
             date: string;
             /** @description Decks do dia escolhido; atrasados primeiro. */
             decks: components["schemas"]["AgendaDeckDto"][];
+        };
+        /** @enum {string} */
+        CommunitySort: "popular" | "recent";
+        CommunityDeckDto: {
+            /** Format: uuid */
+            id: string;
+            name: string;
+            /** @example 1 */
+            year: number;
+            subjects: components["schemas"]["DeckSubjectDto"][];
+            cardCount: number;
+            /** @description Quantas pessoas salvaram. */
+            saveCount: number;
+            /** @description O usuario logado salvou este deck. */
+            isSaved: boolean;
+            /** @description O deck e do usuario logado (o front troca "Salvar" pelo link do deck). */
+            isMine: boolean;
+            owner: components["schemas"]["DeckOwnerDto"];
+        };
+        CommunityDeckListDto: {
+            items: components["schemas"]["CommunityDeckDto"][];
+            /** @example null */
+            nextCursor: string | null;
+            /**
+             * @description Total de decks com os mesmos filtros.
+             * @example 1248
+             */
+            total: number;
+        };
+        CommunityPreviewCardDto: {
+            /** Format: uuid */
+            id: string;
+            /** @example 1 */
+            position: number;
+            question: string;
+            answer: string;
+        };
+        CommunityDeckDetailDto: {
+            /** Format: uuid */
+            id: string;
+            name: string;
+            /** @example 1 */
+            year: number;
+            subjects: components["schemas"]["DeckSubjectDto"][];
+            cardCount: number;
+            /** @description Quantas pessoas salvaram. */
+            saveCount: number;
+            /** @description O usuario logado salvou este deck. */
+            isSaved: boolean;
+            /** @description O deck e do usuario logado (o front troca "Salvar" pelo link do deck). */
+            isMine: boolean;
+            owner: components["schemas"]["DeckOwnerDto"];
+            /** Format: date-time */
+            contentUpdatedAt: string;
+            /** @description Os 6 primeiros cards. Os demais so em /decks/:id/cards, depois de salvar. */
+            previewCards: components["schemas"]["CommunityPreviewCardDto"][];
         };
     };
     responses: never;
@@ -1851,6 +1965,55 @@ export interface operations {
             };
         };
     };
+    DecksController_report: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ReportDeckDto"];
+            };
+        };
+        responses: {
+            /** @description Denuncia registrada. Uma por usuario e deck: repetir troca o motivo e reabre a denuncia. */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description DECK_NOT_FOUND: deck privado, excluido, do proprio usuario ou ocultado (para quem nao salvou). */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
     CardsController_list: {
         parameters: {
             query?: {
@@ -2424,6 +2587,90 @@ export interface operations {
                 };
             };
             401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    CommunityController_list: {
+        parameters: {
+            query?: {
+                year?: number[];
+                subjectIds?: string[];
+                /** @description Busca no nome do deck e no nome das materias (materia sem diferenciar acento). */
+                q?: string;
+                /** @description popular: mais salvos primeiro. recent: conteudo atualizado mais recentemente. */
+                sort?: components["schemas"]["CommunitySort"];
+                /** @description nextCursor da pagina anterior, com a mesma ordem. */
+                cursor?: string;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CommunityDeckListDto"];
+                };
+            };
+            /** @description VALIDATION_ERROR: filtro invalido ou cursor de outra ordem. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    CommunityController_preview: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CommunityDeckDetailDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description DECK_NOT_FOUND: deck privado, excluido ou ocultado pela moderacao. */
+            404: {
                 headers: {
                     [name: string]: unknown;
                 };
