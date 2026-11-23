@@ -5,11 +5,15 @@ import { useTheme } from "next-themes";
 import { Moon, Sun } from "lucide-react";
 import { cn } from "@/lib/cn";
 
+export type ThemeValue = "light" | "dark";
+
 export type ThemeToggleProps = {
+  /** Depois de trocar o tema no navegador (ex.: salvar na conta com PATCH /me). */
+  onChange?: (value: ThemeValue) => void;
   className?: string;
 };
 
-export function ThemeToggle({ className }: ThemeToggleProps) {
+export function ThemeToggle({ onChange, className }: ThemeToggleProps) {
   const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
@@ -18,7 +22,13 @@ export function ThemeToggle({ className }: ThemeToggleProps) {
     setMounted(true);
   }, []);
 
-  const current: "light" | "dark" = resolvedTheme === "dark" ? "dark" : "light";
+  const current: ThemeValue = resolvedTheme === "dark" ? "dark" : "light";
+
+  function select(value: ThemeValue) {
+    if (value === current) return;
+    setTheme(value);
+    onChange?.(value);
+  }
 
   return (
     <div
@@ -38,8 +48,8 @@ export function ThemeToggle({ className }: ThemeToggleProps) {
           mounted && current === "dark" ? "translate-x-full" : "translate-x-0",
         )}
       />
-      <ThemeOption value="light" current={mounted ? current : null} onSelect={() => setTheme("light")} />
-      <ThemeOption value="dark" current={mounted ? current : null} onSelect={() => setTheme("dark")} />
+      <ThemeOption value="light" current={mounted ? current : null} onSelect={() => select("light")} />
+      <ThemeOption value="dark" current={mounted ? current : null} onSelect={() => select("dark")} />
     </div>
   );
 }

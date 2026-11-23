@@ -7,6 +7,7 @@ import { Wordmark } from "./Wordmark";
 import { Avatar } from "@/components/ui/Avatar";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { useTodayCount } from "@/lib/api/stats";
+import { useCurrentUser, usePersistTheme } from "./MeProvider";
 import { cn } from "@/lib/cn";
 
 type Item = {
@@ -16,14 +17,10 @@ type Item = {
   count?: number;
 };
 
-export function Sidebar({
-  user,
-  initialTodayCount,
-}: {
-  user: { firstName: string; lastName: string; avatarUrl?: string | null };
-  initialTodayCount?: number;
-}) {
+export function Sidebar({ initialTodayCount }: { initialTodayCount?: number }) {
   const pathname = usePathname();
+  const user = useCurrentUser();
+  const persistTheme = usePersistTheme();
   const { data: todayCount = 0 } = useTodayCount(initialTodayCount);
 
   const items: ReadonlyArray<Item> = [
@@ -79,7 +76,7 @@ export function Sidebar({
         })}
       </nav>
       <div className="mt-auto grid gap-3 pt-4 border-t border-line">
-        <ThemeToggle />
+        <ThemeToggle onChange={persistTheme} />
         <Link
           href="/perfil"
           aria-current={isActive(pathname, "/perfil") ? "page" : undefined}
