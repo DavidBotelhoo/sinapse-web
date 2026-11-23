@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { Check, CreditCard, Crown, CircleAlert } from "lucide-react";
+import { Check, CreditCard, Crown, TriangleAlert } from "lucide-react";
 import { Tag } from "./Tag";
 import { cn } from "@/lib/cn";
 
@@ -14,6 +14,8 @@ export type PlanCardProps = {
   status: PlanStatus;
   statusLine?: ReactNode;
   warningLine?: ReactNode;
+  /** Selo de um plano que não é o atual ("2 meses grátis"). */
+  badge?: ReactNode;
   action: ReactNode;
   className?: string;
 };
@@ -27,6 +29,7 @@ export function PlanCard({
   status,
   statusLine,
   warningLine,
+  badge,
   action,
   className,
 }: PlanCardProps) {
@@ -41,15 +44,13 @@ export function PlanCard({
     >
       <div className="flex items-center justify-between gap-2">
         <h3 className="m-0 font-display font-semibold text-[18px] leading-6 text-ink">{name}</h3>
-        {status === "current" ? (
+        {/* Com pagamento recusado continua "Seu plano" (tela 27); o aviso vai no warningLine. */}
+        {isCurrent ? (
           <Tag tone="accent" icon={<Crown strokeWidth={1.75} />}>
             Seu plano
           </Tag>
-        ) : null}
-        {status === "declined" ? (
-          <Tag tone="accent" icon={<CircleAlert strokeWidth={1.75} />}>
-            Pagamento recusado
-          </Tag>
+        ) : badge ? (
+          badge
         ) : null}
       </div>
       <div className="flex items-baseline gap-1">
@@ -70,12 +71,12 @@ export function PlanCard({
         ))}
       </ul>
       {warningLine ? (
-        <div className="flex items-center gap-2 px-3 py-3 rounded-md bg-warning-soft text-warning font-sans font-medium text-[13px] leading-[18px] [&_svg]:size-4">
-          <CircleAlert aria-hidden strokeWidth={1.75} />
+        <div className="flex items-center gap-2 px-3 py-3 rounded-md bg-warning-soft text-ink font-sans font-medium text-[13px] leading-[18px] [&_svg]:size-4 [&_svg]:shrink-0 [&_svg]:text-warning">
+          <TriangleAlert aria-hidden strokeWidth={1.75} />
           {warningLine}
         </div>
       ) : statusLine ? (
-        <div className="flex items-center gap-2 px-3 py-3 rounded-md bg-surface-2 text-ink-muted font-sans font-medium text-[13px] leading-[18px] [&_svg]:size-4">
+        <div className="flex items-center gap-2 px-3 py-3 rounded-md bg-surface-2 text-ink-muted font-sans font-medium text-[13px] leading-[18px] [&_svg]:size-4 [&_svg]:shrink-0">
           <CreditCard aria-hidden strokeWidth={1.75} />
           {statusLine}
         </div>
@@ -89,7 +90,7 @@ export function PlansGrid({ children, className }: { children: ReactNode; classN
   return (
     <div
       className={cn(
-        "grid gap-4 [grid-template-columns:repeat(auto-fit,minmax(280px,1fr))]",
+        "grid gap-4 [grid-template-columns:repeat(auto-fit,minmax(250px,1fr))]",
         className,
       )}
     >
