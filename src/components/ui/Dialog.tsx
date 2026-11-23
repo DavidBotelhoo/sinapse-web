@@ -21,7 +21,8 @@ export type DialogProps = {
   description?: ReactNode;
   children?: ReactNode;
   footer?: ReactNode;
-  size?: "sm" | "md" | "lg";
+  /** sm 400 · form 440 (trocar senha, tela 25) · md 480 · lg 640. */
+  size?: "sm" | "form" | "md" | "lg";
   labelledBy?: string;
 };
 
@@ -98,7 +99,9 @@ export function Dialog({
   const sizeClasses =
     size === "sm"
       ? "max-w-[400px]"
-      : size === "lg"
+      : size === "form"
+        ? "max-w-[440px]"
+        : size === "lg"
         ? "max-w-[640px]"
         : "max-w-[480px]";
 

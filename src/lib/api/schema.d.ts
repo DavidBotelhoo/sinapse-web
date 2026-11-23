@@ -158,7 +158,8 @@ export interface paths {
         get?: never;
         put?: never;
         post: operations["UsersController_uploadAvatar"];
-        delete?: never;
+        /** Remove a foto (as duas versoes). Sem foto, responde igual. */
+        delete: operations["UsersController_removeAvatar"];
         options?: never;
         head?: never;
         patch?: never;
@@ -522,6 +523,102 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/billing/plans": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["BillingController_plans"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/billing/subscription": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["BillingController_subscription"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/billing/checkout": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["BillingController_checkout"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/billing/portal": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["BillingController_portal"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/billing/invoices": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["BillingController_invoices"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/webhooks/billing": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["BillingWebhookController_handle"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -550,25 +647,63 @@ export interface components {
             /** @example uma-senha-forte */
             password: string;
         };
+        /**
+         * @description ADMIN e SUPER_ADMIN tem acesso vitalicio.
+         * @enum {string}
+         */
+        UserRole: "USER" | "ADMIN" | "SUPER_ADMIN";
+        /**
+         * @description Ja considera as datas: teste vencido, prazo de pagamento vencido ou cancelamento com o periodo encerrado aparecem como EXPIRED.
+         * @enum {string}
+         */
+        SubscriptionSummaryStatus: "NONE" | "TRIALING" | "ACTIVE" | "PAST_DUE" | "CANCELED" | "EXPIRED";
         SubscriptionSummaryDto: {
             /**
-             * @example NONE
-             * @enum {string}
+             * @description Ja considera as datas: teste vencido, prazo de pagamento vencido ou cancelamento com o periodo encerrado aparecem como EXPIRED.
+             * @example TRIALING
              */
-            status: "NONE" | "TRIALING" | "ACTIVE" | "PAST_DUE" | "CANCELED" | "EXPIRED";
+            status: components["schemas"]["SubscriptionSummaryStatus"];
+            /** @description Pode estudar e importar. Sem acesso, so leitura. */
+            hasAccess: boolean;
+            /** @description Acesso vitalicio (ADMIN e SUPER_ADMIN). As datas vem nulas. */
+            lifetime: boolean;
+            /**
+             * Format: date-time
+             * @description Ate quando o acesso vale. Null: vitalicio, sem data ou sem acesso.
+             */
+            accessUntil: string | null;
             /**
              * @example null
              * @enum {string|null}
              */
             plan: "MONTHLY" | "YEARLY" | null;
-            /** @example null */
+            /**
+             * Format: date-time
+             * @example null
+             */
             trialEndsAt: string | null;
-            /** @example null */
+            /**
+             * Format: date-time
+             * @description "Renova em 15 dez 2026" ou, cancelada, "acesso ate".
+             * @example null
+             */
             currentPeriodEnd: string | null;
-            /** @example null */
+            /** @description Cancelada: nao renova no fim do periodo. */
+            cancelAtPeriodEnd: boolean;
+            /** @example Visa final 4417 */
             paymentMethodLabel: string | null;
-            /** @example null */
+            /**
+             * Format: date-time
+             * @description Pagamento recusado: prazo para atualizar o cartao (o acesso continua ate la).
+             * @example null
+             */
             graceUntil: string | null;
+            /**
+             * Format: date-time
+             * @description "Pagamento recusado em 15 nov".
+             * @example null
+             */
+            paymentFailedAt: string | null;
         };
         MeResponseDto: {
             /** @example 7f1f2c6c-5a2a-4e2e-8f1e-9c7f9e0a1b2c */
@@ -588,6 +723,11 @@ export interface components {
             theme: "SYSTEM" | "LIGHT" | "DARK";
             /** @example America/Sao_Paulo */
             timezone: string;
+            /**
+             * @description ADMIN e SUPER_ADMIN tem acesso vitalicio.
+             * @example USER
+             */
+            role: components["schemas"]["UserRole"];
             /** @example null */
             courseId: string | null;
             /** @example null */
@@ -1261,6 +1401,75 @@ export interface components {
             /** @description Os 6 primeiros cards. Os demais so em /decks/:id/cards, depois de salvar. */
             previewCards: components["schemas"]["CommunityPreviewCardDto"][];
         };
+        /** @enum {string} */
+        SubscriptionPlan: "MONTHLY" | "YEARLY";
+        PlanOptionDto: {
+            plan: components["schemas"]["SubscriptionPlan"];
+            /** @enum {string} */
+            interval: "MONTH" | "YEAR";
+            /**
+             * @description Preco em centavos.
+             * @example 2990
+             */
+            priceCents: number;
+            /**
+             * @description "Equivale a R$ X por mes", em centavos.
+             * @example 2492
+             */
+            monthlyEquivalentCents: number;
+            /**
+             * @description "2 meses gratis" (0 no mensal).
+             * @example 2
+             */
+            freeMonths: number;
+        };
+        PlansDto: {
+            /** @example BRL */
+            currency: string;
+            /**
+             * @description Dias de teste gratis no cadastro.
+             * @example 7
+             */
+            trialDays: number;
+            plans: components["schemas"]["PlanOptionDto"][];
+        };
+        CheckoutDto: {
+            plan: components["schemas"]["SubscriptionPlan"];
+        };
+        RedirectUrlDto: {
+            /** @example https://checkout.gateway.com/... */
+            url: string;
+        };
+        /** @enum {string} */
+        InvoiceStatus: "PAID" | "FAILED" | "REFUNDED";
+        InvoiceDto: {
+            /** Format: uuid */
+            id: string;
+            /**
+             * Format: date-time
+             * @description Data do pagamento (ou da tentativa).
+             */
+            date: string;
+            plan: components["schemas"]["SubscriptionPlan"];
+            /** @example 2990 */
+            amountCents: number;
+            /** @example BRL */
+            currency: string;
+            status: components["schemas"]["InvoiceStatus"];
+            /** @example Visa final 4417 */
+            paymentMethodLabel: string | null;
+        };
+        InvoiceListDto: {
+            items: components["schemas"]["InvoiceDto"][];
+            /** @example null */
+            nextCursor: string | null;
+        };
+        WebhookAckDto: {
+            /** @example true */
+            received: boolean;
+            /** @description O evento ja tinha sido processado; nada foi refeito. */
+            duplicate: boolean;
+        };
     };
     responses: never;
     parameters: never;
@@ -1628,6 +1837,33 @@ export interface operations {
             };
         };
     };
+    UsersController_removeAvatar: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MeResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
     CatalogController_findBySlug: {
         parameters: {
             query?: never;
@@ -1713,6 +1949,15 @@ export interface operations {
                 };
             };
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description SUBSCRIPTION_REQUIRED: sem assinatura ativa (conta so leitura). */
+            403: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -1864,6 +2109,15 @@ export interface operations {
                 };
             };
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description SUBSCRIPTION_REQUIRED: sem assinatura ativa (conta so leitura). */
+            403: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -2176,7 +2430,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorResponseDto"];
                 };
             };
-            /** @description SUBSCRIPTION_REQUIRED: sem assinatura ativa (ainda nao bloqueia; etapa 11). */
+            /** @description SUBSCRIPTION_REQUIRED: sem assinatura ativa (conta so leitura). */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -2297,7 +2551,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorResponseDto"];
                 };
             };
-            /** @description SUBSCRIPTION_REQUIRED: sem assinatura ativa (ainda nao bloqueia; etapa 11). */
+            /** @description SUBSCRIPTION_REQUIRED: sem assinatura ativa (conta so leitura). */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -2404,7 +2658,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorResponseDto"];
                 };
             };
-            /** @description SUBSCRIPTION_REQUIRED: sem assinatura ativa (ainda nao bloqueia; etapa 11). */
+            /** @description SUBSCRIPTION_REQUIRED: sem assinatura ativa (conta so leitura). */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -2498,7 +2752,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorResponseDto"];
                 };
             };
-            /** @description SUBSCRIPTION_REQUIRED: sem assinatura ativa (ainda nao bloqueia; etapa 11). */
+            /** @description SUBSCRIPTION_REQUIRED: sem assinatura ativa (conta so leitura). */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -2671,6 +2925,207 @@ export interface operations {
             };
             /** @description DECK_NOT_FOUND: deck privado, excluido ou ocultado pela moderacao. */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    BillingController_plans: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PlansDto"];
+                };
+            };
+        };
+    };
+    BillingController_subscription: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SubscriptionSummaryDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    BillingController_checkout: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CheckoutDto"];
+            };
+        };
+        responses: {
+            /** @description URL do checkout do gateway. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RedirectUrlDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description SUBSCRIPTION_ALREADY_ACTIVE: ja assina este plano ou tem acesso vitalicio. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    BillingController_portal: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description URL para gerenciar o pagamento, trocar o cartao ou cancelar. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RedirectUrlDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description NO_PAID_SUBSCRIPTION: ainda nao ha assinatura paga. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    BillingController_invoices: {
+        parameters: {
+            query?: {
+                cursor?: string;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["InvoiceListDto"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    BillingWebhookController_handle: {
+        parameters: {
+            query?: never;
+            header: {
+                /** @description Provedor de teste: t=<unix>,v1=<HMAC-SHA256 hex de "t.corpo">. */
+                "x-sinapse-signature": string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WebhookAckDto"];
+                };
+            };
+            /** @description INVALID_WEBHOOK_SIGNATURE */
+            400: {
                 headers: {
                     [name: string]: unknown;
                 };

@@ -19,6 +19,8 @@ import { MobileSessionBar } from "./MobileSessionBar";
 import { estimateSession } from "./sessionEstimate";
 import { approxMinutes, cardsLabel, plural } from "./format";
 import { startSessionError } from "./errors";
+import { SubscriptionNotice } from "@/components/billing/SubscriptionNotice";
+import { useAccessGate } from "@/components/billing/useAccessGate";
 
 type Tab = "subjects" | "decks";
 
@@ -36,6 +38,8 @@ export function StudyPicker({ overview }: { overview: StudyOverview }) {
   const [order, setOrder] = useState<SessionOrder>("DUE_FIRST");
   const today = useCreateSession();
   const custom = useCreateSession();
+  // Sem assinatura ativa: aviso no topo e os botões de começar levam para a aba Assinatura.
+  const gate = useAccessGate();
 
   const selected = useMemo(
     () =>
@@ -62,12 +66,17 @@ export function StudyPicker({ overview }: { overview: StudyOverview }) {
   }
 
   function startToday() {
+    if (gate.blocked) return router.push("/perfil/assinatura");
     custom.reset();
-    today.mutate({ mode: "today", order: "DUE_FIRST" }, { onSuccess: (s) => go(s.sessionId) });
+    today.mutate(
+      { mode: "today", order: "DUE_FIRST" },
+      { onSuccess: (s) => go(s.sessionId), onError: gate.handle },
+    );
   }
 
   function startCustom() {
     if (!canStart) return;
+    if (gate.blocked) return router.push("/perfil/assinatura");
     today.reset();
     custom.mutate(
       {
@@ -75,7 +84,7 @@ export function StudyPicker({ overview }: { overview: StudyOverview }) {
         limit,
         order,
       },
-      { onSuccess: (s) => go(s.sessionId) },
+      { onSuccess: (s) => go(s.sessionId), onError: gate.handle },
     );
   }
 
@@ -99,6 +108,8 @@ export function StudyPicker({ overview }: { overview: StudyOverview }) {
           <span className="max-md:hidden"> Os cards que vencem hoje entram primeiro.</span>
         </p>
       </header>
+
+      {gate.blocked ? <SubscriptionNotice /> : null}
 
       <TodayReviewBanner
         today={overview.today}

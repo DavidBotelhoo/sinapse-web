@@ -20,10 +20,14 @@ type BaseFieldProps = {
   className?: string;
 };
 
-export type TextFieldProps = BaseFieldProps & InputHTMLAttributes<HTMLInputElement>;
+export type TextFieldProps = BaseFieldProps &
+  InputHTMLAttributes<HTMLInputElement> & {
+    /** Ícone decorativo à direita (o cadeado do email só leitura). */
+    rightIcon?: ReactNode;
+  };
 
 const controlBase =
-  "relative flex items-center gap-2 h-control pl-4 pr-[6px] rounded-md bg-surface " +
+  "relative flex items-center gap-2 h-control pl-4 pr-[6px] rounded-md " +
   "border border-line-strong " +
   "transition-[border-color,box-shadow] duration-(--dur-fast) ease-out " +
   "hover:border-ink-muted " +
@@ -37,12 +41,14 @@ const inputBase =
   "outline-none appearance-none placeholder:text-ink-faint";
 
 export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(function TextField(
-  { label, hint, error, action, leftIcon, className, id, type = "text", ...rest },
+  { label, hint, error, action, leftIcon, rightIcon, className, id, type = "text", ...rest },
   ref,
 ) {
   const autoId = useId();
   const inputId = id ?? autoId;
   const invalid = Boolean(error);
+  // Só leitura (pf-readonly): fundo surface-2 e texto apagado, sem o realce de foco.
+  const readOnly = Boolean(rest.readOnly);
   return (
     <div
       className={cn("grid gap-[6px] min-w-0", className)}
@@ -51,7 +57,13 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(function T
       <Label inputId={inputId} action={action}>
         {label}
       </Label>
-      <div className={cn(controlBase, invalid && controlError)}>
+      <div
+        className={cn(
+          controlBase,
+          readOnly ? "bg-surface-2 hover:border-line-strong" : "bg-surface",
+          invalid && controlError,
+        )}
+      >
         {leftIcon ? (
           <span aria-hidden className="text-ink-faint [&_svg]:size-[18px]">
             {leftIcon}
@@ -62,9 +74,14 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(function T
           id={inputId}
           type={type}
           aria-invalid={invalid || undefined}
-          className={inputBase}
+          className={cn(inputBase, readOnly && "text-ink-muted")}
           {...rest}
         />
+        {rightIcon ? (
+          <span aria-hidden className="mr-[6px] text-ink-faint [&_svg]:size-[18px]">
+            {rightIcon}
+          </span>
+        ) : null}
       </div>
       {invalid ? (
         <p className="flex items-center gap-[6px] m-0 text-[13px] leading-[18px] font-medium text-danger">
@@ -93,7 +110,7 @@ export const PasswordField = forwardRef<HTMLInputElement, PasswordFieldProps>(fu
       <Label inputId={inputId} action={action}>
         {label}
       </Label>
-      <div className={cn(controlBase, invalid && controlError)}>
+      <div className={cn(controlBase, "bg-surface", invalid && controlError)}>
         <input
           ref={ref}
           id={inputId}
@@ -138,7 +155,7 @@ export const SelectField = forwardRef<HTMLSelectElement, SelectFieldProps>(funct
       <Label inputId={selectId} action={action}>
         {label}
       </Label>
-      <div className={cn(controlBase, "pr-7", invalid && controlError)}>
+      <div className={cn(controlBase, "bg-surface pr-7", invalid && controlError)}>
         {leftIcon ? (
           <span aria-hidden className="text-ink-faint [&_svg]:size-[18px]">
             {leftIcon}

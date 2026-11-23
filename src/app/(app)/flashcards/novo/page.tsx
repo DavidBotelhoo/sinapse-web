@@ -15,12 +15,16 @@ import { useCourseQuery } from "@/lib/api/courses";
 import { useCreateImport, useImportQuery } from "@/lib/api/imports";
 import { useCreateDeck } from "@/lib/api/decks";
 import { isApiError } from "@/lib/api/base";
+import { SubscriptionNotice } from "@/components/billing/SubscriptionNotice";
+import { useAccessGate } from "@/components/billing/useAccessGate";
 
 export default function CriarDeckPage() {
   const router = useRouter();
   const course = useCourseQuery();
   const createImport = useCreateImport();
   const createDeck = useCreateDeck();
+  // Sem assinatura ativa, a página mostra só o aviso no lugar da área de importar.
+  const gate = useAccessGate();
 
   const [file, setFile] = useState<File | null>(null);
   const [importId, setImportId] = useState<string | null>(null);
@@ -47,6 +51,7 @@ export default function CriarDeckPage() {
       setImportId(created.id);
     } catch (err) {
       setFile(null);
+      if (gate.handle(err)) return;
       setTopError(isApiError(err) ? err.message : "Não foi possível enviar o arquivo.");
     }
   }
@@ -85,6 +90,7 @@ export default function CriarDeckPage() {
       });
       router.push(`/flashcards/${deck.id}`);
     } catch (err) {
+      if (gate.handle(err)) return;
       setTopError(isApiError(err) ? err.message : "Não foi possível criar o deck.");
     }
   }
@@ -114,64 +120,68 @@ export default function CriarDeckPage() {
         </p>
       ) : null}
 
-      <div className="grid gap-6 md:grid-cols-[3fr_2fr] md:items-start">
-        <div className="min-w-0 flex flex-col gap-6">
-          <Section step="1" title="Arquivo">
-            {!file ? (
-              <FileDrop state={dropState} onFile={onPickFile} />
-            ) : (
-              <ImportFileCard file={file} importDetail={importDetail} onRemove={removeFile} />
-            )}
-          </Section>
-
-          {ready && importDetail && importDetail.pairs.length > 0 ? (
-            <Section
-              title="Prévia dos cards"
-              right={
-                <Tag tone="brand">
-                  {importDetail.pairsFound} cards{importDetail.pairsMissingAnswer ? ` · ${importDetail.pairsMissingAnswer} sem resposta` : ""}
-                </Tag>
-              }
-            >
-              <ImportPreviewList pairs={importDetail.pairs} limit={8} />
-              <p className="m-0 font-sans font-medium text-[13px] leading-[18px] text-ink-muted">
-                {importDetail.pairs.length > 8
-                  ? `Mostrando os 8 primeiros de ${importDetail.pairsFound}. Os demais aparecem na tela do deck para você revisar e editar.`
-                  : "Você pode revisar e editar os cards na tela do deck depois de criar."}
-              </p>
+      {gate.blocked ? (
+        <SubscriptionNotice what="importar arquivos e criar decks" />
+      ) : (
+        <div className="grid gap-6 md:grid-cols-[3fr_2fr] md:items-start">
+          <div className="min-w-0 flex flex-col gap-6">
+            <Section step="1" title="Arquivo">
+              {!file ? (
+                <FileDrop state={dropState} onFile={onPickFile} />
+              ) : (
+                <ImportFileCard file={file} importDetail={importDetail} onRemove={removeFile} />
+              )}
             </Section>
-          ) : null}
-        </div>
 
-        <aside className="min-w-0 md:sticky md:top-6">
-          <Section step="2" title="Detalhes">
-            <DeckForm
-              years={years}
-              subjects={subjects}
-              value={{ ...values, name: effectiveName }}
-              onChange={(next) => {
-                if (next.name !== effectiveName) setNameTouched(true);
-                setValues(next);
-              }}
-            />
-            <hr className="border-0 border-t border-line" />
-            <div className="flex flex-col gap-[10px]">
-              <Button
-                variant="primary"
-                size="lg"
-                block
-                onClick={submit}
-                disabled={!canSubmit || createDeck.isPending}
-                loading={createDeck.isPending}
-                loadingText="Criando deck…"
+            {ready && importDetail && importDetail.pairs.length > 0 ? (
+              <Section
+                title="Prévia dos cards"
+                right={
+                  <Tag tone="brand">
+                    {importDetail.pairsFound} cards{importDetail.pairsMissingAnswer ? ` · ${importDetail.pairsMissingAnswer} sem resposta` : ""}
+                  </Tag>
+                }
               >
-                Criar deck
-              </Button>
-              <MissingLine step={missing} />
-            </div>
-          </Section>
-        </aside>
-      </div>
+                <ImportPreviewList pairs={importDetail.pairs} limit={8} />
+                <p className="m-0 font-sans font-medium text-[13px] leading-[18px] text-ink-muted">
+                  {importDetail.pairs.length > 8
+                    ? `Mostrando os 8 primeiros de ${importDetail.pairsFound}. Os demais aparecem na tela do deck para você revisar e editar.`
+                    : "Você pode revisar e editar os cards na tela do deck depois de criar."}
+                </p>
+              </Section>
+            ) : null}
+          </div>
+
+          <aside className="min-w-0 md:sticky md:top-6">
+            <Section step="2" title="Detalhes">
+              <DeckForm
+                years={years}
+                subjects={subjects}
+                value={{ ...values, name: effectiveName }}
+                onChange={(next) => {
+                  if (next.name !== effectiveName) setNameTouched(true);
+                  setValues(next);
+                }}
+              />
+              <hr className="border-0 border-t border-line" />
+              <div className="flex flex-col gap-[10px]">
+                <Button
+                  variant="primary"
+                  size="lg"
+                  block
+                  onClick={submit}
+                  disabled={!canSubmit || createDeck.isPending}
+                  loading={createDeck.isPending}
+                  loadingText="Criando deck…"
+                >
+                  Criar deck
+                </Button>
+                <MissingLine step={missing} />
+              </div>
+            </Section>
+          </aside>
+        </div>
+      )}
     </div>
   );
 }

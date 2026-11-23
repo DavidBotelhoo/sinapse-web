@@ -26,12 +26,15 @@ import { ShortcutHint } from "./ShortcutHint";
 import { ToReviewList } from "./ToReviewList";
 import { cardsLabel, clockLabel, durationLabel, joinList, plural } from "./format";
 import { startSessionError } from "./errors";
+import { SubscriptionNotice } from "@/components/billing/SubscriptionNotice";
+import { isSubscriptionRequired, useAccessGate } from "@/components/billing/useAccessGate";
 import { useNow } from "./useNow";
 
 const RATING: Record<Rating, ReviewRating> = { again: "AGAIN", hard: "HARD", easy: "GOOD" };
 const INTERACTIVE = "button, a, input, textarea, select, [role='button'], [contenteditable='true']";
 
-type Phase = "study" | "finishing" | "summary" | "error";
+// "blocked": a assinatura venceu no meio da sessão (a API recusou a avaliação).
+type Phase = "study" | "finishing" | "summary" | "error" | "blocked";
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
@@ -52,6 +55,10 @@ export function StudySession({ session }: { session: Session }) {
   const invalidate = useInvalidateStudyData();
   const repeat = useRepeatSession();
   const [navigating, startNavigation] = useTransition();
+  const gate = useAccessGate();
+  const { handle: handleNoAccess } = gate;
+  const lostAccess = useRef(false);
+  const [askedWithoutAccess, setAskedWithoutAccess] = useState(false);
   const now = useNow();
 
   // A fila desta tela: os cards que ainda não foram avaliados (recarregar continua de onde parou).
@@ -95,6 +102,12 @@ export function StudySession({ session }: { session: Session }) {
         } catch (err) {
           if (isApiError(err)) {
             if (err.status === 401) return goLogin();
+            if (isSubscriptionRequired(err)) {
+              lostAccess.current = true;
+              handleNoAccess(err);
+              setPhase("blocked");
+              return;
+            }
             // Clique duplo, card apagado ou sessão já encerrada: nada a refazer.
             if (["CARD_ALREADY_REVIEWED", "CARD_NOT_FOUND", "STUDY_SESSION_FINISHED"].includes(err.code)) return;
             if (err.status < 500 && err.status !== 429) return;
@@ -104,11 +117,12 @@ export function StudySession({ session }: { session: Session }) {
       }
       failed.current.push(body);
     },
-    [session.sessionId, goLogin],
+    [session.sessionId, goLogin, handleNoAccess],
   );
 
   const finish = useCallback(async () => {
     await pending.current;
+    if (lostAccess.current) return setPhase("blocked");
     const retry = failed.current.splice(0);
     for (const body of retry) await send(body);
     if (failed.current.length > 0) {
@@ -219,9 +233,17 @@ export function StudySession({ session }: { session: Session }) {
   }
 
   function studyAgain() {
+    if (gate.blocked) return setAskedWithoutAccess(true);
     repeat.mutate(session.sessionId, {
       onSuccess: (s) => startNavigation(() => router.push(`/estudar/sessao/${s.sessionId}`)),
+      onError: (err) => gate.handle(err) && setAskedWithoutAccess(true),
     });
+  }
+
+  /** Sem acesso: fecha a sessão com o que já foi salvo e mostra o resumo. */
+  function closeWithoutAccess() {
+    lostAccess.current = false;
+    retryFinish();
   }
 
   function retryFinish() {
@@ -319,6 +341,18 @@ export function StudySession({ session }: { session: Session }) {
         </main>
       ) : null}
 
+      {phase === "blocked" ? (
+        <main className="flex-1 grid place-items-center p-4 md:p-8">
+          <div className="grid gap-4 w-full max-w-[560px]">
+            <SubscriptionNotice what="estudar" />
+            <p className="m-0 text-center text-ink-muted">As avaliações anteriores ficaram salvas.</p>
+            <Button variant="secondary" className="justify-self-center" onClick={closeWithoutAccess}>
+              Ver o resumo
+            </Button>
+          </div>
+        </main>
+      ) : null}
+
       {phase === "summary" && summary ? (
         <main className="flex-1 px-4 pt-2 pb-[calc(env(safe-area-inset-bottom,0px)+160px)] md:px-8 md:pt-10 md:pb-14">
           <div
@@ -351,7 +385,8 @@ export function StudySession({ session }: { session: Session }) {
                 </ButtonLink>
               }
             />
-            {repeat.isError ? (
+            {askedWithoutAccess ? <SubscriptionNotice what="estudar" /> : null}
+            {repeat.isError && startSessionError(repeat.error) ? (
               <p role="alert" className="m-0 text-center font-semibold text-[13px] leading-[18px] text-danger">
                 {startSessionError(repeat.error)}
               </p>

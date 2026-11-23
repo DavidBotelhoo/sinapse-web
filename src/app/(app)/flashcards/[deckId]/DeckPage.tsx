@@ -24,6 +24,7 @@ import {
   type DeckDetail,
 } from "@/lib/api/decks";
 import { isApiError } from "@/lib/api/base";
+import { SubscriptionNotice } from "@/components/billing/SubscriptionNotice";
 
 export function DeckPage({ initialDeck, justSaved = false }: { initialDeck: DeckDetail; justSaved?: boolean }) {
   const router = useRouter();
@@ -115,6 +116,8 @@ export function DeckPage({ initialDeck, justSaved = false }: { initialDeck: Deck
       />
 
       {reported ? <ReportedNotice /> : null}
+
+      {study.needsSubscription ? <SubscriptionNotice what="estudar" /> : null}
 
       {study.error || topError ? (
         <p role="alert" className="m-0 px-3 py-2 rounded-md bg-danger-soft text-danger font-sans font-medium text-[13px] leading-[18px]">
