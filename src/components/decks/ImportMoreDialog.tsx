@@ -9,6 +9,8 @@ import { ImportPreviewList } from "./ImportPreviewList";
 import { useCreateImport, useImportQuery } from "@/lib/api/imports";
 import { useAppendImport } from "@/lib/api/decks";
 import { isApiError } from "@/lib/api/base";
+import { SubscriptionNotice } from "@/components/billing/SubscriptionNotice";
+import { useAccessGate } from "@/components/billing/useAccessGate";
 
 export type ImportMoreDialogProps = {
   open: boolean;
@@ -29,6 +31,8 @@ function ImportMoreDialogBody({ deckId, onClose }: ImportMoreDialogProps) {
   const createImport = useCreateImport();
   const importQuery = useImportQuery(importId);
   const appendImport = useAppendImport();
+  // Sem assinatura ativa: o aviso fica no lugar da área de importar.
+  const gate = useAccessGate();
 
   async function onPickFile(f: File) {
     setFile(f);
@@ -37,8 +41,9 @@ function ImportMoreDialogBody({ deckId, onClose }: ImportMoreDialogProps) {
       const created = await createImport.mutateAsync(f);
       setImportId(created.id);
     } catch (err) {
-      setTopError(isApiError(err) ? err.message : "Não foi possível enviar o arquivo.");
       setFile(null);
+      if (gate.handle(err)) return;
+      setTopError(isApiError(err) ? err.message : "Não foi possível enviar o arquivo.");
     }
   }
 
@@ -55,6 +60,7 @@ function ImportMoreDialogBody({ deckId, onClose }: ImportMoreDialogProps) {
       await appendImport.mutateAsync({ deckId, importId });
       onClose();
     } catch (err) {
+      if (gate.handle(err)) return removeFile();
       setTopError(isApiError(err) ? err.message : "Não foi possível importar os cards.");
     }
   }
@@ -78,7 +84,7 @@ function ImportMoreDialogBody({ deckId, onClose }: ImportMoreDialogProps) {
           <Button
             variant="primary"
             onClick={confirmImport}
-            disabled={!ready || appendImport.isPending}
+            disabled={!ready || gate.blocked || appendImport.isPending}
             loading={appendImport.isPending}
             loadingText="Importando…"
           >
@@ -96,7 +102,9 @@ function ImportMoreDialogBody({ deckId, onClose }: ImportMoreDialogProps) {
         </p>
       ) : null}
 
-      {!file ? (
+      {gate.blocked ? (
+        <SubscriptionNotice what="importar arquivos" />
+      ) : !file ? (
         <FileDrop state={dropState} onFile={onPickFile} />
       ) : (
         <ImportFileCard file={file} importDetail={importDetail} onRemove={removeFile} />

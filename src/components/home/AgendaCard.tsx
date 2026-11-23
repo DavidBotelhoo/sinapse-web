@@ -10,6 +10,8 @@ import { useAgenda, type Agenda } from "@/lib/api/stats";
 import { useCreateSession } from "@/lib/api/study";
 import { cardsLabel, num } from "@/components/study/format";
 import { startSessionError } from "@/components/study/errors";
+import { SubscriptionNotice } from "@/components/billing/SubscriptionNotice";
+import { useAccessGate } from "@/components/billing/useAccessGate";
 import { dayOfMonth, sinceLabel, weekdayLong, weekdayShort } from "./dates";
 
 /** Agenda de revisão da Início, com a escolha do dia. */
@@ -20,6 +22,8 @@ export function AgendaCard({ initial }: { initial: Agenda }) {
   const agenda = useAgenda(initial, date);
   const create = useCreateSession();
   const [navigating, startNavigation] = useTransition();
+  const gate = useAccessGate();
+  const [askedWithoutAccess, setAskedWithoutAccess] = useState(false);
 
   const data = agenda.data ?? initial;
   // Enquanto o dia escolhido carrega, a lista anterior fica (placeholderData), mas o botão segue o dia escolhido.
@@ -53,11 +57,18 @@ export function AgendaCard({ initial }: { initial: Agenda }) {
   });
 
   function reviewToday() {
+    // Sem assinatura ativa, o aviso aparece na hora do clique (e também se a API recusar).
+    if (gate.blocked) return setAskedWithoutAccess(true);
     create.mutate(
       { mode: "today", order: "DUE_FIRST" },
-      { onSuccess: (s) => startNavigation(() => router.push(`/estudar/sessao/${s.sessionId}`)) },
+      {
+        onSuccess: (s) => startNavigation(() => router.push(`/estudar/sessao/${s.sessionId}`)),
+        onError: (err) => gate.handle(err) && setAskedWithoutAccess(true),
+      },
     );
   }
+
+  const sessionError = create.isError ? startSessionError(create.error) : null;
 
   let action = null;
   if (isToday && todayTotal > 0) {
@@ -73,9 +84,10 @@ export function AgendaCard({ initial }: { initial: Agenda }) {
         >
           Revisar {todayTotal === 1 ? "o 1 de hoje" : `os ${num(todayTotal)} de hoje`}
         </Button>
-        {create.isError ? (
+        {askedWithoutAccess ? <SubscriptionNotice what="estudar" /> : null}
+        {sessionError ? (
           <p role="alert" className="m-0 text-center font-semibold text-[13px] leading-[18px] text-danger">
-            {startSessionError(create.error)}
+            {sessionError}
           </p>
         ) : null}
       </div>
