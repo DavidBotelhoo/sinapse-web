@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Layers } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { FileDrop, type FileDropState } from "@/components/ui/FileDrop";
 import { Tag } from "@/components/ui/Tag";
@@ -17,6 +17,9 @@ import { useCreateDeck } from "@/lib/api/decks";
 import { isApiError } from "@/lib/api/base";
 import { SubscriptionNotice } from "@/components/billing/SubscriptionNotice";
 import { useAccessGate } from "@/components/billing/useAccessGate";
+
+/** A prévia mostra as primeiras perguntas, como na tela 13. */
+const PREVIEW_LIMIT = 4;
 
 export default function CriarDeckPage() {
   const router = useRouter();
@@ -135,17 +138,20 @@ export default function CriarDeckPage() {
 
             {ready && importDetail && importDetail.pairs.length > 0 ? (
               <Section
+                icon={<Layers strokeWidth={1.75} />}
                 title="Prévia dos cards"
                 right={
-                  <Tag tone="brand">
-                    {importDetail.pairsFound} cards{importDetail.pairsMissingAnswer ? ` · ${importDetail.pairsMissingAnswer} sem resposta` : ""}
-                  </Tag>
+                  (importDetail.pairsMissingAnswer ?? 0) > 0 ? (
+                    <Tag tone="accent">{importDetail.pairsMissingAnswer} para revisar</Tag>
+                  ) : (
+                    <Tag tone="brand">{importDetail.pairsFound} cards</Tag>
+                  )
                 }
               >
-                <ImportPreviewList pairs={importDetail.pairs} limit={8} />
+                <ImportPreviewList pairs={importDetail.pairs} limit={PREVIEW_LIMIT} />
                 <p className="m-0 font-sans font-medium text-[13px] leading-[18px] text-ink-muted">
-                  {importDetail.pairs.length > 8
-                    ? `Mostrando os 8 primeiros de ${importDetail.pairsFound}. Os demais aparecem na tela do deck para você revisar e editar.`
+                  {importDetail.pairs.length > PREVIEW_LIMIT
+                    ? `Mostrando os ${PREVIEW_LIMIT} primeiros de ${importDetail.pairsFound}. Os demais aparecem na tela do deck para você revisar e editar.`
                     : "Você pode revisar e editar os cards na tela do deck depois de criar."}
                 </p>
               </Section>
@@ -158,6 +164,11 @@ export default function CriarDeckPage() {
                 years={years}
                 subjects={subjects}
                 value={{ ...values, name: effectiveName }}
+                nameHint={
+                  !nameTouched && suggestedName && effectiveName === suggestedName
+                    ? "Sugerido a partir do nome do arquivo. Pode mudar."
+                    : undefined
+                }
                 onChange={(next) => {
                   if (next.name !== effectiveName) setNameTouched(true);
                   setValues(next);
@@ -186,27 +197,30 @@ export default function CriarDeckPage() {
   );
 }
 
+/** cd-card com a etapa numerada (cd-step): bolinha primary-soft de 26px com o número ou um ícone. */
 function Section({
   step,
+  icon,
   title,
   right,
   children,
 }: {
   step?: string;
+  icon?: React.ReactNode;
   title: string;
   right?: React.ReactNode;
   children: React.ReactNode;
 }) {
   return (
-    <section className="flex flex-col gap-4 p-5 md:p-6 rounded-xl border border-line bg-surface">
+    <section className="flex flex-col gap-4 md:gap-5 p-5 md:p-6 rounded-xl border border-line bg-surface">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-3">
-          {step ? (
+        <div className="flex items-center gap-[10px]">
+          {step || icon ? (
             <span
               aria-hidden
-              className="grid place-items-center size-7 rounded-full bg-primary text-on-primary font-display font-bold text-[14px] leading-none"
+              className="grid place-items-center size-[26px] shrink-0 rounded-full bg-primary-soft text-on-primary-soft font-sans font-bold text-[13px] leading-none [&_svg]:size-[14px]"
             >
-              {step}
+              {step ?? icon}
             </span>
           ) : null}
           <h2 className="m-0 font-display font-semibold text-[20px] leading-[26px] text-ink">{title}</h2>

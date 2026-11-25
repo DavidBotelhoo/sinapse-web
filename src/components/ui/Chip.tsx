@@ -11,18 +11,19 @@ export type ChipProps = {
 } & Omit<ButtonHTMLAttributes<HTMLButtonElement>, "role" | "children">;
 
 const base =
-  "inline-flex items-center gap-[6px] h-control-sm px-[14px] border border-line-strong rounded-full " +
-  "bg-surface text-ink font-sans font-semibold text-[14px] leading-none whitespace-nowrap cursor-pointer " +
-  "transition-colors duration-(--dur-fast) ease-out hover:bg-surface-2 " +
-  "[&_svg]:size-4";
+  "inline-flex items-center gap-[6px] h-control-sm px-[14px] border rounded-full " +
+  "font-sans font-semibold text-[14px] leading-none whitespace-nowrap cursor-pointer " +
+  "transition-colors duration-(--dur-fast) ease-out [&_svg]:size-4";
 
-const on = "bg-primary-soft border-primary text-on-primary-soft hover:bg-primary-soft";
+// Fundo, borda e texto ficam só em um dos dois: o cn() não resolve classes que conflitam.
+const off = "bg-surface border-line-strong text-ink hover:bg-surface-2";
+const on = "bg-primary-soft border-primary text-on-primary-soft";
 
 export function Chip({ selected = false, role = "button", children, className, type = "button", ...rest }: ChipProps) {
   const ariaProps =
     role === "radio" ? { role, "aria-checked": selected } : { "aria-pressed": selected };
   return (
-    <button type={type} className={cn(base, selected && on, className)} {...ariaProps} {...rest}>
+    <button type={type} className={cn(base, selected ? on : off, className)} {...ariaProps} {...rest}>
       {selected ? <Check aria-hidden strokeWidth={1.75} /> : null}
       {children}
     </button>

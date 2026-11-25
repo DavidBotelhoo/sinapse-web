@@ -4,7 +4,7 @@ import { useState, type ReactNode } from "react";
 import { Button } from "@/components/ui/Button";
 import { FilterBar, FilterTrigger, filterTriggerLabel } from "@/components/ui/FilterBar";
 import { FiltersSheet } from "./FiltersSheet";
-import { SearchField } from "./SearchField";
+import { SearchField } from "@/components/ui/SearchField";
 import type { DeckFiltersState } from "./useDeckFiltersUrl";
 
 export type DeckFiltersProps = {

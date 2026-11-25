@@ -6,7 +6,7 @@ import { Chip } from "@/components/ui/Chip";
 import { SegmentedTabs } from "@/components/ui/SegmentedTabs";
 import { ConfirmDialog } from "@/components/ui/Dialog";
 import { CardRow } from "./CardRow";
-import { SearchField } from "./SearchField";
+import { SearchField } from "@/components/ui/SearchField";
 import { cardListClass, deckSectionClass } from "./deckSection";
 import { CardEditInline } from "./CardEditInline";
 import {
@@ -24,6 +24,8 @@ export type CardListProps = {
   deckId: string;
   canEdit: boolean;
   counts?: CardListCounts;
+  /** À direita do título "Cards" ("Importar mais cards", tela 19). */
+  headerAction?: React.ReactNode;
 };
 
 const TABS: ReadonlyArray<{ value: CardListFilterStatus; label: string; countKey: keyof CardListCounts }> = [
@@ -33,7 +35,9 @@ const TABS: ReadonlyArray<{ value: CardListFilterStatus; label: string; countKey
   { value: "mastered", label: "Dominados", countKey: "mastered" },
 ];
 
-export function CardList({ deckId, canEdit, counts }: CardListProps) {
+const editButtonId = (cardId: string) => `card-edit-${cardId}`;
+
+export function CardList({ deckId, canEdit, counts, headerAction }: CardListProps) {
   const [tab, setTab] = useState<CardListFilterStatus>("all");
   const [q, setQ] = useState("");
   const [debouncedQ, setDebouncedQ] = useState("");
@@ -41,6 +45,19 @@ export function CardList({ deckId, canEdit, counts }: CardListProps) {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [topError, setTopError] = useState<string | null>(null);
+  // Quando a edição fecha, o foco volta para o lápis do mesmo card.
+  const returnFocusRef = useRef<string | null>(null);
+
+  useEffect(() => {
+    if (editingId !== null || !returnFocusRef.current) return;
+    document.getElementById(editButtonId(returnFocusRef.current))?.focus();
+    returnFocusRef.current = null;
+  }, [editingId]);
+
+  function closeEditor() {
+    returnFocusRef.current = editingId;
+    setEditingId(null);
+  }
 
   useEffect(() => {
     const t = setTimeout(() => setDebouncedQ(q), 300);
@@ -78,7 +95,7 @@ export function CardList({ deckId, canEdit, counts }: CardListProps) {
     update.mutate(
       { deckId, id, question: values.question, answer: values.answer },
       {
-        onSuccess: () => setEditingId(null),
+        onSuccess: closeEditor,
         onError: (err) => {
           setTopError(isApiError(err) ? err.message : "Não foi possível salvar.");
         },
@@ -104,9 +121,12 @@ export function CardList({ deckId, canEdit, counts }: CardListProps) {
 
   return (
     <section aria-labelledby="deck-cards" className={deckSectionClass}>
-      <h2 id="deck-cards" className="m-0 font-display font-semibold text-[20px] leading-[26px] text-ink">
-        Cards
-      </h2>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <h2 id="deck-cards" className="m-0 font-display font-semibold text-[20px] leading-[26px] text-ink">
+          Cards
+        </h2>
+        {headerAction}
+      </div>
 
       <SegmentedTabs
         ariaLabel="Filtrar cards"
@@ -148,23 +168,26 @@ export function CardList({ deckId, canEdit, counts }: CardListProps) {
         <ol className={cardListClass}>
           {allCards.map((card, i) => (
             <li key={card.id}>
-              <CardRow
-                index={i + 1}
-                card={card}
-                showAnswers={showAnswers}
-                canEdit={canEdit}
-                onEdit={() => setEditingId(editingId === card.id ? null : card.id)}
-              />
+              {/* Tela 21: o editor ocupa o lugar da linha. */}
               {editingId === card.id && canEdit ? (
                 <CardEditInline
                   initialQuestion={card.question}
                   initialAnswer={card.answer}
                   saving={update.isPending && update.variables?.id === card.id}
                   onSave={(values) => saveEdit(card.id, values)}
-                  onCancel={() => setEditingId(null)}
+                  onCancel={closeEditor}
                   onDelete={() => setDeletingId(card.id)}
                 />
-              ) : null}
+              ) : (
+                <CardRow
+                  index={i + 1}
+                  card={card}
+                  showAnswers={showAnswers}
+                  canEdit={canEdit}
+                  onEdit={() => setEditingId(card.id)}
+                  editButtonId={editButtonId(card.id)}
+                />
+              )}
             </li>
           ))}
         </ol>
