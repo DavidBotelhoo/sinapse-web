@@ -5,6 +5,19 @@ html[data-hide-bottom-nav] [data-sinapse-bottom-nav] {
   display: none;
 }
 
+/*
+ * Celular: o elemento focado com Tab não pode ficar escondido atrás da barra inferior (o play sobe
+ * 26px) nem do "Sua sessão" do Estudar, que gruda logo acima dela (WCAG 2.4.11).
+ */
+@media (width < 48rem) {
+  html:has([data-sinapse-bottom-nav]):not([data-hide-bottom-nav]) {
+    scroll-padding-bottom: calc(var(--spacing-bottom-nav) + 34px + 16px + env(safe-area-inset-bottom, 0px));
+  }
+  html:has([data-sinapse-session-bar]):not([data-hide-bottom-nav]) {
+    scroll-padding-bottom: calc(var(--spacing-bottom-nav) + 34px + 150px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
 /* Sessão de estudo: o próximo card entra pela direita; com movimento reduzido, só aparece. */
 @keyframes sn-card-in {
   from { opacity: 0; transform: translateX(48px); }

@@ -31,6 +31,7 @@ export function MobileSessionBar({
 }: MobileSessionBarProps) {
   return (
     <div
+      data-sinapse-session-bar
       className={cn(
         "sticky z-30 bottom-[calc(var(--spacing-bottom-nav)+env(safe-area-inset-bottom,0px)+34px)]",
         "-mx-2 flex flex-col gap-3 p-4 rounded-lg border border-line bg-surface shadow-lg",
