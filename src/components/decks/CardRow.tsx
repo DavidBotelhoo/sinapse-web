@@ -1,7 +1,7 @@
 "use client";
 
 import { Pencil } from "lucide-react";
-import { CardStatusPill } from "./CardStatusPill";
+import { StatusPill } from "./StatusPill";
 import type { CardItem } from "@/lib/api/cards";
 import { cn } from "@/lib/cn";
 
@@ -11,6 +11,8 @@ export type CardRowProps = {
   showAnswers: boolean;
   canEdit?: boolean;
   onEdit?: () => void;
+  /** id do botão de editar, para o foco voltar a ele quando a edição fecha. */
+  editButtonId?: string;
   className?: string;
 };
 
@@ -18,7 +20,7 @@ export type CardRowProps = {
  * Uma linha da lista de cards (dk-row). Desktop: número, pergunta, resposta, situação e editar.
  * Celular: situação, pergunta e resposta empilhadas. Na prévia da Comunidade não há situação.
  */
-export function CardRow({ index, card, showAnswers, canEdit, onEdit, className }: CardRowProps) {
+export function CardRow({ index, card, showAnswers, canEdit, onEdit, editButtonId, className }: CardRowProps) {
   const status = card.status;
   return (
     <div
@@ -38,7 +40,7 @@ export function CardRow({ index, card, showAnswers, canEdit, onEdit, className }
 
       {status ? (
         <span className="col-start-1 row-start-1 md:col-start-4 justify-self-start">
-          <CardStatusPill status={status} dueInDays={card.dueInDays ?? null} />
+          <StatusPill kind="card" status={status} dueInDays={card.dueInDays ?? null} />
         </span>
       ) : null}
 
@@ -69,6 +71,7 @@ export function CardRow({ index, card, showAnswers, canEdit, onEdit, className }
 
       {canEdit && onEdit ? (
         <button
+          id={editButtonId}
           type="button"
           aria-label="Editar card"
           onClick={onEdit}

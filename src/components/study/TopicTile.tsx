@@ -1,6 +1,6 @@
 "use client";
 
-import { DuePill } from "@/components/decks/DuePill";
+import { StatusPill } from "@/components/decks/StatusPill";
 import { SelectCheck } from "./SelectCheck";
 import { cardsLabel, yearsLabel } from "./format";
 import { cn } from "@/lib/cn";
@@ -33,7 +33,7 @@ export function TopicTile({ name, cardCount, years, dueToday, overdue, selected,
       <SelectCheck checked={selected} className="absolute top-[14px] right-[14px] md:top-4 md:right-4" />
       <span className="pr-7 font-semibold text-[15px] md:text-[16px] leading-[22px]">{name}</span>
       <span className="font-medium text-[13px] leading-[18px] text-ink-muted">{meta}</span>
-      <DuePill dueToday={dueToday} overdue={overdue} onSelected={selected} />
+      <StatusPill kind="deck" dueToday={dueToday} overdue={overdue} onSelected={selected} />
     </button>
   );
 }

@@ -40,14 +40,14 @@ export function CommunityDeckCard({ deck, onToggleSave }: CommunityDeckCardProps
           </Tag>
         ))}
       </div>
-      <h3 className="m-0 font-display font-semibold text-[18px] leading-6 text-ink text-balance">
+      <h2 className="m-0 font-display font-semibold text-[18px] leading-6 text-ink text-balance">
         <Link
           href={href}
           className="text-inherit no-underline after:content-[''] after:absolute after:inset-0 after:rounded-[inherit]"
         >
           {deck.name}
         </Link>
-      </h3>
+      </h2>
       <div className="flex flex-wrap gap-x-3 gap-y-1 font-sans font-medium text-[13px] leading-[18px] text-ink-muted [&>span]:inline-flex [&>span]:items-center [&>span]:gap-1 [&_svg]:size-[15px]">
         <span>
           <Layers aria-hidden strokeWidth={1.75} />

@@ -1,6 +1,6 @@
 "use client";
 
-import { DuePill } from "@/components/decks/DuePill";
+import { StatusPill } from "@/components/decks/StatusPill";
 import { Tag } from "@/components/ui/Tag";
 import { SelectCheck } from "./SelectCheck";
 import { cardsLabel } from "./format";
@@ -54,7 +54,7 @@ export function SelectableDeckRow({
           {ownerFirstName ? ` · por ${ownerFirstName}` : null}
         </span>
       </span>
-      <DuePill dueToday={dueToday} overdue={overdue} className="shrink-0" />
+      <StatusPill kind="deck" dueToday={dueToday} overdue={overdue} className="shrink-0" />
     </button>
   );
 }
