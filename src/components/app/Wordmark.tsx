@@ -11,7 +11,7 @@ export type WordmarkProps = {
 const sizes: Record<NonNullable<WordmarkProps["size"]>, string> = {
   sm: "text-[20px]",
   md: "text-[22px]",
-  lg: "text-[26px]",
+  lg: "text-[24px]",
 };
 
 export function Wordmark({ href, size = "md", tone = "ink", className }: WordmarkProps) {
