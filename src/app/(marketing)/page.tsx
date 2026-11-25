@@ -7,10 +7,11 @@ import {
   CloudUpload,
   Flame,
   Layers,
+  Minus,
   Play,
   Target,
+  X,
 } from "lucide-react";
-import { Kbd } from "@/components/ui/Button";
 import { Tag } from "@/components/ui/Tag";
 import { Avatar } from "@/components/ui/Avatar";
 import { PlanCard, PlansGrid } from "@/components/ui/PlanCard";
@@ -18,16 +19,22 @@ import { ProgressBar, StatCard, WeekStrip } from "@/components/ui/StatCard";
 import { Wordmark } from "@/components/app/Wordmark";
 import { AuthFlair } from "@/components/marketing/AuthFlair";
 import { cn } from "@/lib/cn";
+import { getPublicPlans } from "@/lib/api/billingServer";
+import { formatBRL } from "@/components/billing/format";
+import type { Plans as PlansData } from "@/lib/api/billing";
 
-export default function LandingPage() {
+export default async function LandingPage() {
+  const plans = await getPublicPlans();
   return (
     <>
       <TopBar />
-      <Hero />
-      <HowItWorks />
-      <ForWhom />
-      <Plans />
-      <CTA />
+      <main>
+        <Hero />
+        <HowItWorks />
+        <ForWhom />
+        <Plans plans={plans} />
+        <CTA />
+      </main>
       <Footer />
     </>
   );
@@ -77,7 +84,7 @@ function Hero() {
       id="topo"
       className="mx-auto max-w-[1200px] px-5 md:px-8 pt-10 md:pt-[88px] pb-12 md:pb-24 flex flex-col md:flex-row flex-wrap items-center gap-10 md:gap-16"
     >
-      <div className="flex-1 min-w-0 md:min-w-[460px] flex flex-col items-start gap-5 md:gap-6">
+      <div className="min-w-0 md:flex-[1_1_460px] flex flex-col items-start gap-5 md:gap-6">
         <Tag tone="brand">Para estudantes de Medicina</Tag>
         <h1 className="m-0 font-display font-bold tracking-[-0.015em] md:tracking-[-0.02em] text-display-lg md:text-display-xl text-balance text-ink">
           Revise na hora certa. Lembre na prova.
@@ -114,7 +121,7 @@ function HeroArt() {
   return (
     <div
       aria-hidden
-      className="flex-1 min-w-0 md:min-w-[520px] relative w-full md:h-[500px] flex flex-col md:block gap-4"
+      className="min-w-0 md:flex-[1_1_520px] relative w-full md:h-[500px] flex flex-col md:block gap-4"
     >
       {/* Mobile accent streak chip */}
       <span className="md:hidden self-end mb-2 inline-flex items-center gap-[6px] h-8 px-3 rounded-sm bg-accent-soft text-on-accent-soft font-sans font-semibold text-[13px] shadow-md [&_svg]:size-4">
@@ -134,7 +141,7 @@ function HeroArt() {
           <span>Farmacologia · 2º ano</span>
           <Tag>Pergunta</Tag>
         </div>
-        <p className="m-0 flex-1 flex items-center font-display font-semibold text-card-question text-ink text-pretty">
+        <p className="m-0 flex-1 flex items-center font-display font-semibold text-[22px] leading-[30px] md:text-card-question text-ink text-pretty">
           Qual o principal mecanismo de ação da metformina?
         </p>
         <p className="hidden md:block m-0 text-center font-sans font-medium text-[12px] leading-4 text-ink-muted">
@@ -148,15 +155,25 @@ function HeroArt() {
           "grid grid-cols-3 gap-3",
         )}
       >
-        <span className="flex flex-col items-center justify-center gap-[2px] min-h-14 rounded-lg border-[1.5px] border-transparent bg-again-soft text-on-again-soft font-sans font-bold text-[15px]">
-          Errei
-        </span>
-        <span className="flex flex-col items-center justify-center gap-[2px] min-h-14 rounded-lg border-[1.5px] border-transparent bg-hard-soft text-on-hard-soft font-sans font-bold text-[15px]">
-          Difícil
-        </span>
-        <span className="flex flex-col items-center justify-center gap-[2px] min-h-14 rounded-lg border-[1.5px] border-transparent bg-easy-soft text-on-easy-soft font-sans font-bold text-[15px]">
-          Fácil
-        </span>
+        {(
+          [
+            { label: "Errei", Icon: X, tone: "bg-again-soft text-on-again-soft" },
+            { label: "Difícil", Icon: Minus, tone: "bg-hard-soft text-on-hard-soft" },
+            { label: "Fácil", Icon: Check, tone: "bg-easy-soft text-on-easy-soft" },
+          ] as const
+        ).map(({ label, Icon, tone }) => (
+          <span
+            key={label}
+            className={cn(
+              "flex flex-col md:flex-row items-center justify-center gap-[2px] md:gap-2 min-h-[60px] md:min-h-14 px-3",
+              "rounded-lg border-[1.5px] border-transparent font-sans font-bold text-[15px] leading-5 [&_svg]:size-5",
+              tone,
+            )}
+          >
+            <Icon aria-hidden strokeWidth={1.75} />
+            {label}
+          </span>
+        ))}
       </div>
       <div className="hidden md:block absolute right-0 top-0 w-[232px] shadow-md">
         <StatCard
@@ -265,7 +282,7 @@ function ForWhom() {
       id="para-quem"
       className="mx-auto max-w-[1200px] px-5 md:px-8 py-12 md:py-24 flex flex-col md:flex-row flex-wrap items-center gap-10 md:gap-16"
     >
-      <div className="flex-1 min-w-0 md:min-w-[400px] flex flex-col gap-4 md:gap-5">
+      <div className="min-w-0 md:flex-[1_1_400px] flex flex-col gap-4 md:gap-5">
         <span className="font-sans font-semibold text-[13px] leading-[18px] text-primary">
           Para quem
         </span>
@@ -287,7 +304,7 @@ function ForWhom() {
       </div>
       <div
         aria-hidden
-        className="flex-1 min-w-0 md:min-w-[520px] w-full grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-6"
+        className="min-w-0 md:flex-[1_1_520px] w-full grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-6"
       >
         <DecorativeDeck title="Farmacologia do sistema nervoso autônomo" year="2º ano" subject="Farmacologia" cards={84} mastery={62} />
         <DecorativeDeck title="Membro superior: músculos e inervação" year="1º ano" subject="Anatomia" cards={48} community="Marina" />
@@ -351,28 +368,32 @@ function DecorativeDeck({
   );
 }
 
-function Plans() {
+function Plans({ plans }: { plans: PlansData | null }) {
+  const price = (interval: "MONTH" | "YEAR") => {
+    const p = plans?.plans.find((x) => x.interval === interval);
+    return p ? formatBRL(p.priceCents) : undefined;
+  };
   return (
     <section
       id="planos"
       className="bg-surface border-y border-line"
     >
-      <div className="mx-auto max-w-[1200px] px-5 md:px-8 py-12 md:py-24 flex flex-col items-center gap-8 md:gap-12">
-        <div className="flex flex-col items-center gap-2 md:gap-3 text-center">
+      <div className="mx-auto max-w-[1200px] px-5 md:px-8 py-12 md:py-24 flex flex-col md:items-center gap-6 md:gap-12">
+        <div className="flex flex-col md:items-center gap-2 md:gap-3 md:text-center">
           <span className="font-sans font-semibold text-[13px] leading-[18px] text-primary">
             Planos
           </span>
           <h2 className="m-0 font-display font-bold text-[28px] md:text-display-lg leading-[34px] md:leading-[44px] tracking-[-0.01em] md:tracking-[-0.015em] text-ink">
             Um plano, duas formas de pagar
           </h2>
-          <p className="m-0 font-sans text-body-lg text-ink-muted">
+          <p className="m-0 font-sans text-body md:text-body-lg text-ink-muted">
             Tudo liberado nos dois. Cancele quando quiser.
           </p>
         </div>
         <PlansGrid className="w-full max-w-[760px]">
           <PlanCard
             name="Pro mensal"
-            priceLabel="R$ [preço]"
+            priceLabel={price("MONTH")}
             periodLabel="/mês"
             status="available"
             highlights={[
@@ -392,9 +413,12 @@ function Plans() {
           />
           <PlanCard
             name="Pro anual"
-            priceLabel="R$ [preço]"
+            priceLabel={price("YEAR")}
             periodLabel="/ano"
-            status="current"
+            status="available"
+            featured
+            className="order-first md:order-none"
+            badge={<Tag tone="brand">Pagamento único por ano</Tag>}
             highlights={["Tudo do Pro mensal", "Menor preço por mês"]}
             action={
               <Link
@@ -429,7 +453,6 @@ function CTA() {
           className="relative inline-flex items-center justify-center gap-2 h-[52px] px-6 rounded-md bg-surface text-ink border border-surface font-sans font-semibold text-[16px] no-underline hover:bg-surface-2"
         >
           Criar conta
-          <Kbd>↵</Kbd>
         </Link>
       </div>
     </section>

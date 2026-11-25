@@ -7,7 +7,8 @@ export type PlanStatus = "current" | "available" | "declined" | "none";
 
 export type PlanCardProps = {
   name: string;
-  priceLabel: string;
+  /** Sem preço (API fora do ar), a linha do preço some. */
+  priceLabel?: string;
   periodLabel: string;
   note?: ReactNode;
   highlights: ReadonlyArray<ReactNode>;
@@ -16,6 +17,8 @@ export type PlanCardProps = {
   warningLine?: ReactNode;
   /** Selo de um plano que não é o atual ("2 meses grátis"). */
   badge?: ReactNode;
+  /** Borda de destaque sem ser o plano atual (o anual da landing). */
+  featured?: boolean;
   action: ReactNode;
   className?: string;
 };
@@ -30,15 +33,17 @@ export function PlanCard({
   statusLine,
   warningLine,
   badge,
+  featured = false,
   action,
   className,
 }: PlanCardProps) {
   const isCurrent = status === "current" || status === "declined";
+  const highlighted = isCurrent || featured;
   return (
     <section
       className={cn(
         "grid content-start gap-4 p-6 rounded-lg bg-surface",
-        isCurrent ? "border-2 border-primary p-[calc(1.5rem-1px)]" : "border border-line",
+        highlighted ? "border-2 border-primary p-[calc(1.5rem-1px)]" : "border border-line",
         className,
       )}
     >
@@ -53,12 +58,14 @@ export function PlanCard({
           badge
         ) : null}
       </div>
-      <div className="flex items-baseline gap-1">
-        <b className="font-display font-bold text-[32px] leading-9 tracking-[-0.01em] tabular-nums text-ink">
-          {priceLabel}
-        </b>
-        <span className="font-sans font-semibold text-ink-muted">{periodLabel}</span>
-      </div>
+      {priceLabel ? (
+        <div className="flex items-baseline gap-1">
+          <b className="font-display font-bold text-[32px] leading-9 tracking-[-0.01em] tabular-nums text-ink">
+            {priceLabel}
+          </b>
+          <span className="font-sans font-semibold text-ink-muted">{periodLabel}</span>
+        </div>
+      ) : null}
       {note ? (
         <p className="-mt-2 m-0 font-sans font-medium text-[12px] leading-4 text-ink-muted">{note}</p>
       ) : null}
