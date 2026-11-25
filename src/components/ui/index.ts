@@ -7,7 +7,6 @@ export * from "./ThemeToggle";
 export * from "./SegmentedTabs";
 export * from "./FilterBar";
 export * from "./StatCard";
-export * from "./DeckCard";
 export * from "./EmptyState";
 export * from "./FileDrop";
 export * from "./Flashcard";

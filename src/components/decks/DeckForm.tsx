@@ -22,6 +22,8 @@ export type DeckFormProps = {
   onChange: (next: DeckFormValues) => void;
   showVisibility?: boolean;
   nameError?: string;
+  /** Dica do nome. Na criação, muda quando o nome veio do arquivo (telas 13 e 14). */
+  nameHint?: string;
 };
 
 export function DeckForm({
@@ -31,6 +33,7 @@ export function DeckForm({
   onChange,
   showVisibility = true,
   nameError,
+  nameHint = "Aparece na sua lista e, se for público, na Comunidade.",
 }: DeckFormProps) {
   const [query, setQuery] = useState("");
 
@@ -59,7 +62,7 @@ export function DeckForm({
         placeholder="Ex.: Farmacologia do SNA, P1"
         value={value.name}
         onChange={(e) => patch({ name: e.target.value })}
-        hint="Sugerido a partir do nome do arquivo. Pode mudar."
+        hint={nameHint}
         error={nameError}
         maxLength={120}
       />

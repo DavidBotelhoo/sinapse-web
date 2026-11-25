@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
+import { DeckGrid } from "@/components/decks/DeckGrid";
+import type { DeckListItem } from "@/lib/api/decks";
 import {
   ArrowRight,
   Bookmark,
@@ -18,9 +20,6 @@ import {
   Button,
   Chip,
   Chips,
-  CompactThemeToggle,
-  DeckCard,
-  DecksGrid,
   EditableAvatar,
   EmptyState,
   FieldRow,
@@ -29,7 +28,6 @@ import {
   Flashcard,
   Form,
   Kbd,
-  NewDeckCard,
   PasswordField,
   PlanCard,
   PlansGrid,
@@ -287,9 +285,8 @@ function AvatarSection() {
 
 function ThemeToggleSection() {
   return (
-    <Section id="theme" title="ThemeToggle" subtitle="Padrão no rodapé da sidebar; compacto no Perfil do celular.">
+    <Section id="theme" title="ThemeToggle" subtitle="No rodapé da sidebar e na Aparência do Perfil.">
       <ThemeToggle />
-      <CompactThemeToggle />
     </Section>
   );
 }
@@ -436,35 +433,46 @@ function StatCardSection() {
   );
 }
 
+const sampleDecks: ReadonlyArray<DeckListItem> = [
+  {
+    id: "galeria-1",
+    name: "Farmacologia do sistema nervoso autônomo",
+    year: 2,
+    cardCount: 84,
+    subjects: [{ id: "s1", slug: "farmacologia", name: "Farmacologia" }],
+    isMine: true,
+    visibility: "PRIVATE",
+    owner: null,
+    isFavorite: false,
+    dueToday: 15,
+    overdue: 0,
+    masteryPct: 62,
+    contentUpdatedAt: "2026-11-20T12:00:00.000Z",
+    lastStudiedAt: null,
+  },
+  {
+    id: "galeria-2",
+    name: "Fisiologia renal: filtração glomerular",
+    year: 2,
+    cardCount: 52,
+    subjects: [{ id: "s2", slug: "fisiologia", name: "Fisiologia" }],
+    isMine: false,
+    visibility: null,
+    owner: { firstName: "Marina", avatarUrl: null },
+    isFavorite: true,
+    dueToday: 0,
+    overdue: 5,
+    masteryPct: 40,
+    contentUpdatedAt: "2026-11-18T12:00:00.000Z",
+    lastStudiedAt: null,
+  },
+];
+
+/** Os cards de deck reais da tela Flashcards (DeckGridCard) e o card de criar novo. */
 function DeckCardSection() {
-  const [fav, setFav] = useState(true);
   return (
-    <Section id="deckcard" title="DeckCard" subtitle="Meu deck, da comunidade e o card de criar novo.">
-      <DecksGrid>
-        <DeckCard
-          href="#"
-          title="Farmacologia do sistema nervoso autônomo"
-          year="2º ano"
-          subjects={["Farmacologia"]}
-          cardsCount={84}
-          due={{ kind: "updated", relative: "há 2 dias" }}
-          masteryPct={62}
-          ownership={{ kind: "mine", visibility: "private" }}
-        />
-        <DeckCard
-          href="#"
-          title="Fisiologia renal — filtração glomerular"
-          year="2º ano"
-          subjects={["Fisiologia"]}
-          cardsCount={52}
-          due={{ kind: "today", count: 15 }}
-          masteryPct={40}
-          ownership={{ kind: "community", firstName: "Marina" }}
-          favorite={fav}
-          onToggleFavorite={() => setFav((v) => !v)}
-        />
-        <NewDeckCard href="#" />
-      </DecksGrid>
+    <Section id="deckcard" title="DeckCard" subtitle="Meu deck, da comunidade e o card de criar novo (tela 10).">
+      <DeckGrid decks={sampleDecks} onToggleFavorite={() => undefined} showNewCard />
     </Section>
   );
 }

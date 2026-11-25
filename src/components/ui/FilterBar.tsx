@@ -8,9 +8,10 @@ import {
   type ReactNode,
   type Ref,
 } from "react";
-import { ChevronDown, Check, Search } from "lucide-react";
+import { ChevronDown, Check } from "lucide-react";
 import { Button } from "./Button";
 import { Chip, RemovableChip } from "./Chip";
+import { SearchField } from "./SearchField";
 import { cn } from "@/lib/cn";
 
 export type FilterOption = {
@@ -187,7 +188,6 @@ function FilterPopoverBody({
   onClose: () => void;
 }) {
   const [draft, setDraft] = useState<ReadonlyArray<string>>(filter.selected);
-  const [query, setQuery] = useState("");
   const popoverRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -211,11 +211,6 @@ function FilterPopoverBody({
     setDraft((prev) => (prev.includes(value) ? prev.filter((v) => v !== value) : [...prev, value]));
   }
 
-  const filtered =
-    filter.variant === "search" && query
-      ? filter.options.filter((o) => o.label.toLowerCase().includes(query.toLowerCase()))
-      : filter.options;
-
   return (
     <div
       ref={popoverRef}
@@ -228,17 +223,11 @@ function FilterPopoverBody({
       )}
     >
       {filter.variant === "search" ? (
-        <SearchList
-          options={filtered}
-          draft={draft}
-          toggle={toggle}
-          query={query}
-          setQuery={setQuery}
-        />
+        <FilterOptionList label={filter.label} options={filter.options} draft={draft} toggle={toggle} />
       ) : (
         <>
-          <p className="m-0 font-sans font-semibold text-[13px] leading-[18px] text-ink-muted">{filter.label}</p>
-          <ChipList options={filter.options} draft={draft} toggle={toggle} />
+          <p aria-hidden className="m-0 font-sans font-semibold text-[13px] leading-[18px] text-ink-muted">{filter.label}</p>
+          <FilterChipList label={filter.label} options={filter.options} draft={draft} toggle={toggle} />
         </>
       )}
       <div className="flex items-center justify-between gap-2 pt-3 border-t border-line">
@@ -260,17 +249,20 @@ function FilterPopoverBody({
   );
 }
 
-function ChipList({
+/** Chips de um filtro (ano: "1º" … "6º"). Popover no desktop e folha no celular. */
+export function FilterChipList({
+  label,
   options,
   draft,
   toggle,
 }: {
+  label: string;
   options: ReadonlyArray<FilterOption>;
   draft: ReadonlyArray<string>;
   toggle: (v: string) => void;
 }) {
   return (
-    <div className="flex flex-wrap gap-2">
+    <div role="group" aria-label={label} className="flex flex-wrap gap-2">
       {options.map((o) => (
         <Chip key={o.value} selected={draft.includes(o.value)} onClick={() => toggle(o.value)} aria-label={o.label}>
           {o.shortLabel ?? o.label}
@@ -280,66 +272,74 @@ function ChipList({
   );
 }
 
-function SearchList({
+/**
+ * Busca e lista de opções com caixa de seleção (sn-search + sn-options). Cada opção é um botão
+ * role="checkbox": dá para marcar com Tab e Espaço, sem o controle de foco que um listbox exige.
+ */
+export function FilterOptionList({
+  label,
   options,
   draft,
   toggle,
-  query,
-  setQuery,
+  size = "sm",
+  className,
 }: {
+  label: string;
   options: ReadonlyArray<FilterOption>;
   draft: ReadonlyArray<string>;
   toggle: (v: string) => void;
-  query: string;
-  setQuery: (q: string) => void;
+  /** sm: 36px por linha (popover). md: 44px (folha no celular, tela 11). */
+  size?: "sm" | "md";
+  className?: string;
 }) {
+  const [query, setQuery] = useState("");
+  const q = query.trim().toLowerCase();
+  const shown = q ? options.filter((o) => o.label.toLowerCase().includes(q)) : options;
   return (
-    <div className="grid gap-2">
-      <label className="flex items-center gap-2 h-control-sm px-3 rounded-md border border-line-strong bg-surface focus-within:border-primary focus-within:shadow-[0_0_0_3px_var(--color-primary-soft)]">
-        <Search aria-hidden strokeWidth={1.75} className="size-4 text-ink-faint" />
-        <input
-          type="text"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Buscar matéria"
-          className="flex-1 min-w-0 bg-transparent outline-0 border-0 font-sans text-[14px] leading-5 text-ink placeholder:text-ink-faint"
-        />
-      </label>
-      <ul role="listbox" aria-multiselectable className="grid gap-1 max-h-[240px] overflow-y-auto">
-        {options.length === 0 ? (
-          <li className="px-2 py-2 text-[13px] text-ink-muted">Nenhuma matéria encontrada</li>
-        ) : (
-          options.map((o) => {
-            const selected = draft.includes(o.value);
+    <div className={cn("grid gap-[10px]", className)}>
+      <SearchField value={query} onChange={setQuery} placeholder={`Buscar ${label.toLowerCase()}`} />
+      {shown.length === 0 ? (
+        <p className="m-0 px-2 py-2 font-sans text-[13px] leading-[18px] text-ink-muted">Nenhuma matéria encontrada</p>
+      ) : (
+        <div
+          role="group"
+          aria-label={label}
+          className={cn(
+            "grid gap-[2px] overflow-y-auto",
+            size === "md" ? "max-h-[260px]" : "max-h-[200px]",
+          )}
+        >
+          {shown.map((o) => {
+            const checked = draft.includes(o.value);
             return (
-              <li key={o.value}>
-                <button
-                  type="button"
-                  role="option"
-                  aria-checked={selected}
-                  aria-selected={selected}
-                  onClick={() => toggle(o.value)}
+              <button
+                key={o.value}
+                type="button"
+                role="checkbox"
+                aria-checked={checked}
+                onClick={() => toggle(o.value)}
+                className={cn(
+                  "flex items-center gap-[10px] w-full px-2 rounded-sm bg-transparent text-left cursor-pointer",
+                  "font-sans font-medium text-[14px] leading-none text-ink hover:bg-surface-2",
+                  size === "md" ? "h-control" : "h-control-sm",
+                )}
+                >
+                <span
+                  aria-hidden
                   className={cn(
-                    "flex items-center gap-2 w-full h-control-sm px-2 rounded-sm text-left font-sans text-[14px] cursor-pointer",
-                    "hover:bg-surface-2",
-                    selected ? "text-ink" : "text-ink",
+                    "grid place-items-center size-[18px] shrink-0 rounded-[5px] border-[1.5px]",
+                    "transition-colors duration-(--dur-fast)",
+                    checked ? "bg-primary border-primary text-on-primary" : "border-line-strong text-transparent",
                   )}
                 >
-                  <span
-                    className={cn(
-                      "grid place-items-center size-5 rounded-[6px] border",
-                      selected ? "bg-primary border-primary text-on-primary" : "border-line-strong text-transparent",
-                    )}
-                  >
-                    <Check aria-hidden strokeWidth={2} className="size-[14px]" />
-                  </span>
-                  {o.label}
-                </button>
-              </li>
+                  <Check strokeWidth={3} className="size-3" />
+                </span>
+                {o.label}
+              </button>
             );
-          })
-        )}
-      </ul>
+          })}
+        </div>
+      )}
     </div>
   );
 }

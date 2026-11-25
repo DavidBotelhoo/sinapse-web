@@ -76,7 +76,7 @@ export function AuthPanel({ initialMode }: { initialMode: AuthMode }) {
             isSignup &&
               "@[720px]:[transition:opacity_var(--dur-base)_var(--ease-out)_calc(var(--dur-auth)_*_0.5),transform_var(--dur-auth)_var(--ease-out),visibility_0s]",
             // Mobile: card verso
-            "@max-[720px]:col-start-1 @max-[720px]:row-start-1 @max-[720px]:flex @max-[720px]:flex-col @max-[720px]:gap-5 @max-[720px]:p-8 @max-[720px]:px-6 @max-[720px]:rounded-xl @max-[720px]:bg-surface @max-[720px]:shadow-lg @max-[720px]:[backface-visibility:hidden] @max-[720px]:[transform:rotateY(180deg)]",
+            "@max-[720px]:col-start-1 @max-[720px]:row-start-1 @max-[720px]:self-start @max-[720px]:flex @max-[720px]:flex-col @max-[720px]:gap-5 @max-[720px]:p-8 @max-[720px]:px-6 @max-[720px]:rounded-xl @max-[720px]:bg-surface @max-[720px]:shadow-lg @max-[720px]:[backface-visibility:hidden] @max-[720px]:[transform:rotateY(180deg)]",
           )}
         >
           <AuthHeader title="Criar conta" subtitle="Leva menos de um minuto." />
@@ -97,7 +97,7 @@ export function AuthPanel({ initialMode }: { initialMode: AuthMode }) {
             isLogin && "@[720px]:opacity-100 @[720px]:visible @[720px]:translate-x-0",
             isLogin &&
               "@[720px]:[transition:opacity_var(--dur-base)_var(--ease-out)_calc(var(--dur-auth)_*_0.5),transform_var(--dur-auth)_var(--ease-out),visibility_0s]",
-            "@max-[720px]:col-start-1 @max-[720px]:row-start-1 @max-[720px]:flex @max-[720px]:flex-col @max-[720px]:gap-5 @max-[720px]:p-8 @max-[720px]:px-6 @max-[720px]:rounded-xl @max-[720px]:bg-surface @max-[720px]:shadow-lg @max-[720px]:[backface-visibility:hidden]",
+            "@max-[720px]:col-start-1 @max-[720px]:row-start-1 @max-[720px]:self-start @max-[720px]:flex @max-[720px]:flex-col @max-[720px]:gap-5 @max-[720px]:p-8 @max-[720px]:px-6 @max-[720px]:rounded-xl @max-[720px]:bg-surface @max-[720px]:shadow-lg @max-[720px]:[backface-visibility:hidden]",
           )}
         >
           <AuthHeader title="Entrar" subtitle="Que bom te ver de novo." />
@@ -105,9 +105,8 @@ export function AuthPanel({ initialMode }: { initialMode: AuthMode }) {
           <SwitchFooter mode="login" onSwitch={switchTo} />
         </section>
 
-        {/* Overlay (desktop apenas) */}
+        {/* Overlay (só no desktop). O botão do pitch é o jeito de trocar de modo com o teclado, então nada de aria-hidden aqui. */}
         <div
-          aria-hidden
           className={cn(
             "hidden @[720px]:grid absolute z-2 top-0 bottom-0 left-0 w-1/2 overflow-hidden",
             "bg-primary text-on-primary",

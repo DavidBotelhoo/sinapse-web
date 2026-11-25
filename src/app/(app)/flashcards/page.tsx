@@ -62,9 +62,9 @@ export default function FlashcardsPage() {
 
   const items = decks.data?.pages.flatMap((p) => p.items) ?? [];
   const counts = decks.data?.pages[0]?.counts;
-  const total = counts?.[scope] ?? 0;
 
-  const showNewCard = !hasFilters && (scope === "all" || scope === "mine");
+  // Telas 10 e 11: o card "Criar novo deck" fecha a grade em Todos e Meus, com ou sem filtro.
+  const showNewCard = scope === "all" || scope === "mine";
 
   return (
     <div className="flex flex-col gap-8">
@@ -114,11 +114,8 @@ export default function FlashcardsPage() {
         <>
           <DeckGrid decks={items} onToggleFavorite={onToggleFavorite} showNewCard={showNewCard} />
           <div ref={sentinelRef} aria-hidden className="h-1" />
-          <div className="flex flex-wrap items-center justify-between gap-3 font-sans font-medium text-[13px] leading-[18px] text-ink-muted">
-            <span>
-              Mostrando {items.length} de {total} decks
-            </span>
-            {decks.hasNextPage ? (
+          {decks.hasNextPage ? (
+            <div className="flex justify-center">
               <Button
                 variant="ghost"
                 size="sm"
@@ -128,8 +125,8 @@ export default function FlashcardsPage() {
               >
                 Carregar mais
               </Button>
-            ) : null}
-          </div>
+            </div>
+          ) : null}
         </>
       )}
     </div>

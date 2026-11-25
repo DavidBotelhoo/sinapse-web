@@ -24,6 +24,10 @@ export type DialogProps = {
   /** sm 400 · form 440 (trocar senha, tela 25) · md 480 · lg 640. */
   size?: "sm" | "form" | "md" | "lg";
   labelledBy?: string;
+  /** À direita do título ("Limpar" na folha de filtros). */
+  headerAction?: ReactNode;
+  /** Folha de filtros do celular (tela 11): alça no topo e respiro menor nas laterais. */
+  sheet?: boolean;
 };
 
 export function Dialog({
@@ -35,6 +39,8 @@ export function Dialog({
   footer,
   size = "md",
   labelledBy,
+  headerAction,
+  sheet = false,
 }: DialogProps) {
   const autoId = useId();
   const titleId = labelledBy ?? `${autoId}-title`;
@@ -123,24 +129,31 @@ export function Dialog({
           "max-sm:rounded-t-xl sm:rounded-xl",
           "bg-surface shadow-lg",
           "flex flex-col gap-4 p-6",
+          sheet && "max-sm:gap-5 max-sm:px-4 max-sm:pt-3 max-sm:pb-7",
           "max-h-[90dvh] overflow-y-auto",
         )}
       >
-        <div className="grid gap-[2px]">
-          <h2
-            id={titleId}
-            className="m-0 font-display font-semibold text-[20px] leading-[26px] text-ink"
-          >
-            {title}
-          </h2>
-          {description ? (
-            <p
-              id={descId}
-              className="m-0 font-sans font-medium text-[13px] leading-[18px] text-ink-muted"
+        {sheet ? (
+          <span aria-hidden className="sm:hidden self-center w-10 h-1 shrink-0 rounded-full bg-line-strong" />
+        ) : null}
+        <div className="flex items-center justify-between gap-3">
+          <div className="grid gap-[2px] min-w-0">
+            <h2
+              id={titleId}
+              className="m-0 font-display font-semibold text-[20px] leading-[26px] text-ink"
             >
-              {description}
-            </p>
-          ) : null}
+              {title}
+            </h2>
+            {description ? (
+              <p
+                id={descId}
+                className="m-0 font-sans font-medium text-[13px] leading-[18px] text-ink-muted"
+              >
+                {description}
+              </p>
+            ) : null}
+          </div>
+          {headerAction}
         </div>
         {children}
         {footer ? <div className="flex justify-end gap-2 flex-wrap">{footer}</div> : null}

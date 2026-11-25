@@ -127,23 +127,25 @@ export function DeckPage({ initialDeck, justSaved = false }: { initialDeck: Deck
 
       <DeckStats stats={deck.myStats} />
 
-      <section className="flex flex-col gap-4">
-        {deck.isMine ? (
-          <div className="flex items-center justify-between gap-3">
-            <h2 className="m-0 font-display font-semibold text-[22px] leading-7 text-ink sr-only">Cards</h2>
-            <Button
-              variant="secondary"
-              size="sm"
-              iconLeft={<FileUp strokeWidth={1.75} className="size-[18px]" />}
-              onClick={() => setImportOpen(true)}
-              className="ml-auto"
-            >
-              Importar mais cards
-            </Button>
-          </div>
-        ) : null}
-        <CardList deckId={deck.id} canEdit={deck.isMine} />
-      </section>
+      <CardList
+        deckId={deck.id}
+        canEdit={deck.isMine}
+        headerAction={
+          deck.isMine ? (
+            // No celular, "Importar mais cards" fica só no menu "…" (tela 19 celular).
+            <div className="hidden md:block">
+              <Button
+                variant="secondary"
+                size="sm"
+                iconLeft={<FileUp strokeWidth={1.75} className="size-[18px]" />}
+                onClick={() => setImportOpen(true)}
+              >
+                Importar mais cards
+              </Button>
+            </div>
+          ) : null
+        }
+      />
 
       <DeckEditDialog
         open={editOpen}

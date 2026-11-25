@@ -34,11 +34,47 @@ export type DeckMenuProps = {
   triggerClassName?: string;
 };
 
+function menuItems(menu: HTMLElement | null) {
+  return Array.from(menu?.querySelectorAll<HTMLElement>('[role="menuitem"]') ?? []);
+}
+
+/**
+ * Menu "…" do deck (dk-menu), no padrão de botão de menu: ao abrir, o foco vai para o primeiro item;
+ * setas, Home e End andam entre os itens; Escape fecha e devolve o foco; Tab fecha e segue.
+ */
 export function DeckMenu(props: DeckMenuProps) {
   const [open, setOpen] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
+  const initialFocusRef = useRef<"first" | "last">("first");
   const id = useId();
+
+
+  function openMenu(focus: "first" | "last") {
+    initialFocusRef.current = focus;
+    setOpen(true);
+  }
+
+  useEffect(() => {
+    if (!open) return;
+    const nodes = menuItems(menuRef.current);
+    (initialFocusRef.current === "last" ? nodes[nodes.length - 1] : nodes[0])?.focus();
+  }, [open]);
+
+  function onMenuKeyDown(e: React.KeyboardEvent<HTMLDivElement>) {
+    const nodes = menuItems(menuRef.current);
+    if (nodes.length === 0) return;
+    const i = nodes.indexOf(document.activeElement as HTMLElement);
+    const go = (next: number) => {
+      e.preventDefault();
+      nodes[(next + nodes.length) % nodes.length]?.focus();
+    };
+    if (e.key === "ArrowDown") go(i + 1);
+    else if (e.key === "ArrowUp") go(i - 1);
+    else if (e.key === "Home") go(0);
+    else if (e.key === "End") go(nodes.length - 1);
+    else if (e.key === "Tab") setOpen(false);
+  }
 
   useEffect(() => {
     if (!open) return;
@@ -95,7 +131,13 @@ export function DeckMenu(props: DeckMenuProps) {
         aria-haspopup="menu"
         aria-expanded={open}
         aria-controls={id}
-        onClick={() => setOpen((v) => !v)}
+        onClick={() => (open ? setOpen(false) : openMenu("first"))}
+        onKeyDown={(e) => {
+          if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+            e.preventDefault();
+            openMenu(e.key === "ArrowUp" ? "last" : "first");
+          }
+        }}
         className={props.triggerClassName}
       >
         <Ellipsis strokeWidth={1.75} className="size-[18px]" />
@@ -105,6 +147,8 @@ export function DeckMenu(props: DeckMenuProps) {
           ref={menuRef}
           id={id}
           role="menu"
+          aria-label="Mais opções do deck"
+          onKeyDown={onMenuKeyDown}
           className={cn(
             "absolute top-[calc(100%+8px)] right-0 z-30 min-w-[240px]",
             "grid gap-1 p-2 rounded-lg bg-surface border border-line shadow-md",
@@ -115,6 +159,7 @@ export function DeckMenu(props: DeckMenuProps) {
               key={i}
               type="button"
               role="menuitem"
+              tabIndex={-1}
               onClick={() => selectItem(item.onSelect)}
               className={cn(
                 "flex items-center gap-2 w-full h-control px-3 rounded-md text-left cursor-pointer",

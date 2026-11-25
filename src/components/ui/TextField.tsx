@@ -8,7 +8,7 @@ import {
   type ReactNode,
   type SelectHTMLAttributes,
 } from "react";
-import { ChevronDown, CircleAlert, Eye, EyeOff } from "lucide-react";
+import { ChevronDown, CircleAlert, Eye, EyeOff, Lock } from "lucide-react";
 import { cn } from "@/lib/cn";
 
 type BaseFieldProps = {
@@ -97,8 +97,9 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(function T
 
 export type PasswordFieldProps = Omit<TextFieldProps, "type" | "rightIcon">;
 
+/** Campo de senha. O cadeado à esquerda vem por padrão, como em todas as telas. */
 export const PasswordField = forwardRef<HTMLInputElement, PasswordFieldProps>(function PasswordField(
-  { label, hint, error, action, className, id, ...rest },
+  { label, hint, error, action, leftIcon = <Lock strokeWidth={1.75} />, className, id, ...rest },
   ref,
 ) {
   const autoId = useId();
@@ -111,6 +112,11 @@ export const PasswordField = forwardRef<HTMLInputElement, PasswordFieldProps>(fu
         {label}
       </Label>
       <div className={cn(controlBase, "bg-surface", invalid && controlError)}>
+        {leftIcon ? (
+          <span aria-hidden className="text-ink-faint [&_svg]:size-[18px]">
+            {leftIcon}
+          </span>
+        ) : null}
         <input
           ref={ref}
           id={inputId}

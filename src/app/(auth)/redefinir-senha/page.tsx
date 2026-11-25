@@ -17,7 +17,7 @@ export default async function RedefinirSenhaPage({ searchParams }: Props) {
 
   return (
     <div className="mx-auto w-full max-w-[460px] grid gap-6 p-8 rounded-xl bg-surface shadow-lg">
-      <div className="flex justify-center">
+      <div className="flex justify-center md:hidden">
         <Wordmark size="md" />
       </div>
       {token ? (

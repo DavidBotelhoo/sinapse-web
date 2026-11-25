@@ -29,7 +29,8 @@ export function DeckGrid({ decks, onToggleFavorite, showNewCard, className }: De
         <Link
           href="/flashcards/novo"
           className={cn(
-            "grid justify-items-center content-center gap-[6px] min-h-[196px] mt-4 p-5 rounded-lg text-center cursor-pointer no-underline",
+            // No celular o "Criar deck" fica só no cabeçalho (tela 10 celular).
+            "hidden md:grid justify-items-center content-center gap-[6px] min-h-[196px] mt-4 p-5 rounded-lg text-center cursor-pointer no-underline",
             "border-[1.5px] border-dashed border-line-strong bg-transparent text-ink-muted",
             "hover:border-primary hover:bg-primary-soft hover:text-on-primary-soft",
           )}

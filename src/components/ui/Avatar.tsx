@@ -109,10 +109,13 @@ export function EditableAvatar({
           <X aria-hidden strokeWidth={1.75} />
         </button>
       ) : null}
+      {/* Só o botão da câmera abre o seletor: o input fica fora do Tab e da árvore de acessibilidade. */}
       <input
         ref={inputRef}
         type="file"
         accept={accept}
+        tabIndex={-1}
+        aria-hidden
         className="sr-only"
         onChange={(e) => {
           const file = e.target.files?.[0];

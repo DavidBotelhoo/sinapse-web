@@ -135,7 +135,7 @@ export function RegisterForm({ focusOnMount }: { focusOnMount?: boolean }) {
       </Button>
       <p className="m-0 font-sans font-medium text-[12px] leading-4 text-ink-muted">
         Ao criar a conta você aceita os{" "}
-        <a href="#termos" className="text-primary underline underline-offset-4">Termos</a> e a{" "}
+        <a href="#termos" className="text-primary underline underline-offset-4">Termos de uso</a> e a{" "}
         <a href="#privacidade" className="text-primary underline underline-offset-4">Política de Privacidade</a>.
       </p>
     </Form>

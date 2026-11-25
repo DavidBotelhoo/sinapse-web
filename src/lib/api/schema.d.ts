@@ -634,6 +634,29 @@ export interface components {
             /** @example 0.1.0 */
             version: string;
         };
+        ErrorBodyDto: {
+            /**
+             * @description Codigo em MAIUSCULAS_COM_UNDERLINE.
+             * @example NOT_FOUND
+             */
+            code: string;
+            /**
+             * @description Mensagem em pt-BR.
+             * @example Recurso nao encontrado.
+             */
+            message: string;
+            /**
+             * @example {
+             *       "email": "Email inválido."
+             *     }
+             */
+            fields?: {
+                [key: string]: string;
+            };
+        };
+        ErrorResponseDto: {
+            error: components["schemas"]["ErrorBodyDto"];
+        };
         RegisterDto: {
             /** @example Davi */
             firstName: string;
@@ -735,29 +758,6 @@ export interface components {
             /** @example null */
             passwordChangedAt: string | null;
             subscription: components["schemas"]["SubscriptionSummaryDto"];
-        };
-        ErrorBodyDto: {
-            /**
-             * @description Codigo em MAIUSCULAS_COM_UNDERLINE.
-             * @example NOT_FOUND
-             */
-            code: string;
-            /**
-             * @description Mensagem em pt-BR.
-             * @example Recurso nao encontrado.
-             */
-            message: string;
-            /**
-             * @example {
-             *       "email": "Email invalido."
-             *     }
-             */
-            fields?: {
-                [key: string]: string;
-            };
-        };
-        ErrorResponseDto: {
-            error: components["schemas"]["ErrorBodyDto"];
         };
         LoginDto: {
             /**
@@ -929,6 +929,7 @@ export interface components {
             visibility?: "PRIVATE" | "PUBLIC";
         };
         AppendImportDto: {
+            /** Format: uuid */
             importId: string;
         };
         /** @enum {string} */
@@ -1535,6 +1536,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorResponseDto"];
                 };
             };
+            /** @description TOO_MANY_REQUESTS: limite de tentativas por minuto. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
         };
     };
     AuthController_login: {
@@ -1574,6 +1584,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorResponseDto"];
                 };
             };
+            /** @description TOO_MANY_REQUESTS: limite de tentativas por minuto. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
         };
     };
     AuthController_refresh: {
@@ -1600,6 +1619,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorResponseDto"];
                 };
             };
+            /** @description TOO_MANY_REQUESTS: limite de tentativas por minuto. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
         };
     };
     AuthController_logout: {
@@ -1617,6 +1645,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description TOO_MANY_REQUESTS: limite de tentativas por minuto. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
             };
         };
     };
@@ -1639,6 +1676,23 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description TOO_MANY_REQUESTS: limite de tentativas por minuto. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
             };
         };
     };
@@ -1663,6 +1717,15 @@ export interface operations {
                 content?: never;
             };
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description TOO_MANY_REQUESTS: limite de tentativas por minuto. */
+            429: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -1788,7 +1851,7 @@ export interface operations {
                 "multipart/form-data": {
                     /**
                      * Format: binary
-                     * @description JPG, PNG ou WebP, ate 5 MB.
+                     * @description JPG, PNG ou WebP, ate 5 MB e 40 megapixels.
                      */
                     file: string;
                 };
@@ -1828,6 +1891,15 @@ export interface operations {
                 };
             };
             415: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description TOO_MANY_REQUESTS: ate 10 envios por minuto. */
+            429: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -1883,6 +1955,7 @@ export interface operations {
                     "application/json": components["schemas"]["CourseResponseDto"];
                 };
             };
+            /** @description COURSE_NOT_FOUND */
             404: {
                 headers: {
                     [name: string]: unknown;
@@ -1917,6 +1990,15 @@ export interface operations {
                     "application/json": components["schemas"]["DeckListResponseDto"];
                 };
             };
+            /** @description VALIDATION_ERROR: filtro ou cursor invalido. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -1948,7 +2030,16 @@ export interface operations {
                     "application/json": components["schemas"]["DeckDetailDto"];
                 };
             };
+            /** @description VALIDATION_ERROR ou IMPORT_NOT_READY (o arquivo ainda esta sendo lido). */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -1965,7 +2056,17 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorResponseDto"];
                 };
             };
+            /** @description IMPORT_NOT_FOUND */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description IMPORT_ALREADY_USED: essa importacao ja virou cards. */
+            409: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -1994,6 +2095,23 @@ export interface operations {
                     "application/json": components["schemas"]["DeckListItemDto"][];
                 };
             };
+            /** @description VALIDATION_ERROR: limit nao e numero. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
         };
     };
     DecksController_detail: {
@@ -2015,6 +2133,24 @@ export interface operations {
                     "application/json": components["schemas"]["DeckDetailDto"];
                 };
             };
+            /** @description VALIDATION_ERROR: id invalido. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description DECK_NOT_FOUND: deck que o usuario nao tem (ou de outra pessoa, se so o dono pode). */
             404: {
                 headers: {
                     [name: string]: unknown;
@@ -2041,6 +2177,32 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description VALIDATION_ERROR: id invalido. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description DECK_NOT_FOUND: deck que o usuario nao tem (ou de outra pessoa, se so o dono pode). */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
             };
         };
     };
@@ -2075,6 +2237,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorResponseDto"];
                 };
             };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description DECK_NOT_FOUND: deck que o usuario nao tem (ou de outra pessoa, se so o dono pode). */
             404: {
                 headers: {
                     [name: string]: unknown;
@@ -2108,7 +2279,16 @@ export interface operations {
                     "application/json": components["schemas"]["DeckDetailDto"];
                 };
             };
+            /** @description VALIDATION_ERROR ou IMPORT_NOT_READY (o arquivo ainda esta sendo lido). */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -2125,7 +2305,17 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorResponseDto"];
                 };
             };
+            /** @description IMPORT_NOT_FOUND (importacao de outra pessoa ou inexistente) ou DECK_NOT_FOUND. */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description IMPORT_ALREADY_USED: essa importacao ja virou cards. */
+            409: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -2152,6 +2342,32 @@ export interface operations {
                 };
                 content?: never;
             };
+            /** @description VALIDATION_ERROR: id invalido. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description DECK_NOT_FOUND: deck que o usuario nao tem (ou de outra pessoa, se so o dono pode). */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
         };
     };
     DecksController_unfavorite: {
@@ -2165,11 +2381,29 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Sem favorito, responde igual. */
             204: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description VALIDATION_ERROR: id invalido. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
             };
         };
     };
@@ -2190,6 +2424,24 @@ export interface operations {
                 };
                 content?: never;
             };
+            /** @description VALIDATION_ERROR: id invalido. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description DECK_NOT_FOUND: deck privado, excluido, ocultado ou do proprio usuario. */
             404: {
                 headers: {
                     [name: string]: unknown;
@@ -2211,11 +2463,29 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Se nao estava salvo, responde igual. */
             204: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description VALIDATION_ERROR: id invalido. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
             };
         };
     };
@@ -2292,6 +2562,24 @@ export interface operations {
                     "application/json": components["schemas"]["CardListResponseDto"];
                 };
             };
+            /** @description VALIDATION_ERROR: id, filtro, cursor ou campos invalidos. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description DECK_NOT_FOUND */
             404: {
                 headers: {
                     [name: string]: unknown;
@@ -2325,6 +2613,24 @@ export interface operations {
                     "application/json": components["schemas"]["CardItemDto"];
                 };
             };
+            /** @description VALIDATION_ERROR: id, filtro, cursor ou campos invalidos. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description DECK_NOT_FOUND (so o dono adiciona cards) */
             404: {
                 headers: {
                     [name: string]: unknown;
@@ -2352,6 +2658,24 @@ export interface operations {
                 };
                 content?: never;
             };
+            /** @description VALIDATION_ERROR: id, filtro, cursor ou campos invalidos. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description CARD_NOT_FOUND (so o dono remove) */
             404: {
                 headers: {
                     [name: string]: unknown;
@@ -2385,6 +2709,24 @@ export interface operations {
                     "application/json": components["schemas"]["CardItemDto"];
                 };
             };
+            /** @description VALIDATION_ERROR: id, filtro, cursor ou campos invalidos. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description CARD_NOT_FOUND (so o dono edita) */
             404: {
                 headers: {
                     [name: string]: unknown;
@@ -2430,6 +2772,14 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorResponseDto"];
                 };
             };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
             /** @description SUBSCRIPTION_REQUIRED: sem assinatura ativa (conta so leitura). */
             403: {
                 headers: {
@@ -2448,6 +2798,15 @@ export interface operations {
                 };
             };
             415: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description TOO_MANY_REQUESTS: ate 10 envios por minuto. */
+            429: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -2476,6 +2835,24 @@ export interface operations {
                     "application/json": components["schemas"]["ImportDetailDto"];
                 };
             };
+            /** @description VALIDATION_ERROR: id invalido. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description IMPORT_NOT_FOUND */
             404: {
                 headers: {
                     [name: string]: unknown;
@@ -2599,6 +2976,15 @@ export interface operations {
                     "application/json": components["schemas"]["StudySessionDto"];
                 };
             };
+            /** @description VALIDATION_ERROR: id invalido. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -2706,6 +3092,15 @@ export interface operations {
                     "application/json": components["schemas"]["StudySessionSummaryDto"];
                 };
             };
+            /** @description VALIDATION_ERROR: id invalido. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -2742,6 +3137,15 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["StudySessionDto"];
+                };
+            };
+            /** @description VALIDATION_ERROR: id invalido. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
                 };
             };
             401: {
@@ -2913,6 +3317,15 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["CommunityDeckDetailDto"];
+                };
+            };
+            /** @description VALIDATION_ERROR: id invalido. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
                 };
             };
             401: {

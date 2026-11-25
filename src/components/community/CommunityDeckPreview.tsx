@@ -11,7 +11,7 @@ import { DeckHeaderLayout, deckIconButtonClass } from "@/components/decks/DeckHe
 import { DeckMenu } from "@/components/decks/DeckMenu";
 import { ReportDeckDialog } from "@/components/decks/ReportDeckDialog";
 import { ReportedNotice } from "@/components/decks/ReportedNotice";
-import { SearchField } from "@/components/decks/SearchField";
+import { SearchField } from "@/components/ui/SearchField";
 import { cardListClass, deckSectionClass } from "@/components/decks/deckSection";
 import { formatRelative, savesLabel } from "@/components/decks/format";
 import { isApiError } from "@/lib/api/base";

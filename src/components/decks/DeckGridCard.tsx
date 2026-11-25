@@ -6,7 +6,7 @@ import { Globe, Layers, Lock, Star } from "lucide-react";
 import { Tag } from "@/components/ui/Tag";
 import { Avatar } from "@/components/ui/Avatar";
 import { ProgressBar } from "@/components/ui/StatCard";
-import { DuePill } from "./DuePill";
+import { StatusPill } from "./StatusPill";
 import type { DeckListItem } from "@/lib/api/decks";
 import { cn } from "@/lib/cn";
 
@@ -64,11 +64,11 @@ export function DeckGridCard({ deck, onToggleFavorite, className }: DeckGridCard
           <Star aria-hidden strokeWidth={1.75} fill={deck.isFavorite ? "currentColor" : "none"} />
         </button>
       </div>
-      <h3 className="m-0 font-display font-semibold text-[18px] leading-6 text-ink text-balance line-clamp-2">
+      <h2 className="m-0 font-display font-semibold text-[18px] leading-6 text-ink text-balance line-clamp-2">
         <Link href={`/flashcards/${deck.id}`} className="text-inherit no-underline after:content-[''] after:absolute after:inset-0 after:rounded-[inherit]">
           {deck.name}
         </Link>
-      </h3>
+      </h2>
       <div className="flex flex-wrap gap-x-3 gap-y-1 font-sans font-medium text-[13px] leading-[18px] text-ink-muted [&>span]:inline-flex [&>span]:items-center [&>span]:gap-1 [&_svg]:size-[15px]">
         <span>
           <Layers aria-hidden strokeWidth={1.75} />
@@ -94,7 +94,7 @@ export function DeckGridCard({ deck, onToggleFavorite, className }: DeckGridCard
         ) : null}
       </div>
       <div className="flex items-center justify-between gap-2 mt-1">
-        <DuePill dueToday={deck.dueToday} overdue={deck.overdue} />
+        <StatusPill kind="deck" dueToday={deck.dueToday} overdue={deck.overdue} />
         <span className="font-sans font-semibold text-[12px] leading-4 text-ink-muted tabular-nums">
           {deck.masteryPct}% dominado
         </span>

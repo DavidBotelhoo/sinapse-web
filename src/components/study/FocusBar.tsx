@@ -80,13 +80,15 @@ export function FocusBar({ title, subtitle, timeLabel, onExit, mobile }: FocusBa
           Sair
         </Button>
         <div className="flex-1 min-w-0 flex flex-col items-center text-center font-sans">
-          <b className="font-semibold text-[15px] leading-5 text-ink">{title}</b>
+          <h1 className="m-0 font-semibold text-[15px] leading-5 text-ink">{title}</h1>
           <span className="font-medium text-[13px] leading-[18px] text-ink-muted">{subtitle}</span>
         </div>
         <SessionClock label={timeLabel} />
       </header>
 
       <header className="md:hidden flex items-center gap-3 pt-3 px-4 pb-2">
+        {/* No celular o título não aparece; o h1 continua para quem navega por títulos. */}
+        <h1 className="sr-only">{title}</h1>
         {mobile.kind === "study" ? (
           <>
             <IconExit label="Sair da sessão" onClick={onExit} />
