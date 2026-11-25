@@ -18,7 +18,7 @@ Antes de qualquer tarefa, leia:
 - **API:** tipos gerados com `openapi-typescript` a partir de `${API_URL}/docs-json`, chamados com `openapi-fetch`. Nunca escreva à mão os tipos de resposta da API.
 - **Dados no cliente:** TanStack Query. Telas que podem renderizar no servidor buscam no servidor (Server Components).
 - **Formulários:** `react-hook-form` + `zod`.
-- **Tema claro/escuro:** `next-themes` com `attribute="data-theme"` e `defaultTheme="system"`.
+- **Tema claro/escuro:** `next-themes` com `attribute="data-theme"` e `defaultTheme="system"`. A landing e as telas de conta (`/entrar`, `/criar-conta`, `/redefinir-senha`) ficam sempre no claro (`forcedTheme` em `src/components/ThemeProvider.tsx`); dentro do app vale a escolha da pessoa.
 - **Gerenciador de pacotes:** pnpm.
 
 ## Estrutura
